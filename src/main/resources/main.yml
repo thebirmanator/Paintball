@@ -1,0 +1,41 @@
+players-to-start-game: 2
+max-players-per-game: 20
+blacklisted-blocks:
+- AIR
+- WATER
+- LAVA
+lobby-spawnpoint:
+ world: world
+ x: -222
+ y: 68
+ z: -638
+ pitch: -90
+ yaw: 0
+paint-radius: 3
+seconds-to-respawn: 5
+game-time-in-seconds: 20
+base-crystals-on-kill: 10
+powerups:
+ JUMP:
+  block-type: EMERALD_BLOCK
+  duration: 10
+  particle-type: VILLAGER_HAPPY
+ SPEED:
+  block-type: DIAMOND_BLOCK
+  duration: 10
+  particle-type: CLOUD
+ VOLLEY:
+  block-type: BONE_BLOCK
+  duration: 10
+  particle-type: FLAME
+max-powerup-spawn-delay: 10
+death-messages:
+ normal:
+ - '%killer% painted %victim% out of existence.'
+ - '%killer% thought %victim% needed a face... and body paint.'
+ - '%killer% carefully edited %victim%'s skin.'
+ suicide:
+ - '%victim% thought the paint was icing. They were wrong.'
+ - '%victim% considered themselves the enemy.'
+ - '%victim% tried to give themselves a makeover.'
+ 

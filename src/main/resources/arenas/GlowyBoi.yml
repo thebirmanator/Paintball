@@ -1,0 +1,75 @@
+display-name: GlowyBoi
+creator: sillystring
+item-for-guis: DIAMOND
+spectating-spawnpoint: 
+ world: world
+ x: -198
+ y: 75
+ z: -641
+ pitch: 0
+ yaw: 0
+waiting-lobby:
+ world: world
+ x: -194
+ y: 74
+ z: -656
+ pitch: 0
+ yaw: 0
+game-spawnpoints:
+ '1':
+  world: world
+  x: -192
+  y: 68
+  z: -630
+  pitch: 0
+  yaw: 0
+ '2':
+  world: world
+  x: -186
+  y: 68
+  z: -641
+  pitch: 0
+  yaw: 0
+ '3':
+  world: world
+  x: -174
+  y: 68
+  z: -637
+  pitch: 0
+  yaw: 0
+ '4':
+  world: world
+  x: -187
+  y: 68
+  z: -648
+  pitch: 0
+  yaw: 0
+ '5':
+  world: world
+  x: -180
+  y: 68
+  z: -646
+  pitch: 0
+  yaw: 0
+powerup-spawnpoints:
+ '1':
+  world: world
+  x: -181
+  y: 68
+  z: -641
+  pitch: 0
+  yaw: 0
+ '2':
+  world: world
+  x: -178
+  y: 68
+  z: -633
+  pitch: 0
+  yaw: 0
+ '3':
+  world: world
+  x: -186
+  y: 68
+  z: -636
+  pitch: 0
+  yaw: 0
