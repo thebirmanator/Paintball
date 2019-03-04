@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Menus.MenuItems;
+package net.darkscorner.paintball.objects.menus.menuitems;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -7,8 +7,8 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.Paint;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.Paint;
 
 public class EquipPaintItem extends MenuItem {
 

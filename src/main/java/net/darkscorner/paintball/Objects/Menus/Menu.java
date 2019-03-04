@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Menus;
+package net.darkscorner.paintball.objects.menus;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,9 +12,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.Menus.MenuItems.BackMenuItem;
-import net.darkscorner.paintball.Objects.Menus.MenuItems.MenuItem;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.menus.menuitems.BackMenuItem;
+import net.darkscorner.paintball.objects.menus.menuitems.MenuItem;
 
 public class Menu {
 

@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,9 +8,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Events.GamePlayerDeathEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
+import net.darkscorner.paintball.events.GamePlayerDeathEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
 
 public class EntityDamageListener implements Listener {
 

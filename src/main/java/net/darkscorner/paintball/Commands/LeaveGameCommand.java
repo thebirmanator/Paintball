@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Commands;
+package net.darkscorner.paintball.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.GamePlayer;
+import net.darkscorner.paintball.objects.GamePlayer;
 
 public class LeaveGameCommand implements CommandExecutor {
 	

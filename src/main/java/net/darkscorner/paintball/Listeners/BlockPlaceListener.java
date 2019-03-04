@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

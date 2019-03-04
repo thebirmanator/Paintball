@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects;
+package net.darkscorner.paintball.objects;
 
 public class GameStatistics {
 

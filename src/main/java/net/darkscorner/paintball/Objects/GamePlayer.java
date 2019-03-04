@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects;
+package net.darkscorner.paintball.objects;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +12,9 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.Menus.Menu;
-import net.darkscorner.paintball.Objects.Scoreboards.GameScoreboard;
-import net.darkscorner.paintball.Objects.Scoreboards.StatsBoard;
+import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class GamePlayer {
 	// a gameplayer contains a player, their kills for that game, their deaths for that game, and shots fired for that game

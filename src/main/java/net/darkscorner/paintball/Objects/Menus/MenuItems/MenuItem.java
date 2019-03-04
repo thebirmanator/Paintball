@@ -1,11 +1,11 @@
-package net.darkscorner.paintball.Objects.Menus.MenuItems;
+package net.darkscorner.paintball.objects.menus.menuitems;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.Menus.Menu;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.menus.Menu;
 
 public abstract class MenuItem {
 

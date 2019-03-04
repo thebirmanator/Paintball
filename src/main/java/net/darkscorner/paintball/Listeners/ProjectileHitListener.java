@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -9,8 +9,8 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Events.GamePlayerDeathEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
+import net.darkscorner.paintball.events.GamePlayerDeathEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
 
 public class ProjectileHitListener implements Listener {
 

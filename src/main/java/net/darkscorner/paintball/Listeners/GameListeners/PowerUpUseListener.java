@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.Random;
 
@@ -16,9 +16,9 @@ import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.PowerUpEffect;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Events.PowerUpUseEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PowerUp;
+import net.darkscorner.paintball.events.PowerUpUseEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PowerUp;
 
 public class PowerUpUseListener implements Listener {
 

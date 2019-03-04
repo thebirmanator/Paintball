@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,11 +11,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Commands.ArenaEditCommand;
-import net.darkscorner.paintball.Objects.Arena;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.Scoreboards.StatsBoard;
+import net.darkscorner.paintball.commands.ArenaEditCommand;
+import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class JoinListener implements Listener {
 

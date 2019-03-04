@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +16,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Events.GameStartEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.PowerUp;
+import net.darkscorner.paintball.events.GameStartEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.PowerUp;
 
 public class GameStartListener implements Listener {
 

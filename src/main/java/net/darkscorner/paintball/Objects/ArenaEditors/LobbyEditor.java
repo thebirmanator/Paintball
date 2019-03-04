@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.ArenaEditors;
+package net.darkscorner.paintball.objects.arenaeditors;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -6,7 +6,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Objects.Arena;
+import net.darkscorner.paintball.objects.Arena;
 
 public class LobbyEditor extends EditorItem {
 

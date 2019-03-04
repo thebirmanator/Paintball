@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Menus.MenuItems;
+package net.darkscorner.paintball.objects.menus.menuitems;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.GamePlayer;
+import net.darkscorner.paintball.objects.GamePlayer;
 
 public class EndGameItem extends MenuItem {
 

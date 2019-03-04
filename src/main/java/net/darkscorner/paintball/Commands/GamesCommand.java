@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Commands;
+package net.darkscorner.paintball.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.Menus.Menu;
-import net.darkscorner.paintball.Objects.Menus.MenuItems.GameItem;
-import net.darkscorner.paintball.Objects.Menus.MenuItems.MenuItem;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.menuitems.GameItem;
+import net.darkscorner.paintball.objects.menus.menuitems.MenuItem;
 
 public class GamesCommand implements CommandExecutor {
 

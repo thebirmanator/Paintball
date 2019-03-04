@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.ArenaEditors;
+package net.darkscorner.paintball.objects.arenaeditors;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Commands.ArenaEditCommand;
+import net.darkscorner.paintball.commands.ArenaEditCommand;
 
 public class EditorKit {
 

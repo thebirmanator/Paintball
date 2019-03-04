@@ -1,9 +1,9 @@
-package net.darkscorner.paintball.Events;
+package net.darkscorner.paintball.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import net.darkscorner.paintball.Objects.PaintballGame;
+import net.darkscorner.paintball.objects.PaintballGame;
 
 public class GameEndEvent extends Event {
 

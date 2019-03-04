@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,9 +7,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import net.darkscorner.paintball.Commands.ArenaEditCommand;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.Menus.Menu;
+import net.darkscorner.paintball.commands.ArenaEditCommand;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.menus.Menu;
 
 public class InventoryClickListener implements Listener {
 	

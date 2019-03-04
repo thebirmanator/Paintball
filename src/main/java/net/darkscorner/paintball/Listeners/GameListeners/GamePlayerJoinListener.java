@@ -1,13 +1,13 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import net.darkscorner.paintball.GameState;
-import net.darkscorner.paintball.Events.GamePlayerJoinEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
+import net.darkscorner.paintball.events.GamePlayerJoinEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
 
 public class GamePlayerJoinListener implements Listener {
 

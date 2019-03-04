@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Commands;
+package net.darkscorner.paintball.commands;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.Arena;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
+import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
 
 public class JoinGameCommand implements CommandExecutor {
 

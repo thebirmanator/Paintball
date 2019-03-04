@@ -1,9 +1,9 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import net.darkscorner.paintball.Events.GameCreateEvent;
+import net.darkscorner.paintball.events.GameCreateEvent;
 
 public class GameCreateListener implements Listener {
 

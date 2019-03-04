@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -6,10 +6,10 @@ import org.bukkit.event.Listener;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Events.GamePlayerLeaveEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.Scoreboards.StatsBoard;
+import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class GamePlayerLeaveListener implements Listener {
 

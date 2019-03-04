@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Menus.MenuItems;
+package net.darkscorner.paintball.objects.menus.menuitems;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Menus;
+package net.darkscorner.paintball.objects.menus;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Scoreboards;
+package net.darkscorner.paintball.objects.scoreboards;
 
 import java.util.ArrayList;
 import java.util.HashSet;

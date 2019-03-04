@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Commands;
+package net.darkscorner.paintball.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.Paint;
-import net.darkscorner.paintball.Objects.Menus.Menu;
-import net.darkscorner.paintball.Objects.Menus.MenuItems.EquipPaintItem;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.Paint;
+import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.menuitems.EquipPaintItem;
 
 public class PaintCommand implements CommandExecutor {
 

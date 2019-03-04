@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import java.util.Set;
 
@@ -10,12 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Commands.ArenaEditCommand;
-import net.darkscorner.paintball.Objects.Arena;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.ArenaEditors.CreatorEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.EditorItem;
-import net.darkscorner.paintball.Objects.ArenaEditors.NameEditor;
+import net.darkscorner.paintball.commands.ArenaEditCommand;
+import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.arenaeditors.CreatorEditor;
+import net.darkscorner.paintball.objects.arenaeditors.EditorItem;
+import net.darkscorner.paintball.objects.arenaeditors.NameEditor;
 
 public class PlayerChatListener implements Listener {
 

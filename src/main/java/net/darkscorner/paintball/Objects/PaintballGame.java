@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects;
+package net.darkscorner.paintball.objects;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,13 +16,13 @@ import org.bukkit.scoreboard.Scoreboard;
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Events.GameCreateEvent;
-import net.darkscorner.paintball.Events.GameEndEvent;
-import net.darkscorner.paintball.Events.GamePlayerJoinEvent;
-import net.darkscorner.paintball.Events.GamePlayerLeaveEvent;
-import net.darkscorner.paintball.Events.GameSpectateEvent;
-import net.darkscorner.paintball.Events.GameStartEvent;
-import net.darkscorner.paintball.Objects.Scoreboards.StatsBoard;
+import net.darkscorner.paintball.events.GameCreateEvent;
+import net.darkscorner.paintball.events.GameEndEvent;
+import net.darkscorner.paintball.events.GamePlayerJoinEvent;
+import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
+import net.darkscorner.paintball.events.GameSpectateEvent;
+import net.darkscorner.paintball.events.GameStartEvent;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;

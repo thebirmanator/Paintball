@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects;
+package net.darkscorner.paintball.objects;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,15 +16,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Objects.ArenaEditors.CreatorEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.DoneEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.EditorItem;
-import net.darkscorner.paintball.Objects.ArenaEditors.EditorKit;
-import net.darkscorner.paintball.Objects.ArenaEditors.LobbyEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.NameEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.PowerupLocationEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.SpawnpointsEditor;
-import net.darkscorner.paintball.Objects.ArenaEditors.SpecPointEditor;
+import net.darkscorner.paintball.objects.arenaeditors.CreatorEditor;
+import net.darkscorner.paintball.objects.arenaeditors.DoneEditor;
+import net.darkscorner.paintball.objects.arenaeditors.EditorItem;
+import net.darkscorner.paintball.objects.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.arenaeditors.LobbyEditor;
+import net.darkscorner.paintball.objects.arenaeditors.NameEditor;
+import net.darkscorner.paintball.objects.arenaeditors.PowerupLocationEditor;
+import net.darkscorner.paintball.objects.arenaeditors.SpawnpointsEditor;
+import net.darkscorner.paintball.objects.arenaeditors.SpecPointEditor;
 
 public class Arena {
 

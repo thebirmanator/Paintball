@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.List;
 import java.util.Random;
@@ -14,10 +14,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Events.GamePlayerDeathEvent;
-import net.darkscorner.paintball.Objects.Arena;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
+import net.darkscorner.paintball.events.GamePlayerDeathEvent;
+import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 

@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.Menus.MenuItems;
+package net.darkscorner.paintball.objects.menus.menuitems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.Menus.Menu;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.menus.Menu;
 
 public class GameItem extends MenuItem {
 

@@ -1,11 +1,11 @@
-package net.darkscorner.paintball.Listeners;
+package net.darkscorner.paintball.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-import net.darkscorner.paintball.Objects.GamePlayer;
+import net.darkscorner.paintball.objects.GamePlayer;
 
 public class InventoryCloseListener implements Listener {
 	

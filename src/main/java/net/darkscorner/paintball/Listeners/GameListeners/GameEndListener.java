@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Listeners.GameListeners;
+package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +14,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Events.GameEndEvent;
-import net.darkscorner.paintball.Objects.GamePlayer;
-import net.darkscorner.paintball.Objects.PaintballGame;
-import net.darkscorner.paintball.Objects.Scoreboards.StatsBoard;
+import net.darkscorner.paintball.events.GameEndEvent;
+import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class GameEndListener implements Listener {
 

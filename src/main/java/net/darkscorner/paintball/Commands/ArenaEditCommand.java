@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Commands;
+package net.darkscorner.paintball.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,8 +11,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.Objects.Arena;
-import net.darkscorner.paintball.Objects.GamePlayer;
+import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.GamePlayer;
 
 import java.util.ArrayList;
 import java.util.List;

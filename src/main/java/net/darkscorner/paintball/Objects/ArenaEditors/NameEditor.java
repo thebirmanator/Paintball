@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.Objects.ArenaEditors;
+package net.darkscorner.paintball.objects.arenaeditors;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.Objects.Arena;
+import net.darkscorner.paintball.objects.Arena;
 
 public class NameEditor extends EditorItem {
 
