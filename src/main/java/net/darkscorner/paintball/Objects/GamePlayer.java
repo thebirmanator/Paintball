@@ -1,11 +1,15 @@
 package net.darkscorner.paintball.objects;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
@@ -25,14 +29,79 @@ public class GamePlayer {
 	private GameScoreboard scoreboard;
 	private Paint paintColour = Paint.getDefaultPaint();
 	private Menu viewingMenu;
-	
+
+	private File playerFile;
+	private FileConfiguration config;
+	private final String shotsPath = "shots";
+	private final String hitsPath = "hits";
+	private final String deathsPath = "deaths";
+	private final String gamesPlayedPath = "games-played";
+
+	public GamePlayer(File file) {
+		playerFile = file;
+		config = YamlConfiguration.loadConfiguration(playerFile);
+
+		uuid = UUID.fromString(file.getName());
+		gamePlayers.add(this);
+	}
+
 	public GamePlayer(Player player) {
 		uuid = player.getUniqueId();
 		gamePlayers.add(this);
 		
 		setStatsBoard(StatsBoard.LOBBY);
+
+		playerFile = new File("plugins/Paintball/playerdata/" + uuid.toString());
+		config = YamlConfiguration.loadConfiguration(playerFile);
+		setTotalShots(0);
+		setTotalHits(0);
+		setTotalDeaths(0);
+		setTotalGamesPlayed(0);
+		saveProfile();
 	}
-	
+
+	public long getTotalShots() {
+		return config.getLong(shotsPath);
+	}
+
+	public void setTotalShots(long shots) {
+		config.set(shotsPath, shots);
+	}
+
+	public long getTotalHits() {
+		return config.getLong(hitsPath);
+	}
+
+	public void setTotalHits(long hits) {
+		config.set(hitsPath, hits);
+	}
+
+	public long getTotalDeaths() {
+		return config.getLong(deathsPath);
+	}
+
+	public void setTotalDeaths(long deaths) {
+		config.set(deathsPath, deaths);
+	}
+
+	public long getTotalGamesPlayed() {
+		return config.getLong(gamesPlayedPath);
+	}
+
+	public void setTotalGamesPlayed(long gamesPlayed) {
+		config.set(gamesPlayedPath, gamesPlayed);
+	}
+
+	public boolean saveProfile() {
+		try {
+			config.save(playerFile);
+		} catch(IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	public Player getPlayer() {
 		return Bukkit.getPlayer(uuid);
 	}

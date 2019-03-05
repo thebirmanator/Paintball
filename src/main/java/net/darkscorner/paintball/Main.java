@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import net.darkscorner.paintball.objects.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -45,10 +46,6 @@ import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerLeaveListener
 import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerSpectateListener;
 import net.darkscorner.paintball.listeners.gamelisteners.GameStartListener;
 import net.darkscorner.paintball.listeners.gamelisteners.PowerUpUseListener;
-import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.Paint;
-import net.darkscorner.paintball.objects.PaintballGame;
-import net.darkscorner.paintball.objects.PowerUp;
 import net.darkscorner.paintball.objects.arenaeditors.EditorKit;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 
@@ -109,7 +106,7 @@ public class Main extends JavaPlugin {
 			configFolder.mkdirs();
 		}
 		
-		String[] necessaryFiles = {"main.yml", "custompaints.yml", "scoreboards.yml", "arenas"};
+		String[] necessaryFiles = {"main.yml", "custompaints.yml", "scoreboards.yml", "arenas", "playerdata"};
 		List<File> configFiles = Arrays.asList(configFolder.listFiles());
 		for(int i = 0; i < necessaryFiles.length; i++) { // cycle through important file names
 			File necessaryFile = new File(getDataFolder(), necessaryFiles[i]);
@@ -119,6 +116,11 @@ public class Main extends JavaPlugin {
 					for(int j = 0; j < arenaFiles.length; j++) { // cycle through arena files
 						getServer().getConsoleSender().sendMessage(arenaFiles[j].getName());
 						new Arena(arenaFiles[j], this);
+					}
+				} else if(necessaryFiles[i].equals("playerdata")) {
+					File[] playerFiles = necessaryFile.listFiles();
+					for(int j = 0; j < playerFiles.length; j++) {
+						new GamePlayer(playerFiles[j]);
 					}
 				} else { // is not the arena folder
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
@@ -137,6 +139,8 @@ public class Main extends JavaPlugin {
 				if(necessaryFiles[i].equals("arenas")) { // create an arenas FOLDER and default arena config
 					saveResource(necessaryFiles[i] + "/GlowyBoi.yml", true);
 					new Arena(new File(getDataFolder(), necessaryFiles[i] + "/GlowyBoi.yml"), this);
+				} else if(necessaryFiles[i].equals("playerdata")) {
+					necessaryFile.mkdirs();
 				} else { // create a config file
 					saveResource(necessaryFiles[i], true);
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);

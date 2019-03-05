@@ -71,6 +71,11 @@ public class JoinListener implements Listener {
 					player.teleport(PaintballGame.getLobbySpawn());
 					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
+
+				Bukkit.broadcastMessage("Deaths: " + gamePlayer.getTotalDeaths());
+				Bukkit.broadcastMessage("Games: " + gamePlayer.getTotalGamesPlayed());
+				Bukkit.broadcastMessage("Hits: " + gamePlayer.getTotalHits());
+				Bukkit.broadcastMessage("Shots: " + gamePlayer.getTotalShots());
 			}
 		}, 2);
 	}
