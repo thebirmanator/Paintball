@@ -41,7 +41,8 @@ public class GamePlayer {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
 
-		uuid = UUID.fromString(file.getName());
+		String uuidString = file.getName().substring(0, file.getName().length() - 4); // string minus the .yml
+		uuid = UUID.fromString(uuidString);
 		gamePlayers.add(this);
 	}
 
@@ -51,7 +52,7 @@ public class GamePlayer {
 		
 		setStatsBoard(StatsBoard.LOBBY);
 
-		playerFile = new File("plugins/Paintball/playerdata/" + uuid.toString());
+		playerFile = new File("plugins/DarkPaintball/playerdata/" + uuid.toString() + ".yml");
 		config = YamlConfiguration.loadConfiguration(playerFile);
 		setTotalShots(0);
 		setTotalHits(0);
@@ -68,12 +69,20 @@ public class GamePlayer {
 		config.set(shotsPath, shots);
 	}
 
+	public void addShots(long shots) {
+		setTotalShots(getTotalShots() + shots);
+	}
+
 	public long getTotalHits() {
 		return config.getLong(hitsPath);
 	}
 
 	public void setTotalHits(long hits) {
 		config.set(hitsPath, hits);
+	}
+
+	public void addHits(long hits) {
+		setTotalHits(getTotalHits() + hits);
 	}
 
 	public long getTotalDeaths() {
@@ -84,12 +93,20 @@ public class GamePlayer {
 		config.set(deathsPath, deaths);
 	}
 
+	public void addDeaths(long deaths) {
+		setTotalDeaths(getTotalDeaths() + deaths);
+	}
+
 	public long getTotalGamesPlayed() {
 		return config.getLong(gamesPlayedPath);
 	}
 
 	public void setTotalGamesPlayed(long gamesPlayed) {
 		config.set(gamesPlayedPath, gamesPlayed);
+	}
+
+	public void addGamesPlayed(long gamesPlayed) {
+		setTotalGamesPlayed(getTotalGamesPlayed() + gamesPlayed);
 	}
 
 	public boolean saveProfile() {
@@ -140,7 +157,7 @@ public class GamePlayer {
 	public void setPaint(Paint paint) {
 		paintColour = paint;
 	}
-	
+
 	public static GamePlayer getGamePlayer(Player player) {
 		for(GamePlayer p : gamePlayers) {
 			if(p.uuid.equals(player.getUniqueId())) {

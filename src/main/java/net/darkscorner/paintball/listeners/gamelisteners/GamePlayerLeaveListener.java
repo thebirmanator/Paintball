@@ -16,12 +16,13 @@ public class GamePlayerLeaveListener implements Listener {
 	@EventHandler
 	public void onGameLeave(GamePlayerLeaveEvent event) {
 		PaintballGame game = event.getGame();
-		boolean wasSpectator = game.getSpectatingPlayers().contains(event.getPlayer());
-		event.getPlayer().getPlayer().setGameMode(Main.defaultGamemode);
+		GamePlayer player = event.getPlayer();
+		boolean wasSpectator = game.getSpectatingPlayers().contains(player);
+		player.getPlayer().setGameMode(Main.defaultGamemode);
 		
 		// if the game isnt idle (they are in a lobby), dont tp them to the lobby
-		event.getPlayer().getPlayer().teleport(PaintballGame.getLobbySpawn());
-		event.getPlayer().setStatsBoard(StatsBoard.LOBBY);
+		player.getPlayer().teleport(PaintballGame.getLobbySpawn());
+		player.setStatsBoard(StatsBoard.LOBBY);
 		
 		if(!wasSpectator) { // if they were not a spectator
 			// send message to everyone that game that the player left
@@ -34,6 +35,12 @@ public class GamePlayerLeaveListener implements Listener {
 			if(game.getGameState() == GameState.STARTED && game.getInGamePlayers().size() < 2) {
 				game.endGame();
 			}
+
+			// save stats
+			player.addDeaths(player.getStats().getDeaths());
+			player.addHits(player.getStats().getKills());
+			player.addShots(player.getStats().getNumShotsFired());
+			player.saveProfile();
 		}
 	}
 }

@@ -51,9 +51,16 @@ public class GameEndListener implements Listener {
 			}
 		});
 		
-		// report crystals to each in game player
+		// report stats to each player, update their profiles
 		for(GamePlayer gp : game.getInGamePlayers()) {
 			sendStatsMessage(gp);
+
+			gp.addDeaths(gp.getStats().getDeaths());
+			gp.addGamesPlayed(1);
+			gp.addHits(gp.getStats().getKills());
+			gp.addShots(gp.getStats().getNumShotsFired());
+			gp.saveProfile();
+
 			gp.getPlayer().getInventory().clear();
 			gp.getPlayer().setGameMode(GameMode.SPECTATOR);
 		}
