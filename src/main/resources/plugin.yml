@@ -22,3 +22,6 @@ commands:
   paint:
    usage: /<command>
    description: View paint colour options
+  viewstats:
+   usage: /<command>
+   description: View game statistics for a player

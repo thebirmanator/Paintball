@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.objects.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,11 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.themgrf.darkcrystals.DarkCrystals;
-import net.darkscorner.paintball.commands.ArenaEditCommand;
-import net.darkscorner.paintball.commands.JoinGameCommand;
-import net.darkscorner.paintball.commands.LeaveGameCommand;
-import net.darkscorner.paintball.commands.PaintCommand;
-import net.darkscorner.paintball.commands.GamesCommand;
 import net.darkscorner.paintball.listeners.BlockBreakListener;
 import net.darkscorner.paintball.listeners.BlockPlaceListener;
 import net.darkscorner.paintball.listeners.CrystalChangeListener;
@@ -56,6 +52,7 @@ public class Main extends JavaPlugin {
 	private GamesCommand gamescmd = new GamesCommand();
 	private ArenaEditCommand arenaeditcmd = new ArenaEditCommand(this);
 	private PaintCommand paintcmd = new PaintCommand();
+	private ViewStatsCommand viewstatscmd = new ViewStatsCommand();
 	public static DarkCrystals crystals;
 	
 	public static String prefix = ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL"+ ChatColor.DARK_GRAY + " ⎜ " + ChatColor.GRAY;
@@ -73,6 +70,7 @@ public class Main extends JavaPlugin {
 		getCommand(gamescmd.games).setExecutor(gamescmd);
 		getCommand(arenaeditcmd.arena).setExecutor(arenaeditcmd);
 		getCommand(paintcmd.paint).setExecutor(paintcmd);
+		getCommand(viewstatscmd.viewstats).setExecutor(viewstatscmd);
 		
 		getServer().getPluginManager().registerEvents(new GameCreateListener(), this);
 		getServer().getPluginManager().registerEvents(new GameEndListener(this), this);
