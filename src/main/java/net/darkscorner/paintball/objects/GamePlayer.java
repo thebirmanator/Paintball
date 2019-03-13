@@ -2,10 +2,9 @@ package net.darkscorner.paintball.objects;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
+import net.darkscorner.paintball.PlayerStat;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -167,7 +166,85 @@ public class GamePlayer {
 		}
 		return null;
 	}
-	
+
+	public int getRanking(PlayerStat stat) {
+		int ranking = -1;
+
+		List<GamePlayer> players = new ArrayList<>(gamePlayers);
+		Comparator<GamePlayer> comparator;
+		switch (stat) {
+			case GAMES:
+				comparator = new Comparator<GamePlayer>() {
+					@Override
+					public int compare(GamePlayer p1, GamePlayer p2) {
+						if(p1.getTotalGamesPlayed() > p2.getTotalGamesPlayed()) {
+							return 1;
+						} else if(p1.getTotalGamesPlayed() < p2.getTotalGamesPlayed()) {
+							return -1;
+						} else {
+							return 0;
+						}
+					}
+				};
+				break;
+			case KILLS:
+				comparator = new Comparator<GamePlayer>() {
+					@Override
+					public int compare(GamePlayer p1, GamePlayer p2) {
+						if(p1.getTotalHits() > p2.getTotalHits()) {
+							return 1;
+						} else if(p1.getTotalHits() < p2.getTotalHits()) {
+							return -1;
+						} else {
+							return 0;
+						}
+					}
+				};
+				break;
+			case SHOTS:
+				comparator = new Comparator<GamePlayer>() {
+					@Override
+					public int compare(GamePlayer p1, GamePlayer p2) {
+						if(p1.getTotalShots() < p2.getTotalShots()) {
+							return 1;
+						} else if(p1.getTotalShots() > p2.getTotalShots()) {
+							return -1;
+						} else {
+							return 0;
+						}
+					}
+				};
+				break;
+			case DEATHS:
+				comparator = new Comparator<GamePlayer>() {
+					@Override
+					public int compare(GamePlayer p1, GamePlayer p2) {
+						if(p1.getTotalDeaths() > p2.getTotalDeaths()) {
+							return 1;
+						} else if(p1.getTotalDeaths() < p2.getTotalDeaths()) {
+							return -1;
+						} else {
+							return 0;
+						}
+					}
+				};
+				break;
+			default:
+				comparator = null;
+				break;
+
+		}
+		if(comparator != null) {
+			players.sort(comparator);
+		}
+		ranking = players.indexOf(this) + 1;
+		return ranking;
+	}
+
+	public static int getTotalGamePlayers() {
+		return gamePlayers.size();
+	}
+
 	public Menu getViewingMenu() {
 		return viewingMenu;
 	}
