@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
+import net.darkscorner.paintball.PlayerStat;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,9 +38,9 @@ public class GamePlayerLeaveListener implements Listener {
 			}
 
 			// save stats
-			player.addDeaths(player.getStats().getDeaths());
-			player.addHits(player.getStats().getKills());
-			player.addShots(player.getStats().getNumShotsFired());
+			player.addToTotal(PlayerStat.DEATHS, player.getStats().getDeaths());
+			player.addToTotal(PlayerStat.KILLS, player.getStats().getKills());
+			player.addToTotal(PlayerStat.SHOTS, player.getStats().getNumShotsFired());
 			player.saveProfile();
 		}
 	}

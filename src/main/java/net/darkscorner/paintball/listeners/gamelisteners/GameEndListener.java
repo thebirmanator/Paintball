@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import net.darkscorner.paintball.PlayerStat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -55,10 +56,8 @@ public class GameEndListener implements Listener {
 		for(GamePlayer gp : game.getInGamePlayers()) {
 			sendStatsMessage(gp);
 
-			gp.addDeaths(gp.getStats().getDeaths());
-			gp.addGamesPlayed(1);
-			gp.addHits(gp.getStats().getKills());
-			gp.addShots(gp.getStats().getNumShotsFired());
+			// gameplayerleavelistener takes care of the other stats, update games played
+			gp.addToTotal(PlayerStat.GAMES, 1);
 			gp.saveProfile();
 
 			gp.getPlayer().getInventory().clear();

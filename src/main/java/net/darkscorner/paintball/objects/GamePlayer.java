@@ -54,13 +54,53 @@ public class GamePlayer {
 
 		playerFile = new File("plugins/DarkPaintball/playerdata/" + uuid.toString() + ".yml");
 		config = YamlConfiguration.loadConfiguration(playerFile);
-		setTotalShots(0);
-		setTotalHits(0);
-		setTotalDeaths(0);
-		setTotalGamesPlayed(0);
+
+		// set player stats for new player
+		for(int i = 0; i < PlayerStat.values().length; i++) {
+			setTotal(PlayerStat.values()[i], 0);
+		}
 		saveProfile();
 	}
 
+	public long getTotal(PlayerStat stat) {
+		switch (stat) {
+			case GAMES:
+				return config.getLong(gamesPlayedPath);
+			case DEATHS:
+				return config.getLong(deathsPath);
+			case KILLS:
+				return config.getLong(hitsPath);
+			case SHOTS:
+				return config.getLong(shotsPath);
+			default:
+				return -1;
+		}
+	}
+
+	public void setTotal(PlayerStat stat, long amount) {
+		switch (stat) {
+			case GAMES:
+				config.set(gamesPlayedPath, amount);
+				break;
+			case DEATHS:
+				config.set(deathsPath, amount);
+				break;
+			case KILLS:
+				config.set(hitsPath, amount);
+				break;
+			case SHOTS:
+				config.set(shotsPath, amount);
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void addToTotal(PlayerStat stat, long amount) {
+		setTotal(stat, getTotal(stat) + amount);
+	}
+
+	/*
 	public long getTotalShots() {
 		return config.getLong(shotsPath);
 	}
@@ -108,7 +148,7 @@ public class GamePlayer {
 	public void addGamesPlayed(long gamesPlayed) {
 		setTotalGamesPlayed(getTotalGamesPlayed() + gamesPlayed);
 	}
-
+*/
 	public boolean saveProfile() {
 		try {
 			config.save(playerFile);
@@ -121,6 +161,10 @@ public class GamePlayer {
 
 	public Player getPlayer() {
 		return Bukkit.getPlayer(uuid);
+	}
+
+	public OfflinePlayer getOfflinePlayer() {
+		return Bukkit.getOfflinePlayer(uuid);
 	}
 	
 	public boolean isInGame() {
@@ -167,76 +211,31 @@ public class GamePlayer {
 		return null;
 	}
 
+	public static List<GamePlayer> getOrderedByStat(PlayerStat stat) {
+		List<GamePlayer> players = new ArrayList<>(gamePlayers);
+		Comparator<GamePlayer> comparator;
+		comparator = new Comparator<GamePlayer>() {
+			@Override
+			public int compare(GamePlayer p1, GamePlayer p2) {
+				if(p1.getTotal(stat) < p2.getTotal(stat)) {
+					return 1;
+				} else if(p1.getTotal(stat) > p2.getTotal(stat)) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		};
+
+		players.sort(comparator);
+
+		return players;
+	}
 	public int getRanking(PlayerStat stat) {
 		int ranking = -1;
 
-		List<GamePlayer> players = new ArrayList<>(gamePlayers);
-		Comparator<GamePlayer> comparator;
-		switch (stat) {
-			case GAMES:
-				comparator = new Comparator<GamePlayer>() {
-					@Override
-					public int compare(GamePlayer p1, GamePlayer p2) {
-						if(p1.getTotalGamesPlayed() > p2.getTotalGamesPlayed()) {
-							return 1;
-						} else if(p1.getTotalGamesPlayed() < p2.getTotalGamesPlayed()) {
-							return -1;
-						} else {
-							return 0;
-						}
-					}
-				};
-				break;
-			case KILLS:
-				comparator = new Comparator<GamePlayer>() {
-					@Override
-					public int compare(GamePlayer p1, GamePlayer p2) {
-						if(p1.getTotalHits() > p2.getTotalHits()) {
-							return 1;
-						} else if(p1.getTotalHits() < p2.getTotalHits()) {
-							return -1;
-						} else {
-							return 0;
-						}
-					}
-				};
-				break;
-			case SHOTS:
-				comparator = new Comparator<GamePlayer>() {
-					@Override
-					public int compare(GamePlayer p1, GamePlayer p2) {
-						if(p1.getTotalShots() < p2.getTotalShots()) {
-							return 1;
-						} else if(p1.getTotalShots() > p2.getTotalShots()) {
-							return -1;
-						} else {
-							return 0;
-						}
-					}
-				};
-				break;
-			case DEATHS:
-				comparator = new Comparator<GamePlayer>() {
-					@Override
-					public int compare(GamePlayer p1, GamePlayer p2) {
-						if(p1.getTotalDeaths() > p2.getTotalDeaths()) {
-							return 1;
-						} else if(p1.getTotalDeaths() < p2.getTotalDeaths()) {
-							return -1;
-						} else {
-							return 0;
-						}
-					}
-				};
-				break;
-			default:
-				comparator = null;
-				break;
+		List<GamePlayer> players = getOrderedByStat(stat);
 
-		}
-		if(comparator != null) {
-			players.sort(comparator);
-		}
 		ranking = players.indexOf(this) + 1;
 		return ranking;
 	}

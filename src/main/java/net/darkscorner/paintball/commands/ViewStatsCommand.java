@@ -3,6 +3,7 @@ package net.darkscorner.paintball.commands;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.PlayerStat;
 import net.darkscorner.paintball.objects.GamePlayer;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -44,8 +45,12 @@ public class ViewStatsCommand implements CommandExecutor {
                                     sendStatsMessage(player, target, DEATHS);
                                 } else if(arg2.equalsIgnoreCase("games")) {
                                     sendStatsMessage(player, target, GAMES);
-                                } else { // unrecognised second argument, send overview
-                                    sendStatsMessage(player, target, null);
+                                } else { // unrecognised second argument, send help
+                                    player.sendMessage(Main.prefix + "Help for /viewstats:");
+                                    player.sendMessage(ChatColor.DARK_GREEN + " /viewstats" + ChatColor.GREEN + ": View your own overview stats");
+                                    player.sendMessage(ChatColor.DARK_GREEN + " /viewstats <playername>" + ChatColor.GREEN + ": View another player's overview stats");
+                                    player.sendMessage(ChatColor.DARK_GREEN + " /viewstats <shots|kills|deaths|games>" + ChatColor.GREEN + ": View your own specific stat");
+                                    player.sendMessage(ChatColor.DARK_GREEN + " /viewstats <playername> <shots|kills|deaths|games>" + ChatColor.GREEN + ": View another player's specific stat");
                                 }
                                 return true;
                             }
@@ -62,8 +67,12 @@ public class ViewStatsCommand implements CommandExecutor {
                             sendStatsMessage(player, gp, DEATHS);
                         } else if(arg1.equalsIgnoreCase("games")) {
                             sendStatsMessage(player, gp, GAMES);
-                        } else { // unrecognised first argument, send overview
-                            sendStatsMessage(player, gp, null);
+                        } else { // unrecognised first argument, send help
+                            player.sendMessage(Main.prefix + "Help for /viewstats:");
+                            player.sendMessage(ChatColor.DARK_GREEN + " /viewstats" + ChatColor.GREEN + ": View your own overview stats");
+                            player.sendMessage(ChatColor.DARK_GREEN + " /viewstats <playername>" + ChatColor.GREEN + ": View another player's overview stats");
+                            player.sendMessage(ChatColor.DARK_GREEN + " /viewstats <shots|kills|deaths|games>" + ChatColor.GREEN + ": View your own specific stat");
+                            player.sendMessage(ChatColor.DARK_GREEN + " /viewstats <playername> <shots|kills|deaths|games>" + ChatColor.GREEN + ": View another player's specific stat");
                         }
                         return true;
                     }
@@ -79,33 +88,40 @@ public class ViewStatsCommand implements CommandExecutor {
     }
 
     private void sendStatsMessage(Player sendTo, GamePlayer player, PlayerStat stat) {
-        String title = "overview";
+        String title = "Overview";
         String[] lines = new String[5];
-        if(stat != null) {
+        if(stat != null) { // is not the overview stats page
+            // format the stat name to look nice
             title = stat.toString();
-            switch (stat) {
-                case SHOTS:
-                    lines[1] = ChatColor.GOLD + "  Shots: " + ChatColor.YELLOW + player.getTotalShots();
-                    break;
-                case KILLS:
-                    lines[1] = ChatColor.GOLD + "  Kills: " + ChatColor.YELLOW + player.getTotalHits();
-                    break;
-                case DEATHS:
-                    lines[1] = ChatColor.GOLD + "  Deaths: " + ChatColor.YELLOW + player.getTotalDeaths();
-                    break;
-                case GAMES:
-                    lines[1] = ChatColor.GOLD + "  Games: " + ChatColor.YELLOW + player.getTotalGamesPlayed();
-                    break;
-                default:
-                    break;
+            title = WordUtils.capitalize(title.toLowerCase());
+
+            // display top 5 in the stat
+            String[] leaders = new String[6];
+            leaders[0] = ChatColor.GREEN + "" + ChatColor.BOLD + "Top 5 for " + title;
+
+            int leadersLength = 5;
+            if(GamePlayer.getOrderedByStat(stat).size() < leadersLength) {
+                leadersLength = GamePlayer.getOrderedByStat(stat).size();
             }
+
+            for(int i = 0; i < leadersLength; i++) {
+                GamePlayer gp = GamePlayer.getOrderedByStat(stat).get(i);
+                String name = gp.getOfflinePlayer().getName();
+                long amount = gp.getTotal(stat);
+
+                leaders[i+1] = ChatColor.DARK_GREEN + name + ChatColor.DARK_GRAY + ": " + ChatColor.GREEN + amount;
+            }
+            sendTo.sendMessage(leaders);
+
+            // format text for personal ranking
+            lines[1] = ChatColor.GOLD + "  " + title + ": " + ChatColor.YELLOW + player.getTotal(stat);
             lines[2] = ChatColor.GOLD + "  Ranking: " + ChatColor.YELLOW + player.getRanking(stat) + "/" + GamePlayer.getTotalGamePlayers();
         } else {
-            lines[1] = ChatColor.GOLD + "  Shots: " + ChatColor.YELLOW + player.getTotalShots();
-            lines[2] = ChatColor.GOLD + "  Hits: " + ChatColor.YELLOW + player.getTotalHits();
-            lines[3] = ChatColor.GOLD + "  Deaths: " + ChatColor.YELLOW + player.getTotalDeaths();
-            lines[4] = ChatColor.GOLD + "  Games: " + ChatColor.YELLOW + player.getTotalGamesPlayed();
-            return;
+            for(int i = 0; i < values().length; i++) {
+                String statName = PlayerStat.values()[i].toString();
+                statName = WordUtils.capitalize(statName.toLowerCase());
+                lines[i+1] = ChatColor.GOLD + "  " + statName + ": " + ChatColor.YELLOW + player.getTotal(PlayerStat.values()[i]);
+            }
         }
         lines[0] = ChatColor.GOLD + "" + ChatColor.BOLD + player.getPlayer().getName() + "'s stats: " + ChatColor.YELLOW + "" + ChatColor.BOLD + title;
 
