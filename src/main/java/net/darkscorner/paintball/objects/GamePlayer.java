@@ -27,8 +27,8 @@ public class GamePlayer {
 	private PaintballGame game;
 	private GameStatistics gameStats;
 	private GameScoreboard scoreboard;
-	private Paint paintColour = Paint.getDefaultPaint();
 	private Menu viewingMenu;
+	private Paint paint = Paint.getDefaultPaint();
 
 	private File playerFile;
 	private FileConfiguration config;
@@ -36,11 +36,12 @@ public class GamePlayer {
 	private final String hitsPath = "hits";
 	private final String deathsPath = "deaths";
 	private final String gamesPlayedPath = "games-played";
+	private final String equippedPaintPath = "equipped-paint";
 
 	public GamePlayer(File file) {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
-
+		
 		String uuidString = file.getName().substring(0, file.getName().length() - 4); // string minus the .yml
 		uuid = UUID.fromString(uuidString);
 		gamePlayers.add(this);
@@ -59,6 +60,7 @@ public class GamePlayer {
 		for(int i = 0; i < PlayerStat.values().length; i++) {
 			setTotal(PlayerStat.values()[i], 0);
 		}
+		config.set(equippedPaintPath, Paint.getDefaultPaint().getName());
 		saveProfile();
 	}
 
@@ -100,55 +102,6 @@ public class GamePlayer {
 		setTotal(stat, getTotal(stat) + amount);
 	}
 
-	/*
-	public long getTotalShots() {
-		return config.getLong(shotsPath);
-	}
-
-	public void setTotalShots(long shots) {
-		config.set(shotsPath, shots);
-	}
-
-	public void addShots(long shots) {
-		setTotalShots(getTotalShots() + shots);
-	}
-
-	public long getTotalHits() {
-		return config.getLong(hitsPath);
-	}
-
-	public void setTotalHits(long hits) {
-		config.set(hitsPath, hits);
-	}
-
-	public void addHits(long hits) {
-		setTotalHits(getTotalHits() + hits);
-	}
-
-	public long getTotalDeaths() {
-		return config.getLong(deathsPath);
-	}
-
-	public void setTotalDeaths(long deaths) {
-		config.set(deathsPath, deaths);
-	}
-
-	public void addDeaths(long deaths) {
-		setTotalDeaths(getTotalDeaths() + deaths);
-	}
-
-	public long getTotalGamesPlayed() {
-		return config.getLong(gamesPlayedPath);
-	}
-
-	public void setTotalGamesPlayed(long gamesPlayed) {
-		config.set(gamesPlayedPath, gamesPlayed);
-	}
-
-	public void addGamesPlayed(long gamesPlayed) {
-		setTotalGamesPlayed(getTotalGamesPlayed() + gamesPlayed);
-	}
-*/
 	public boolean saveProfile() {
 		try {
 			config.save(playerFile);
@@ -195,14 +148,15 @@ public class GamePlayer {
 	}
 	
 	public Paint getPaint() {
-		return paintColour;
+		return paint;
 	}
 	
 	public void setPaint(Paint paint) {
-		paintColour = paint;
+		this.paint = paint;
+		config.set(equippedPaintPath, paint.getName());
 	}
 
-	public static GamePlayer getGamePlayer(Player player) {
+	public static GamePlayer getGamePlayer(OfflinePlayer player) {
 		for(GamePlayer p : gamePlayers) {
 			if(p.uuid.equals(player.getUniqueId())) {
 				return p;

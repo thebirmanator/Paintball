@@ -29,9 +29,14 @@ public class ViewStatsCommand implements CommandExecutor {
                 } else {
                     String arg1 = args[0];
 
-                    if(Bukkit.getPlayer(arg1) != null) { // put a player as the first argument
+                    if(Bukkit.getPlayer(arg1) != null || Bukkit.getOfflinePlayer(arg1) != null) { // put a player as the first argument
                         if(player.hasPermission("paintball.command.viewstats.others")) {
-                            GamePlayer target = GamePlayer.getGamePlayer(Bukkit.getPlayer(arg1));
+                            GamePlayer target;
+                            if(Bukkit.getPlayer(arg1) != null) {
+                                target = GamePlayer.getGamePlayer(Bukkit.getPlayer(arg1));
+                            } else {
+                                target = GamePlayer.getGamePlayer(Bukkit.getOfflinePlayer(arg1));
+                            }
                             if(args.length == 1) { // only one argument; must want overview stats
                                 sendStatsMessage(player, target, null);
                                 return true;
@@ -123,7 +128,7 @@ public class ViewStatsCommand implements CommandExecutor {
                 lines[i+1] = ChatColor.GOLD + "  " + statName + ": " + ChatColor.YELLOW + player.getTotal(PlayerStat.values()[i]);
             }
         }
-        lines[0] = ChatColor.GOLD + "" + ChatColor.BOLD + player.getPlayer().getName() + "'s stats: " + ChatColor.YELLOW + "" + ChatColor.BOLD + title;
+        lines[0] = ChatColor.GOLD + "" + ChatColor.BOLD + player.getOfflinePlayer().getName() + "'s stats: " + ChatColor.YELLOW + "" + ChatColor.BOLD + title;
 
         sendTo.sendMessage(lines);
 

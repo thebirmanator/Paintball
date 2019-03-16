@@ -3,6 +3,7 @@ package net.darkscorner.paintball.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -48,7 +49,7 @@ public class PaintCommand implements CommandExecutor {
 							ItemMeta meta = icon.getItemMeta();
 							meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + paint.getName() /*WordUtils.capitalize(friendlyMaterial)*/);
 							List<String> lore = new ArrayList<String>();
-							
+
 							if(gp.getPaint().equals(paint)) { // player has this paint equipped already
 								lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to unequip.");
 								meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
