@@ -28,7 +28,7 @@ public class GamePlayer {
 	private GameStatistics gameStats;
 	private GameScoreboard scoreboard;
 	private Menu viewingMenu;
-	private Paint paint = Paint.getDefaultPaint();
+	private Paint paint;
 
 	private File playerFile;
 	private FileConfiguration config;
@@ -41,7 +41,7 @@ public class GamePlayer {
 	public GamePlayer(File file) {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
-		
+
 		String uuidString = file.getName().substring(0, file.getName().length() - 4); // string minus the .yml
 		uuid = UUID.fromString(uuidString);
 		gamePlayers.add(this);
@@ -60,7 +60,6 @@ public class GamePlayer {
 		for(int i = 0; i < PlayerStat.values().length; i++) {
 			setTotal(PlayerStat.values()[i], 0);
 		}
-		config.set(equippedPaintPath, Paint.getDefaultPaint().getName());
 		saveProfile();
 	}
 
@@ -148,12 +147,20 @@ public class GamePlayer {
 	}
 	
 	public Paint getPaint() {
+		if(paint == null) {
+			if(Paint.getPaint(config.getString(equippedPaintPath)) != null) {
+				paint = Paint.getPaint(config.getString(equippedPaintPath));
+			} else {
+				paint = Paint.getDefaultPaint();
+			}
+		}
 		return paint;
 	}
 	
 	public void setPaint(Paint paint) {
 		this.paint = paint;
 		config.set(equippedPaintPath, paint.getName());
+		saveProfile();
 	}
 
 	public static GamePlayer getGamePlayer(OfflinePlayer player) {
