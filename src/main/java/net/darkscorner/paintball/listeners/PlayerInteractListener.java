@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.listeners;
 
+import net.darkscorner.paintball.objects.guns.Gun;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -79,12 +80,13 @@ public class PlayerInteractListener implements Listener {
 					}
 				} else { 
 					if(player.getGameMode() != GameMode.SPECTATOR) {
-						if(player.getInventory().getItemInMainHand().getType() == Material.GOLDEN_HOE) { // shooting a paintball
+						if(Gun.isGun(player.getInventory().getItemInMainHand())) { // shooting a paintball
+							Gun gun = Gun.getGun(player.getInventory().getItemInMainHand());
 							gp.playSound(SoundEffect.SHOOT);
 							if(player.hasMetadata("volleypowerup")) { // volley powerup shot
-								shootVolley(player);
+								shootVolley(player, gun);
 							} else { // normal shot
-								player.launchProjectile(Snowball.class);
+								gun.shoot(player, Gun.defaultVector); // normal shot, use default velocity
 								gp.getStats().addShot();
 								gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());
 							}
@@ -95,7 +97,7 @@ public class PlayerInteractListener implements Listener {
 		}
 
 		// thanks to blablubbabc on the forums for this crazy maths https://bukkit.org/threads/multiple-arrows-with-vectors.177643/
-		public void shootVolley(Player player) {
+		public void shootVolley(Player player, Gun gun) {
 			int[] angles = {20, 10, 0, -10, -20};
 			
 			Location pLoc = player.getLocation();
@@ -116,7 +118,7 @@ public class PlayerInteractListener implements Listener {
 				} else {
 					velocity = pDir.clone();
 				}
-				player.launchProjectile(Snowball.class, velocity);
+				gun.shoot(player, velocity);
 				GamePlayer gp = GamePlayer.getGamePlayer(player);
 				gp.getStats().addShot();
 				gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.darkscorner.paintball.GunType;
+import net.darkscorner.paintball.objects.guns.Gun;
+import net.darkscorner.paintball.objects.guns.StandardGun;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -56,12 +59,13 @@ public class GameStartListener implements Listener {
 			meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL GUN");
 			List<String> lore = new ArrayList<String>();
 			lore.add("");
+			lore.add(ChatColor.YELLOW + "Standard issue");
 			lore.add(ChatColor.WHITE + "Right-click" + ChatColor.GRAY + " to shoot!");
 			meta.setLore(lore);
 			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 			paintballGun.setItemMeta(meta);
-			
-			gp.getPlayer().getInventory().setItem(0, paintballGun);
+			Gun gun = new StandardGun(paintballGun, GunType.STANDARD);
+			gun.giveTo(gp.getPlayer());
 		}
 
 		// spawn powerups at their spawn points
