@@ -2,7 +2,7 @@ package net.darkscorner.paintball;
 
 public enum GunType {
 
-    STANDARD(0), SHOTGUN(1);
+    STANDARD(0), SHOTGUN(1), MACHINE_GUN(2), SNIPER(3);
 
     private final int gun;
 

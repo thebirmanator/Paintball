@@ -6,7 +6,8 @@ import java.util.Random;
 
 import net.darkscorner.paintball.GunType;
 import net.darkscorner.paintball.objects.guns.Gun;
-import net.darkscorner.paintball.objects.guns.StandardGun;
+import net.darkscorner.paintball.objects.guns.ShotGun;
+import net.darkscorner.paintball.objects.guns.SniperGun;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -57,6 +58,7 @@ public class GameStartListener implements Listener {
 			ItemStack paintballGun = new ItemStack(Material.GOLDEN_HOE);
 			ItemMeta meta = paintballGun.getItemMeta();
 			meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL GUN");
+			/*
 			List<String> lore = new ArrayList<String>();
 			lore.add("");
 			lore.add(ChatColor.YELLOW + "Standard issue");
@@ -64,7 +66,15 @@ public class GameStartListener implements Listener {
 			meta.setLore(lore);
 			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 			paintballGun.setItemMeta(meta);
-			Gun gun = new StandardGun(paintballGun, GunType.STANDARD);
+			*/
+			List<String> lore = new ArrayList<String>();
+			lore.add("");
+			lore.add(ChatColor.YELLOW + "Sniper");
+			lore.add(ChatColor.WHITE + "Right-click" + ChatColor.GRAY + " to shoot!");
+			meta.setLore(lore);
+			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+			paintballGun.setItemMeta(meta);
+			Gun gun = new SniperGun(paintballGun, GunType.SNIPER);
 			gun.giveTo(gp.getPlayer());
 		}
 
