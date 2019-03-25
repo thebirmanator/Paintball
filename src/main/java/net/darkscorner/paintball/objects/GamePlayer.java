@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 import net.darkscorner.paintball.PlayerStat;
+import net.darkscorner.paintball.objects.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -29,6 +30,7 @@ public class GamePlayer {
 	private GameScoreboard scoreboard;
 	private Menu viewingMenu;
 	private Paint paint;
+	private Gun gun = Gun.getDefault();
 
 	private File playerFile;
 	private FileConfiguration config;
@@ -228,7 +230,14 @@ public class GamePlayer {
 		this.scoreboard.update(scoreboard, "%crystals%", "" + Main.crystals.getCrystals(getPlayer().getName()));
 	}
 
-	
+	public Gun getGun() {
+		return gun;
+	}
+
+	public void setGun(Gun gun) {
+		this.gun = gun;
+	}
+
 	public void playSound(SoundEffect effect) {
 		switch (effect) {
 		case BACKWARD_CLICK:

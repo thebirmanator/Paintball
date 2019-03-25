@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.objects.guns;
 
 import net.darkscorner.paintball.GunType;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -15,6 +16,7 @@ public abstract class Gun {
     private static Set<Gun> guns = new HashSet<>();
 
     public static Vector defaultVector = new Vector(0, 0, 0);
+    private static Gun defaultGun;
 
     public Gun(ItemStack item, GunType type) {
         this.item = item;
@@ -39,6 +41,14 @@ public abstract class Gun {
 
     public void removeFrom(Player player) {
         player.getInventory().remove(item);
+    }
+
+    public static Gun getDefault() {
+        return defaultGun;
+    }
+
+    public void setDefault() {
+        defaultGun = this;
     }
 
     public static boolean isGun(ItemStack item) {

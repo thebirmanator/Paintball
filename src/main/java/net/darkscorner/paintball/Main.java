@@ -8,6 +8,7 @@ import java.util.Set;
 
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.objects.*;
+import net.darkscorner.paintball.objects.guns.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -18,6 +19,9 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.themgrf.darkcrystals.DarkCrystals;
@@ -64,7 +68,12 @@ public class Main extends JavaPlugin {
 		loadConfigs();
 		
 		crystals = getServer().getServicesManager().getRegistration(DarkCrystals.class).getProvider();
-		
+
+		new StandardGun(createGun(Material.GOLDEN_HOE, ChatColor.YELLOW + "Standard-issue"), GunType.STANDARD).setDefault();
+		new MachineGun(createGun(Material.IRON_HOE, ChatColor.YELLOW + "Machine gun: rapid fire"), GunType.MACHINE_GUN);
+		new ShotGun(createGun(Material.STONE_HOE, ChatColor.YELLOW + "Shotgun: cluster shots"), GunType.SHOTGUN);
+		new SniperGun(createGun(Material.DIAMOND_HOE, ChatColor.YELLOW + "Sniper: fast shots"), GunType.SNIPER);
+
 		getCommand(joincmd.join).setExecutor(joincmd);
 		getCommand(leavecmd.leave).setExecutor(leavecmd);
 		getCommand(gamescmd.games).setExecutor(gamescmd);
@@ -240,5 +249,23 @@ public class Main extends JavaPlugin {
 				new Paint(paintName, displayIcon, paintMaterials);
 			}
 		}
+	}
+
+	private ItemStack createGun(Material material, String gunDescription) {
+		// create and give the gun
+		ItemStack paintballGun = new ItemStack(material);
+		ItemMeta meta = paintballGun.getItemMeta();
+		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL GUN");
+
+		List<String> lore = new ArrayList<String>();
+		lore.add("");
+		lore.add(gunDescription);
+		lore.add(ChatColor.WHITE + "Right-click" + ChatColor.GRAY + " to shoot!");
+		meta.setLore(lore);
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		paintballGun.setItemMeta(meta);
+
+		return paintballGun;
+
 	}
 }
