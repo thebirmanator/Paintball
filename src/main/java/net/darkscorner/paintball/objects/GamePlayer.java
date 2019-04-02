@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import net.darkscorner.paintball.GunType;
 import net.darkscorner.paintball.PlayerStat;
 import net.darkscorner.paintball.objects.guns.Gun;
 import org.bukkit.Bukkit;
@@ -30,7 +31,7 @@ public class GamePlayer {
 	private GameScoreboard scoreboard;
 	private Menu viewingMenu;
 	private Paint paint;
-	private Gun gun = Gun.getDefault();
+	private Gun gun;
 
 	private File playerFile;
 	private FileConfiguration config;
@@ -39,6 +40,7 @@ public class GamePlayer {
 	private final String deathsPath = "deaths";
 	private final String gamesPlayedPath = "games-played";
 	private final String equippedPaintPath = "equipped-paint";
+	private final String equippedGunPath = "equipped-gun";
 
 	public GamePlayer(File file) {
 		playerFile = file;
@@ -231,11 +233,20 @@ public class GamePlayer {
 	}
 
 	public Gun getGun() {
+		if(gun == null) {
+			if(config.getString(equippedGunPath) != null) {
+				gun = Gun.getGun(GunType.valueOf(config.getString(equippedGunPath)));
+			} else {
+				setGun(Gun.getGun(GunType.STANDARD));
+			}
+		}
 		return gun;
 	}
 
 	public void setGun(Gun gun) {
 		this.gun = gun;
+		config.set(equippedGunPath, gun.getType().toString());
+		saveProfile();
 	}
 
 	public void playSound(SoundEffect effect) {

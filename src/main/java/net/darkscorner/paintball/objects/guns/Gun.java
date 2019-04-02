@@ -66,4 +66,13 @@ public abstract class Gun {
         }
         return null;
     }
+
+    public static Gun getGun(GunType type) {
+        for(Gun gun : guns) {
+            if(gun.getType() == type) {
+                return gun;
+            }
+        }
+        return null;
+    }
 }
