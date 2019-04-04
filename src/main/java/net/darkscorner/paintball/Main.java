@@ -57,6 +57,7 @@ public class Main extends JavaPlugin {
 	private ArenaEditCommand arenaeditcmd = new ArenaEditCommand(this);
 	private PaintCommand paintcmd = new PaintCommand();
 	private ViewStatsCommand viewstatscmd = new ViewStatsCommand();
+	private GunCommand guncmd = new GunCommand();
 	public static DarkCrystals crystals;
 	
 	public static String prefix = ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL"+ ChatColor.DARK_GRAY + " ⎜ " + ChatColor.GRAY;
@@ -80,6 +81,7 @@ public class Main extends JavaPlugin {
 		getCommand(arenaeditcmd.arena).setExecutor(arenaeditcmd);
 		getCommand(paintcmd.paint).setExecutor(paintcmd);
 		getCommand(viewstatscmd.viewstats).setExecutor(viewstatscmd);
+		getCommand(guncmd.gun).setExecutor(guncmd);
 		
 		getServer().getPluginManager().registerEvents(new GameCreateListener(), this);
 		getServer().getPluginManager().registerEvents(new GameEndListener(this), this);

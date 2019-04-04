@@ -22,6 +22,9 @@ commands:
   paint:
    usage: /<command>
    description: View paint colour options
+  guns:
+   usage: /<command>
+   description: View different guns
   viewstats:
    usage: /<command>
    description: View game statistics for a player

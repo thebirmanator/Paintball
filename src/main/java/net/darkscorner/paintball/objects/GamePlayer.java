@@ -155,7 +155,7 @@ public class GamePlayer {
 			if(Paint.getPaint(config.getString(equippedPaintPath)) != null) {
 				paint = Paint.getPaint(config.getString(equippedPaintPath));
 			} else {
-				paint = Paint.getDefaultPaint();
+				setPaint(Paint.getDefaultPaint());
 			}
 		}
 		return paint;

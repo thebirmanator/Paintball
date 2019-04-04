@@ -58,6 +58,10 @@ public abstract class Gun {
         return false;
     }
 
+    public static Set<Gun> getGuns() {
+        return guns;
+    }
+
     public static Gun getGun(ItemStack item) {
         for(Gun gun : guns) {
             if(gun.getItem().isSimilar(item)) {

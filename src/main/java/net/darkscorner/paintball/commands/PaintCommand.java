@@ -79,7 +79,7 @@ public class PaintCommand implements CommandExecutor {
 					return true;
 				}
 			} else {
-				player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to join a game.");
+				player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to view paints.");
 				return true;
 			}
 		} else {
