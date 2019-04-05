@@ -30,7 +30,7 @@ public class PlayerLeaveListener implements Listener {
 			gp.getCurrentGame().removePlayer(gp);
 			
 			// remove paintball gun on leave
-			event.getPlayer().getInventory().remove(Material.GOLDEN_HOE);
+			gp.getGun().removeFrom(event.getPlayer());
 			
 			// set to survival mode in case they were spectating
 			event.getPlayer().setGameMode(GameMode.SURVIVAL);

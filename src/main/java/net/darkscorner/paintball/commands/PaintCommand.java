@@ -3,6 +3,7 @@ package net.darkscorner.paintball.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -42,12 +43,13 @@ public class PaintCommand implements CommandExecutor {
 					int index = 0;
 					for(Paint paint : Paint.getAllCustomPaints()) {
 						String permission = "paintball.paintcolour." + paint.getName();
-						//String friendlyName = material.name().toLowerCase();
-						//friendlyMaterial = friendlyMaterial.replaceAll("\\_", " ");
+						String friendlyName = paint.getName().toLowerCase();
+						friendlyName = friendlyName.replaceAll("\\-", " ");
+						friendlyName = WordUtils.capitalize(friendlyName);
 						if(player.hasPermission(permission)) {
 							icon = new ItemStack(paint.getDisplayIcon());
 							ItemMeta meta = icon.getItemMeta();
-							meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + paint.getName() /*WordUtils.capitalize(friendlyMaterial)*/);
+							meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial)*/);
 							List<String> lore = new ArrayList<String>();
 
 							if(gp.getPaint().equals(paint)) { // player has this paint equipped already
@@ -66,7 +68,7 @@ public class PaintCommand implements CommandExecutor {
 							ItemMeta meta = icon.getItemMeta();
 							meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "LOCKED");
 							List<String> lore = new ArrayList<String>();
-							lore.add(ChatColor.GREEN + paint.getName()/*WordUtils.capitalize(friendlyMaterial)*/);
+							lore.add(ChatColor.GREEN + friendlyName/*WordUtils.capitalize(friendlyMaterial)*/);
 							lore.add(ChatColor.GRAY + "Unlock using " + ChatColor.WHITE + "/store");
 							meta.setLore(lore);
 							icon.setItemMeta(meta);

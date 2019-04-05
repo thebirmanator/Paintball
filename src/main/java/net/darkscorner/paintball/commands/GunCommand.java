@@ -7,6 +7,7 @@ import net.darkscorner.paintball.objects.guns.Gun;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.menus.menuitems.EquipGunItem;
 import net.darkscorner.paintball.objects.menus.menuitems.EquipPaintItem;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -36,37 +37,42 @@ public class GunCommand implements CommandExecutor {
                     ItemStack icon = new ItemStack(Material.AIR);
                     int index = 0;
                     for(Gun gun : Gun.getGuns()) {
-                        String permission = "paintball.gun." + gun.getType().name().toLowerCase();
-                        if(player.hasPermission(permission)) {
-                            icon = new ItemStack(gun.getItem());
-                            ItemMeta meta = icon.getItemMeta();
-                            meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + gun.getType().name() /*WordUtils.capitalize(friendlyMaterial)*/);
-                            List<String> lore = new ArrayList<String>();
+                        if(!gun.equals(Gun.getDefault())) {
+                            String permission = "paintball.gun." + gun.getType().name().toLowerCase();
+                            String friendlyName = gun.getType().name().toLowerCase();
+                            friendlyName = friendlyName.replaceAll("\\_", " ");
+                            friendlyName = WordUtils.capitalize(friendlyName);
+                            if (player.hasPermission(permission)) {
+                                icon = new ItemStack(gun.getItem());
+                                ItemMeta meta = icon.getItemMeta();
+                                meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial)*/);
+                                List<String> lore = new ArrayList<String>();
 
-                            if(gp.getGun().equals(gun)) { // player has this paint equipped already
-                                lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to unequip.");
-                                meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+                                if (gp.getGun().equals(gun)) { // player has this paint equipped already
+                                    lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to unequip.");
+                                    meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
 
-                                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                                } else {
+                                    lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to equip.");
+                                }
+
+                                meta.setLore(lore);
+                                icon.setItemMeta(meta);
                             } else {
-                                lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to equip.");
+                                icon = new ItemStack(Material.GRAY_DYE);
+                                ItemMeta meta = icon.getItemMeta();
+                                meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "LOCKED");
+                                List<String> lore = new ArrayList<String>();
+                                lore.add(ChatColor.GREEN + friendlyName/*WordUtils.capitalize(friendlyMaterial)*/);
+                                lore.add(ChatColor.GRAY + "Unlock using " + ChatColor.WHITE + "/store");
+                                meta.setLore(lore);
+                                icon.setItemMeta(meta);
                             }
-
-                            meta.setLore(lore);
-                            icon.setItemMeta(meta);
-                        } else {
-                            icon = new ItemStack(Material.GRAY_DYE);
-                            ItemMeta meta = icon.getItemMeta();
-                            meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "LOCKED");
-                            List<String> lore = new ArrayList<String>();
-                            lore.add(ChatColor.GREEN + gun.getType().name()/*WordUtils.capitalize(friendlyMaterial)*/);
-                            lore.add(ChatColor.GRAY + "Unlock using " + ChatColor.WHITE + "/store");
-                            meta.setLore(lore);
-                            icon.setItemMeta(meta);
+                            EquipGunItem paintItem = new EquipGunItem(null, icon, gun);
+                            menu.addButton(index, paintItem);
+                            index++;
                         }
-                        EquipGunItem paintItem = new EquipGunItem(null, icon, gun);
-                        menu.addButton(index, paintItem);
-                        index++;
                     }
                     menu.openMenu(player);
                     return true;
