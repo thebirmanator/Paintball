@@ -14,6 +14,6 @@ public class CrystalChangeListener implements Listener {
 	public void onChange(CrystalChangeEvent event) {
 		Player player = Bukkit.getPlayer(event.getPlayer());
 		GamePlayer gp = GamePlayer.getGamePlayer(player);
-		gp.getGameScoreboard().update(player.getScoreboard(), "%crystals%", "" + (event.getOldCrystals() + event.getCrystals()));
+		gp.getGameScoreboard().update(player.getScoreboard(), "%crystals%", "" + event.getCrystals());
 	}
 }
