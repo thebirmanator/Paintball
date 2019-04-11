@@ -58,14 +58,18 @@ public class PowerUpUseListener implements Listener {
 					
 					@Override
 					public void run() {
-						int remainingDuration = player.getMetadata("volleypowerup").get(0).asInt();
-						if(remainingDuration <= 0) {
-							player.removeMetadata("volleypowerup", main);
-							cancel();
+						if(player.hasMetadata("volleypowerup")) {
+							int remainingDuration = player.getMetadata("volleypowerup").get(0).asInt();
+							if(remainingDuration <= 0) {
+								player.removeMetadata("volleypowerup", main);
+								cancel();
+							} else {
+								player.setMetadata("volleypowerup", new FixedMetadataValue(main, remainingDuration - 20)); // take one second away (20 ticks)
+							}
 						} else {
-							player.setMetadata("volleypowerup", new FixedMetadataValue(main, remainingDuration - 20)); // take one second away (20 ticks)
+							cancel();
 						}
-						
+
 					}
 				}.runTaskTimer(main, 0, 20);
 			}
