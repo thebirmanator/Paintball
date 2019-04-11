@@ -21,13 +21,17 @@ public class PlayerOptionsItem extends MenuItem {
 	public void open(Player player, ClickType click) {
 		switch (click) {
 		case LEFT: // kick player from their game
-			SkullMeta meta =  (SkullMeta) getIcon().getItemMeta();
-			GamePlayer gp = GamePlayer.getGamePlayer(meta.getOwningPlayer().getPlayer());
-			gp.getCurrentGame().removePlayer(gp);
-			player.sendMessage(Main.prefix + "Kicked " + ChatColor.GREEN + gp.getPlayer().getName() + ChatColor.GRAY + " from the game.");
-			GamePlayer.getGamePlayer((Player) player).playSound(SoundEffect.FORWARD_CLICK);
-			gp.getPlayer().sendMessage(Main.prefix + "You have been " + ChatColor.RED + "kicked" + ChatColor.GRAY + " from the game.");
-			getContainedIn().closeMenu(player);
+			if(player.hasPermission("paintball.options.players")) {
+				SkullMeta meta = (SkullMeta) getIcon().getItemMeta();
+				GamePlayer gp = GamePlayer.getGamePlayer(meta.getOwningPlayer().getPlayer());
+				gp.getCurrentGame().removePlayer(gp);
+				player.sendMessage(Main.prefix + "Kicked " + ChatColor.GREEN + gp.getPlayer().getName() + ChatColor.GRAY + " from the game.");
+				GamePlayer.getGamePlayer((Player) player).playSound(SoundEffect.FORWARD_CLICK);
+				gp.getPlayer().sendMessage(Main.prefix + "You have been " + ChatColor.RED + "kicked" + ChatColor.GRAY + " from the game.");
+				getContainedIn().closeMenu(player);
+			} else {
+				player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to kick players from a game.");
+			}
 			break;
 		default:
 			break;

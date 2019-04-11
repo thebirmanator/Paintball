@@ -57,7 +57,9 @@ public class GameItem extends MenuItem {
 				SkullMeta meta = (SkullMeta) icon.getItemMeta();
 				meta.setOwningPlayer(gamePlayer.getPlayer());
 				List<String> lore = new ArrayList<String>();
-				lore.add(ChatColor.WHITE + "Left-click" + ChatColor.GRAY + " to kick player from this game.");
+				if(player.hasPermission("paintball.options.players")) {
+					lore.add(ChatColor.WHITE + "Left-click" + ChatColor.GRAY + " to kick player from this game.");
+				}
 				meta.setLore(lore);
 				icon.setItemMeta(meta);
 				PlayerOptionsItem optionsItem = new PlayerOptionsItem(this, icon);

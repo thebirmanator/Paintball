@@ -74,15 +74,19 @@ public class GamesCommand implements CommandExecutor {
 									case "players":
 										if(args.length > 2) {
 											if(args[2].equalsIgnoreCase("kick")) {
-												if(args.length > 3 && Bukkit.getPlayer(args[3]) != null) { // kick a player from the game
-													GamePlayer victim = GamePlayer.getGamePlayer(Bukkit.getPlayer(args[3]));
-													if(victim.isInGame() && victim.getCurrentGame().equals(g)) {
-														victim.getCurrentGame().removePlayer(victim);
+												if(player.hasPermission("paintball.options.players")) {
+													if (args.length > 3 && Bukkit.getPlayer(args[3]) != null) { // kick a player from the game
+														GamePlayer victim = GamePlayer.getGamePlayer(Bukkit.getPlayer(args[3]));
+														if (victim.isInGame() && victim.getCurrentGame().equals(g)) {
+															victim.getCurrentGame().removePlayer(victim);
+														} else {
+															player.sendMessage(Main.prefix + "That player is not in this game.");
+														}
 													} else {
-														player.sendMessage(Main.prefix + "That player is not in this game.");
+														player.sendMessage(Main.prefix + "Please give a valid playername.");
 													}
 												} else {
-													player.sendMessage(Main.prefix + "Please give a valid playername.");
+													player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to kick players from a game.");
 												}
 											} else { // open player menu
 												menuItem.open(player, ClickType.RIGHT);
@@ -92,22 +96,30 @@ public class GamesCommand implements CommandExecutor {
 										}
 										break;
 									case "options":
-										if(args.length > 2) {
-											if(args[2].equalsIgnoreCase("endgame")) {
-												g.endGame();
-											} else { // open options menu
+										if(player.hasPermission("paintball.options.use")) {
+											if (args.length > 2) {
+												if (args[2].equalsIgnoreCase("endgame")) {
+													g.endGame();
+												} else { // open options menu
+													menuItem.open(player, ClickType.MIDDLE);
+												}
+											} else {
 												menuItem.open(player, ClickType.MIDDLE);
 											}
 										} else {
-											menuItem.open(player, ClickType.MIDDLE);
+											player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to do that.");
 										}
 										break;
 									default:
 										player.sendMessage(Main.prefix + "Help for /games:");
 										player.sendMessage(ChatColor.DARK_GREEN + " /games" + ChatColor.GREEN + ": Opens the games menu");
 										player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> spectate" + ChatColor.GREEN + ": Spectate the game associated with that arena");
-										player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> players kick <playername>" + ChatColor.GREEN + ": Kicks player from their game");
-										player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> options endgame" + ChatColor.GREEN + ": Ends the game associated with that arena");
+										if(player.hasPermission("paintball.options.players")) {
+											player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> players kick <playername>" + ChatColor.GREEN + ": Kicks player from their game");
+										}
+										if(player.hasPermission("paintball.options.use")) {
+											player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> options endgame" + ChatColor.GREEN + ": Ends the game associated with that arena");
+										}
 										break;
 									}
 								}
@@ -115,8 +127,12 @@ public class GamesCommand implements CommandExecutor {
 								player.sendMessage(Main.prefix + "Help for /games:");
 								player.sendMessage(ChatColor.DARK_GREEN + " /games" + ChatColor.GREEN + ": Opens the games menu");
 								player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> spectate" + ChatColor.GREEN + ": Spectate the game associated with that arena");
-								player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> players kick <playername>" + ChatColor.GREEN + ": Kicks player from their game");
-								player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> options endgame" + ChatColor.GREEN + ": Ends the game associated with that arena");
+								if(player.hasPermission("paintball.options.players")) {
+									player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> players kick <playername>" + ChatColor.GREEN + ": Kicks player from their game");
+								}
+								if(player.hasPermission("paintball.options.use")) {
+									player.sendMessage(ChatColor.DARK_GREEN + " /games <arena> options endgame" + ChatColor.GREEN + ": Ends the game associated with that arena");
+								}
 							}
 						}
 						return true;

@@ -26,6 +26,10 @@ public class GamePlayerLeaveListener implements Listener {
 		player.setStatsBoard(StatsBoard.LOBBY);
 		
 		if(!wasSpectator) { // if they were not a spectator
+
+			// remove paintball gun on leave
+			player.getGun().removeFrom(player.getPlayer());
+
 			// send message to everyone that game that the player left
 			if(game.getGameState() != GameState.ENDED) {
 				for(GamePlayer p : game.getAllPlayers()) {
