@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.commands;
 
+import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.GamePlayer;
 import net.darkscorner.paintball.objects.Paint;
@@ -32,7 +33,7 @@ public class GunCommand implements CommandExecutor {
             Player player = (Player) sender;
             if(player.hasPermission("paintball.command.guns")) {
                 GamePlayer gp = GamePlayer.getGamePlayer(player);
-                if(!gp.isInGame()) {
+                if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
                     Menu menu = new Menu("Guns", null, 9);
                     ItemStack icon = new ItemStack(Material.AIR);
                     int index = 0;

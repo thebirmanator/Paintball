@@ -3,6 +3,7 @@ package net.darkscorner.paintball.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.darkscorner.paintball.GameState;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,10 +35,7 @@ public class PaintCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			if(player.hasPermission("paintball.command.paint")) {
 				GamePlayer gp = GamePlayer.getGamePlayer(player);
-				if(gp.isInGame()) {
-					player.sendMessage(Main.prefix + "You may not use this command in a game.");
-					return true;
-				} else {
+				if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
 					Menu menu = new Menu("Paints", null, 54);
 					ItemStack icon = new ItemStack(Material.AIR);
 					int index = 0;
@@ -55,12 +53,12 @@ public class PaintCommand implements CommandExecutor {
 							if(gp.getPaint().equals(paint)) { // player has this paint equipped already
 								lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to unequip.");
 								meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-								
+
 								meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 							} else {
 								lore.add(ChatColor.WHITE + "Click" + ChatColor.GRAY + " to equip.");
 							}
-							
+
 							meta.setLore(lore);
 							icon.setItemMeta(meta);
 						} else {
@@ -78,6 +76,9 @@ public class PaintCommand implements CommandExecutor {
 						index++;
 					}
 					menu.openMenu(player);
+					return true;
+				} else {
+					player.sendMessage(Main.prefix + "You may not use this command in a game.");
 					return true;
 				}
 			} else {
