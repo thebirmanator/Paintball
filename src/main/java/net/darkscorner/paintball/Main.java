@@ -187,9 +187,9 @@ public class Main extends JavaPlugin {
 		int x = config.getInt(configPath + ".x");
 		int y = config.getInt(configPath + ".y");
 		int z = config.getInt(configPath + ".z");
-		int pitch = config.getInt(configPath + ".pitch");
 		int yaw = config.getInt(configPath + ".yaw");
-		Location loc = new Location(world, x, y, z, pitch, yaw);
+		int pitch = config.getInt(configPath + ".pitch");
+		Location loc = new Location(world, x, y, z, yaw, pitch);
 		return loc;
 	}
 	
@@ -198,14 +198,14 @@ public class Main extends JavaPlugin {
 		double x = loc.getX();
 		double y = loc.getY();
 		double z = loc.getZ();
-		float pitch = loc.getPitch();
 		float yaw = loc.getYaw();
+		float pitch = loc.getPitch();
 		config.set(configPath + ".world", world);
 		config.set(configPath + ".x", x);
 		config.set(configPath + ".y", y);
 		config.set(configPath + ".z", z);
-		config.set(configPath + ".pitch", pitch);
 		config.set(configPath + ".yaw", yaw);
+		config.set(configPath + ".pitch", pitch);
 	}
 	
 	private void loadPowerUps(FileConfiguration config) {

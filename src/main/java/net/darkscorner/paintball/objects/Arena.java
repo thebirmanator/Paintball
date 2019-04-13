@@ -83,7 +83,7 @@ public class Arena {
 		specPoint = main.configToLoc(config, "spectating-spawnpoint");
 		isInUse = false;
 		preGameLobbyLoc = main.configToLoc(config, "waiting-lobby");
-		
+
 		if(Material.getMaterial(config.getString("item-for-guis")) != null) {
 			material = Material.getMaterial(config.getString("item-for-guis"));
 		} else {
@@ -226,39 +226,6 @@ public class Arena {
 		}
 	}
 
-	/*
-	public ItemStack getPowerUpEditor() {
-		return powerupEditor;
-	}
-	
-	public ItemStack getSpawnpointsEditor() {
-		return spawnpointsEditor;
-	}
-	
-	public ItemStack getSpecPointEditor() {
-		return specPointEditor;
-	}
-	
-	public ItemStack getLobbyEditor() {
-		return lobbyEditor;
-	}
-	
-	public ItemStack getNameEditor() {
-		return nameEditor;
-	}
-	
-	public ItemStack getCreatorEditor() {
-		return creatorEditor;
-	}
-	
-	public ItemStack getDoneItem() {
-		return doneItem;
-	}
-	
-	public ItemStack[] getEditItems() {
-		return editHotbar;
-	}
-	*/
 	private ItemStack getItem(Material material, String displayName, String leftClick, String rightClick) {
 		ItemStack item = new ItemStack(material);
 		ItemMeta meta = item.getItemMeta();

@@ -9,8 +9,8 @@ lobby-spawnpoint:
  x: -222
  y: 68
  z: -638
- pitch: -90
- yaw: 0
+ yaw: -90
+ pitch: 0
 paint-radius: 3
 seconds-to-respawn: 5
 game-time-in-seconds: 20
