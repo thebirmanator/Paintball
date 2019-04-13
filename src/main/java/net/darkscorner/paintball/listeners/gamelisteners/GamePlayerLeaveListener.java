@@ -36,6 +36,12 @@ public class GamePlayerLeaveListener implements Listener {
 					p.getPlayer().sendMessage(ChatColor.YELLOW + event.getPlayer().getPlayer().getName() + ChatColor.GRAY + " disconnected from the game.");
 				}
 			}
+
+			// remove invulnerable meta if they leave
+			if(player.getPlayer().hasMetadata(GamePlayerDeathListener.invulnerableMeta)) {
+				player.getPlayer().removeMetadata(GamePlayerDeathListener.invulnerableMeta, Main.getPlugin(Main.class));
+			}
+
 			// if only one player remains in game, end it
 			if(game.getGameState() == GameState.STARTED && game.getInGamePlayers().size() < 2) {
 				game.endGame();

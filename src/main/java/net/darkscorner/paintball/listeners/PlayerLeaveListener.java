@@ -22,7 +22,7 @@ public class PlayerLeaveListener implements Listener {
 	
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event) {
-		String quitMessage = ChatColor.RED + "- " + ChatColor.RESET + event.getPlayer().getName();
+		String quitMessage = ChatColor.RED + "- " + ChatColor.RESET + event.getPlayer().getDisplayName();
 		event.setQuitMessage(quitMessage);
 		
 		GamePlayer gp = GamePlayer.getGamePlayer(event.getPlayer());

@@ -28,8 +28,7 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		// set server join message
-		String joinMessage = ChatColor.GREEN + "+ " + ChatColor.RESET + event.getPlayer().getName();
-		event.setJoinMessage(joinMessage);
+		event.setJoinMessage(null);
 		
 		// remove paintball gun on leave
 		event.getPlayer().getInventory().remove(Material.GOLDEN_HOE);
@@ -71,6 +70,10 @@ public class JoinListener implements Listener {
 					player.teleport(PaintballGame.getLobbySpawn());
 					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
+
+				// send join message late to get rank to show
+				String joinMessage = ChatColor.GREEN + "+ " + ChatColor.RESET + event.getPlayer().getDisplayName();
+				Bukkit.broadcastMessage(joinMessage);
 			}
 		}, 2);
 	}
