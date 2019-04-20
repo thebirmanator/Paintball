@@ -49,6 +49,7 @@ public class JoinListener implements Listener {
 			@Override
 			public void run() {
 				Player player = event.getPlayer();
+				player.teleport(PaintballGame.getLobbySpawn());
 				GamePlayer gamePlayer = GamePlayer.getGamePlayer(player);
 				if(gamePlayer != null) {
 					if(gamePlayer.isInGame()) { // player was in a game

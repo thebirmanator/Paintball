@@ -121,7 +121,7 @@ public class GamePlayerDeathListener implements Listener {
 								    victim.getPlayer().removeMetadata(invulnerableMeta, main);
                                 }
 							}
-						}, 100);
+						}, 60);
 						this.cancel();
 					}
 					this.cancel();

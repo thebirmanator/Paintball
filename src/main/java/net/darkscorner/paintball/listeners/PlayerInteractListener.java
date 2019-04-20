@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.listeners;
 
+import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerDeathListener;
 import net.darkscorner.paintball.objects.guns.Gun;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -81,6 +82,9 @@ public class PlayerInteractListener implements Listener {
 				} else { 
 					if(player.getGameMode() != GameMode.SPECTATOR) {
 						if(Gun.isGun(player.getInventory().getItemInMainHand())) { // shooting a paintball
+							if(player.hasMetadata(GamePlayerDeathListener.invulnerableMeta)) { // remove invulnerability on shot if they have it
+								player.removeMetadata(GamePlayerDeathListener.invulnerableMeta, main);
+							}
 							Gun gun = Gun.getGun(player.getInventory().getItemInMainHand());
 							gp.playSound(SoundEffect.SHOOT);
 							if(player.hasMetadata("volleypowerup")) { // volley powerup shot
