@@ -25,7 +25,6 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 public class GamePlayerDeathListener implements Listener {
 
 	private Main main;
-	public static String invulnerableMeta = "invulnerable";
 	public GamePlayerDeathListener(Main main) {
 		this.main = main;
 	}
@@ -110,16 +109,13 @@ public class GamePlayerDeathListener implements Listener {
 						Location playerSpawn = respawnLoc.clone();
 						playerSpawn = playerSpawn.add(0.5, 0, 0.5);
 						victim.getPlayer().teleport(playerSpawn);
-						victim.getPlayer().setMetadata(invulnerableMeta, new FixedMetadataValue(main, true));
 						arena.getSpawnPoints().remove(spawnIndex);
+						game.makeInvulnerable(victim.getPlayer(), 60);
 						Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 							
 							@Override
 							public void run() {
 								arena.getSpawnPoints().add(respawnLoc);
-								if(victim.getPlayer().hasMetadata(invulnerableMeta)) {
-								    victim.getPlayer().removeMetadata(invulnerableMeta, main);
-                                }
 							}
 						}, 60);
 						this.cancel();

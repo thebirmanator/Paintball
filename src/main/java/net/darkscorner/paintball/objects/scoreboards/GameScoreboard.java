@@ -23,18 +23,8 @@ public class GameScoreboard {
 	private static Set<GameScoreboard> boards = new HashSet<GameScoreboard>();
 	
 	private GameScoreboard(String title, List<String> displayText, StatsBoard type) {
-		/*
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard gameScoreboard = manager.getNewScoreboard();
-		objective = gameScoreboard.registerNewObjective("stats", "dummy", ChatColor.GOLD + "" + ChatColor.BOLD + "Paintball");
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		*/
 		this.displayText = new ArrayList<String>(Lists.reverse(displayText));
-		/*
-		for(int i = 0; i < this.displayText.size(); i++) {
-			objective.getScore(this.displayText.get(i)).setScore(i);
-		}
-		*/
+
 		this.type = type;
 		
 		boards.add(this);
@@ -57,7 +47,6 @@ public class GameScoreboard {
 		for(int i = 0; i < this.displayText.size(); i++) {
 			objective.getScore(this.displayText.get(i)).setScore(i);
 		}
-		
 		return gameScoreboard;
 	}
 	

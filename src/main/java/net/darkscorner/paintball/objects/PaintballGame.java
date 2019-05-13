@@ -5,11 +5,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -28,6 +34,8 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
 public class PaintballGame {
+
+	public static String invulnerableMeta = "invulnerable";
 
 	private Main main;
 	private static FileConfiguration gameConfig;
@@ -288,7 +296,30 @@ public class PaintballGame {
 		player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");
 		main.getServer().getPluginManager().callEvent(new GameSpectateEvent(player, this));
 	}
-	
+
+	public void makeInvulnerable(Player player, int time) {
+		player.setMetadata(invulnerableMeta, new FixedMetadataValue(main, true));
+		ItemStack helmet = new ItemStack(Material.GRAY_STAINED_GLASS);
+		ItemMeta meta = helmet.getItemMeta();
+		meta.setDisplayName(ChatColor.RED + "Paintball Helmet");
+		helmet.setItemMeta(meta);
+		player.getInventory().setHelmet(helmet);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+
+			@Override
+			public void run() {
+				makeVulnerable(player);
+			}
+		}, time);
+	}
+
+	public void makeVulnerable(Player player) {
+		if(player.hasMetadata(invulnerableMeta)) {
+			player.removeMetadata(invulnerableMeta, main);
+			player.getInventory().setHelmet(null);
+		}
+	}
+
 	public Set<GamePlayer> getAllPlayers() {
 		Set<GamePlayer> allPlayers = new HashSet<GamePlayer>();
 		allPlayers.addAll(inGamePlayers);

@@ -37,10 +37,8 @@ public class GamePlayerLeaveListener implements Listener {
 				}
 			}
 
-			// remove invulnerable meta if they leave
-			if(player.getPlayer().hasMetadata(GamePlayerDeathListener.invulnerableMeta)) {
-				player.getPlayer().removeMetadata(GamePlayerDeathListener.invulnerableMeta, Main.getPlugin(Main.class));
-			}
+			// remove invulnerable if they leave
+			game.makeVulnerable(player.getPlayer());
 
 			// if only one player remains in game, end it
 			if(game.getGameState() == GameState.STARTED && game.getInGamePlayers().size() < 2) {

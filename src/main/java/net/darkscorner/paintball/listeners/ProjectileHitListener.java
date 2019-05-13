@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.listeners;
 
 import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerDeathListener;
+import net.darkscorner.paintball.objects.PaintballGame;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public class ProjectileHitListener implements Listener {
 							GamePlayer victim = GamePlayer.getGamePlayer(player);
 							if (event.getEntity().getShooter() instanceof Player) {
 								Player pShooter = (Player) event.getEntity().getShooter();
-								if(!player.hasMetadata(GamePlayerDeathListener.invulnerableMeta)) { // is vulnerable
+								if(!player.hasMetadata(PaintballGame.invulnerableMeta)) { // is vulnerable
 									victim.playSound(SoundEffect.DEATH);
 									GamePlayer killer = GamePlayer.getGamePlayer(pShooter);
 									// wait a tick for the paintball to fire first
