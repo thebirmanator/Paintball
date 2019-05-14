@@ -3,6 +3,7 @@ package net.darkscorner.paintball.listeners;
 import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerDeathListener;
 import net.darkscorner.paintball.objects.PaintballGame;
 import net.darkscorner.paintball.objects.guns.Gun;
+import net.darkscorner.paintball.objects.guns.ShotGun;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -83,17 +84,19 @@ public class PlayerInteractListener implements Listener {
 				} else { 
 					if(player.getGameMode() != GameMode.SPECTATOR) {
 						if(Gun.isGun(player.getInventory().getItemInMainHand())) { // shooting a paintball
-							if(player.hasMetadata(PaintballGame.invulnerableMeta)) { // remove invulnerability on shot if they have it
-								player.removeMetadata(PaintballGame.invulnerableMeta, main);
-							}
-							Gun gun = Gun.getGun(player.getInventory().getItemInMainHand());
-							gp.playSound(SoundEffect.SHOOT);
-							if(player.hasMetadata("volleypowerup")) { // volley powerup shot
-								shootVolley(player, gun);
-							} else { // normal shot
-								gun.shoot(player, Gun.defaultVector); // normal shot, use default velocity
-								gp.getStats().addShot();
-								gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());
+							if(!player.hasMetadata(ShotGun.metaCooldown)) { // not on cooldown
+								if (player.hasMetadata(PaintballGame.invulnerableMeta)) { // remove invulnerability on shot if they have it
+									player.removeMetadata(PaintballGame.invulnerableMeta, main);
+								}
+								Gun gun = Gun.getGun(player.getInventory().getItemInMainHand());
+								gp.playSound(SoundEffect.SHOOT);
+								if (player.hasMetadata("volleypowerup")) { // volley powerup shot
+									shootVolley(player, gun);
+								} else { // normal shot
+									gun.shoot(player, Gun.defaultVector); // normal shot, use default velocity
+									gp.getStats().addShot();
+									gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());
+								}
 							}
 						}
 					}

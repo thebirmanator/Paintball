@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
 import net.darkscorner.paintball.PlayerStat;
+import net.darkscorner.paintball.objects.guns.ShotGun;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,6 +40,11 @@ public class GamePlayerLeaveListener implements Listener {
 
 			// remove invulnerable if they leave
 			game.makeVulnerable(player.getPlayer());
+
+			// remove gun cooldown if they leave
+			if(player.getPlayer().hasMetadata(ShotGun.metaCooldown)) {
+				player.getPlayer().removeMetadata(ShotGun.metaCooldown, Main.getPlugin(Main.class));
+			}
 
 			// if only one player remains in game, end it
 			if(game.getGameState() == GameState.STARTED && game.getInGamePlayers().size() < 2) {
