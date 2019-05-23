@@ -10,9 +10,9 @@ title: '&6&lPaintball'
 LOBBY:
 - '&e&lLobby'
 - '&5&lPlayer: &d%player%'
-- '&3&lCrystals: &b%crystals%'
+- '&3&lCoins: &b%crystals%'
 - ''
-- 'play.darkscorner.net'
+- 'play.indigo.games'
 INGAME:
 - '&e&lArena: &r%arena%'
 - '&3&lShots Fired: &b%shots%'
@@ -20,11 +20,11 @@ INGAME:
 - '&4&lDeaths: &c%deaths%'
 - '&5&lTime Remaining: &d%timeleft%'
 - ''
-- 'play.darkscorner.net'
+- 'play.indigo.games'
 SPECTATE:
 - '&e&lArena: &r%arena%'
 - '&7&oYou are spectating'
 - '&5&lTime Remaining: &d%timeleft%'
 - ''
-- 'play.darkscorner.net'
+- 'play.indigo.games'
 

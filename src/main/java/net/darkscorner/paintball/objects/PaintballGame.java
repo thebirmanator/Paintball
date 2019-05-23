@@ -43,7 +43,7 @@ public class PaintballGame {
 	private static int maxPlayerAmount;
 	private static int gameTime;
 	private static Location lobbySpawn;
-	private static int crystalsForKill;
+	private static int coinsForKill;
 	private static Set<Material> blacklistedPaintMaterials = new HashSet<Material>();
 	private static int paintRadius;
 	private static int respawnTime;
@@ -73,7 +73,7 @@ public class PaintballGame {
 		maxPlayerAmount = gameConfig.getInt("max-players-per-game");
 		gameTime = gameConfig.getInt("game-time-in-seconds");
 		lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
-		crystalsForKill = gameConfig.getInt("base-crystals-on-kill");
+		coinsForKill = gameConfig.getInt("base-crystals-on-kill");
 		List<String> blacklistStrings = gameConfig.getStringList("blacklisted-blocks");
 		for(String materialString : blacklistStrings) {
 			if(Material.getMaterial(materialString) != null) {
@@ -123,8 +123,8 @@ public class PaintballGame {
 		return lobbySpawn;
 	}
 	
-	public int getCrystalsPerKill() {
-		return crystalsForKill;
+	public int getCoinsPerKill() {
+		return coinsForKill;
 	}
 	
 	public static Set<Material> getUnpaintableMaterials() {

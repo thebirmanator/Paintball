@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
 import net.darkscorner.paintball.commands.*;
+import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.*;
 import net.darkscorner.paintball.objects.guns.*;
 import org.bukkit.Bukkit;
@@ -24,20 +26,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.themgrf.darkcrystals.DarkCrystals;
-import net.darkscorner.paintball.listeners.BlockBreakListener;
-import net.darkscorner.paintball.listeners.BlockPlaceListener;
-import net.darkscorner.paintball.listeners.CrystalChangeListener;
-import net.darkscorner.paintball.listeners.EntityDamageListener;
-import net.darkscorner.paintball.listeners.FoodChangeListener;
-import net.darkscorner.paintball.listeners.InventoryClickListener;
-import net.darkscorner.paintball.listeners.InventoryCloseListener;
-import net.darkscorner.paintball.listeners.JoinListener;
-import net.darkscorner.paintball.listeners.PlayerChatListener;
-import net.darkscorner.paintball.listeners.PlayerInteractListener;
-import net.darkscorner.paintball.listeners.PlayerItemDropListener;
-import net.darkscorner.paintball.listeners.PlayerLeaveListener;
-import net.darkscorner.paintball.listeners.ProjectileHitListener;
 import net.darkscorner.paintball.listeners.gamelisteners.GameCreateListener;
 import net.darkscorner.paintball.listeners.gamelisteners.GameEndListener;
 import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerDeathListener;
@@ -58,7 +46,7 @@ public class Main extends JavaPlugin {
 	private PaintCommand paintcmd = new PaintCommand();
 	private ViewStatsCommand viewstatscmd = new ViewStatsCommand();
 	private GunCommand guncmd = new GunCommand();
-	public static DarkCrystals crystals;
+	public static ArcadeCoinsAPI coins;
 	
 	public static String prefix = ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL"+ ChatColor.DARK_GRAY + " ⎜ " + ChatColor.GRAY;
 	public static GameMode defaultGamemode = GameMode.SURVIVAL;
@@ -68,7 +56,7 @@ public class Main extends JavaPlugin {
 		
 		loadConfigs();
 		
-		crystals = getServer().getServicesManager().getRegistration(DarkCrystals.class).getProvider();
+		coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
 
 		new StandardGun(createGun(Material.GOLDEN_HOE, ChatColor.YELLOW + "Standard-issue"), GunType.STANDARD).setDefault();
 		new MachineGun(createGun(Material.IRON_HOE, ChatColor.YELLOW + "Machine gun: rapid fire"), GunType.MACHINE_GUN);
@@ -103,7 +91,7 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
-		getServer().getPluginManager().registerEvents(new CrystalChangeListener(), this);
+		getServer().getPluginManager().registerEvents(new CoinChangeListener(), this);
 		
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Paintball enabled!");
 
@@ -178,8 +166,8 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public DarkCrystals getCrystalsAPI() {
-		return crystals;
+	public ArcadeCoinsAPI getArcadeCoinsAPI() {
+		return coins;
 	}
 	
 	public Location configToLoc(FileConfiguration config, String configPath) {

@@ -229,7 +229,7 @@ public class GamePlayer {
 		Scoreboard scoreboard = this.scoreboard.generateScoreboard();
 		getPlayer().setScoreboard(scoreboard);
 		this.scoreboard.update(scoreboard, "%player%", getPlayer().getName());
-		this.scoreboard.update(scoreboard, "%crystals%", "" + Main.crystals.getCrystals(getPlayer().getName()));
+		this.scoreboard.update(scoreboard, "%crystals%", "" + Main.coins.getCoins(getPlayer().getName()));
 	}
 
 	public Gun getGun() {
