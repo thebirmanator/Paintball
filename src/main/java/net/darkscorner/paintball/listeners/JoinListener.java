@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,7 +31,7 @@ public class JoinListener implements Listener {
 		// set server join message
 		event.setJoinMessage(null);
 		
-		// remove paintball gun on leave
+		// remove paintball gun on join
 		event.getPlayer().getInventory().remove(Material.GOLDEN_HOE);
 		
 		// remove edit kit
@@ -43,6 +44,9 @@ public class JoinListener implements Listener {
 					
 		// set to survival mode in case they were spectating
 		event.getPlayer().setGameMode(GameMode.SURVIVAL);
+		// set to full health and hunger
+		event.getPlayer().setHealth(event.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		event.getPlayer().setFoodLevel(20);
 		
 		Bukkit.getScheduler().runTaskLater(main, new Runnable() {
 			

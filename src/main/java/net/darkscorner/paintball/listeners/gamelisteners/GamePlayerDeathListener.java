@@ -63,7 +63,7 @@ public class GamePlayerDeathListener implements Listener {
 			if(game.getCoinsPerKill() > 0) {
 				Main.coins.addCoins(killer.getPlayer().getName(), game.getCoinsPerKill());
 			}
-			killer.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.AQUA + "+" + game.getCoinsPerKill() + ChatColor.DARK_AQUA + " Crystals").create());
+			killer.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.AQUA + "+" + game.getCoinsPerKill() + ChatColor.DARK_AQUA + " Arcade Coins").create());
 			victim.getPlayer().sendTitle(ChatColor.DARK_RED + "You were hit!", ChatColor.RED + "Killer: " + killer.getPlayer().getName(), 10, 40, 10);
 			deathMsg = getDeathMessage(false);
 			deathMsg = deathMsg.replaceAll("%killer%", killer.getPlayer().getName());

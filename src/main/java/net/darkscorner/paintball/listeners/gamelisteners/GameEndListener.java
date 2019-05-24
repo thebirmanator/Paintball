@@ -111,7 +111,7 @@ public class GameEndListener implements Listener {
 		}
 		gp.getPlayer().sendMessage("");
 		gp.getPlayer().sendMessage(Main.prefix + "Game Stats:");
-		gp.getPlayer().sendMessage(ChatColor.AQUA + "   You have gained " + (gp.getStats().getKills() * gp.getCurrentGame().getCoinsPerKill()) + " crystals.");
+		gp.getPlayer().sendMessage(ChatColor.AQUA + "   You have gained " + (gp.getStats().getKills() * gp.getCurrentGame().getCoinsPerKill()) + " Arcade Coins.");
 		gp.getPlayer().sendMessage(ChatColor.GRAY + "   Your kill-death ratio: " + ChatColor.GREEN + kills + ChatColor.DARK_GRAY + ":" + ChatColor.RED + deaths + ChatColor.GRAY + "=" + kdrMessage);
 
 		if(shots == 0) { // undefined accuracy

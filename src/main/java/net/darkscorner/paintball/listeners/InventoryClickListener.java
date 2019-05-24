@@ -19,7 +19,7 @@ public class InventoryClickListener implements Listener {
 		if(event.getWhoClicked() instanceof Player) {
 			Player player = (Player) event.getWhoClicked();
 			if(clickedInv != null) {
-				if(event.getCurrentItem().getType() != Material.AIR) {
+				if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
 					event.setCancelled(true);
 					if(GamePlayer.getGamePlayer(player).isViewingMenu()) {
 						Menu menu = GamePlayer.getGamePlayer(player).getViewingMenu();
