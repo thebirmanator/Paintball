@@ -1,6 +1,8 @@
 package net.darkscorner.paintball.listeners;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +24,7 @@ public class PlayerChatListener implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player sender = event.getPlayer();
-		if(sender.hasMetadata(ArenaEditCommand.editMeta) && sender.hasMetadata(EditorItem.editingMeta)) {
+		if(sender.hasMetadata(ArenaEditCommand.editMeta) && sender.hasMetadata(EditorItem.editingMeta)) { // using chat to edit arena
 			event.setCancelled(true);
 			Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(Main.class), new Runnable() { // make it synchronous
 				
@@ -45,28 +47,34 @@ public class PlayerChatListener implements Listener {
 			});
 		} else {
 			GamePlayer gSender = GamePlayer.getGamePlayer(sender);
+			Set<Player> playerRecipients = event.getRecipients();
+			Set<GamePlayer> recipients = new HashSet<>();
 			if(gSender.isInGame()) {
 				if(gSender.getCurrentGame().getInGamePlayers().contains(gSender)) { // player is in game; send their message to everyone in game and spectating
-					event.setCancelled(true);
-					Set<GamePlayer> recipients = gSender.getCurrentGame().getAllPlayers();
-					for(GamePlayer recipient : recipients) {
-						recipient.getPlayer().sendMessage(String.format(event.getFormat(), sender.getDisplayName(), event.getMessage()));
-					}
+					recipients = gSender.getCurrentGame().getAllPlayers();
 				} else { // player is spectating, send message to other spectators
-					event.setCancelled(true);
-					Set<GamePlayer> recipients = gSender.getCurrentGame().getSpectatingPlayers();
-					for(GamePlayer recipient : recipients) {
-						recipient.getPlayer().sendMessage(String.format(event.getFormat(), sender.getDisplayName(), event.getMessage()));
-					}
+					recipients = gSender.getCurrentGame().getSpectatingPlayers();
 				}
 			} else { // player is not in game; send to anyone else not in a game
-				event.setCancelled(true);
 				for(Player p : Bukkit.getOnlinePlayers()) {
 					if(!GamePlayer.getGamePlayer(p).isInGame()) {
-						p.sendMessage(String.format(event.getFormat(), sender.getDisplayName(), event.getMessage()));
+						recipients.add(GamePlayer.getGamePlayer(p));
 					}
 				}
 			}
+			final Set<GamePlayer> finalRecipients = recipients;
+			playerRecipients.removeIf(new Predicate<Player>() {
+				@Override
+				public boolean test(Player player) {
+					for(GamePlayer p : finalRecipients) {
+						if(player.equals(p.getPlayer())) { // player is in the game players; dont remove
+							return false;
+						}
+					}
+					// player is not in game players; remove
+					return true;
+				}
+			});
 		}
 	}
 }

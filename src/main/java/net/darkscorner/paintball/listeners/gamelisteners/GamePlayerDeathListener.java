@@ -99,33 +99,36 @@ public class GamePlayerDeathListener implements Listener {
 			int playerRespawnTime = game.getRespawnTime();
 			@Override
 			public void run() {
-				if(playerRespawnTime <= 0) {
-					if(game.getGameState() == GameState.STARTED) {
-						victim.getPlayer().setGameMode(Main.defaultGamemode);
-						victim.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.YELLOW + "You have respawned!").create());
-						Random random = new Random();
-						int spawnIndex = random.nextInt(arena.getSpawnPoints().size());
-						Location respawnLoc = arena.getSpawnPoints().get(spawnIndex);
-						Location playerSpawn = respawnLoc.clone();
-						playerSpawn = playerSpawn.add(0.5, 0, 0.5);
-						victim.getPlayer().teleport(playerSpawn);
-						arena.getSpawnPoints().remove(spawnIndex);
-						game.makeInvulnerable(victim.getPlayer(), 60);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
-							
-							@Override
-							public void run() {
-								arena.getSpawnPoints().add(respawnLoc);
-							}
-						}, 60);
+				if(victim.getPlayer() != null) {
+					if (playerRespawnTime <= 0) {
+						if (game.getGameState() == GameState.STARTED) {
+							victim.getPlayer().setGameMode(Main.defaultGamemode);
+							victim.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.YELLOW + "You have respawned!").create());
+							Random random = new Random();
+							int spawnIndex = random.nextInt(arena.getSpawnPoints().size());
+							Location respawnLoc = arena.getSpawnPoints().get(spawnIndex);
+							Location playerSpawn = respawnLoc.clone();
+							playerSpawn = playerSpawn.add(0.5, 0, 0.5);
+							victim.getPlayer().teleport(playerSpawn);
+							arena.getSpawnPoints().remove(spawnIndex);
+							game.makeInvulnerable(victim.getPlayer(), 60);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+
+								@Override
+								public void run() {
+									arena.getSpawnPoints().add(respawnLoc);
+								}
+							}, 60);
+							this.cancel();
+						}
 						this.cancel();
+					} else if (playerRespawnTime <= 5) {
+						victim.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.YELLOW + "Respawning in " + ChatColor.GOLD + playerRespawnTime + " seconds").create());
 					}
-					this.cancel();
-				} else if(playerRespawnTime <= 5){
-					victim.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.YELLOW + "Respawning in " + ChatColor.GOLD + playerRespawnTime + " seconds").create());
+					playerRespawnTime--;
+				} else {
+					cancel();
 				}
-				//victim.getPlayer().setMetadata("respawnTime", new FixedMetadataValue(main, respawnTime - 1));
-				playerRespawnTime--;
 				
 			}
 		}.runTaskTimer(main, 0, 20);
