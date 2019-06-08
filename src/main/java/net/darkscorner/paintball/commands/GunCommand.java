@@ -43,7 +43,7 @@ public class GunCommand implements CommandExecutor {
                             String friendlyName = gun.getType().name().toLowerCase();
                             friendlyName = friendlyName.replaceAll("\\_", " ");
                             friendlyName = WordUtils.capitalize(friendlyName);
-                            if (player.hasPermission(permission)) {
+                            if (player.hasPermission(permission) || player.hasPermission("paintball.gun.*")) {
                                 icon = new ItemStack(gun.getItem());
                                 ItemMeta meta = icon.getItemMeta();
                                 meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial)*/);

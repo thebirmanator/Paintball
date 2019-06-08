@@ -1,7 +1,6 @@
 package net.darkscorner.paintball.objects.guns;
 
 import net.darkscorner.paintball.GunType;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;

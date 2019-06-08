@@ -1,8 +1,8 @@
 package net.darkscorner.paintball.listeners;
 
-import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerDeathListener;
 import net.darkscorner.paintball.objects.PaintballGame;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -36,10 +36,11 @@ public class ProjectileHitListener implements Listener {
 				} else if(event.getHitEntity() != null) {
 					if(event.getHitEntity() instanceof Player) {
 						Player player = (Player) event.getHitEntity();
+						if(player.getGameMode() == GameMode.SURVIVAL) {
 							GamePlayer victim = GamePlayer.getGamePlayer(player);
 							if (event.getEntity().getShooter() instanceof Player) {
 								Player pShooter = (Player) event.getEntity().getShooter();
-								if(!player.hasMetadata(PaintballGame.invulnerableMeta)) { // is vulnerable
+								if (!player.hasMetadata(PaintballGame.invulnerableMeta)) { // is vulnerable
 									victim.playSound(SoundEffect.DEATH);
 									GamePlayer killer = GamePlayer.getGamePlayer(pShooter);
 									// wait a tick for the paintball to fire first
@@ -52,6 +53,7 @@ public class ProjectileHitListener implements Listener {
 									pShooter.sendMessage(ChatColor.RED + "That player has just respawned and is invulnerable.");
 								}
 							}
+						}
 					}
 				}
 			}

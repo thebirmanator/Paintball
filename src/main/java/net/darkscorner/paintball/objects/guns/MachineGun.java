@@ -2,6 +2,7 @@ package net.darkscorner.paintball.objects.guns;
 
 import net.darkscorner.paintball.GunType;
 import net.darkscorner.paintball.Main;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
@@ -20,17 +21,21 @@ public class MachineGun extends Gun {
             int times = 0;
             @Override
             public void run() {
-                if(times < 3) {
-                    if (velocity.equals(Gun.defaultVector)) {
-                        from.launchProjectile(Snowball.class);
+                if(from.getGameMode() != GameMode.SPECTATOR) {
+                    if (times < 3) {
+                        if (velocity.equals(Gun.defaultVector)) {
+                            from.launchProjectile(Snowball.class);
+                        } else {
+                            from.launchProjectile(Snowball.class, velocity);
+                        }
+                        times++;
                     } else {
-                        from.launchProjectile(Snowball.class, velocity);
+                        cancel();
                     }
-                    times++;
                 } else {
                     cancel();
                 }
             }
-        }.runTaskTimer(Main.getPlugin(Main.class), 0, 2);
+        }.runTaskTimer(Main.getPlugin(Main.class), 2, 2);
     }
 }
