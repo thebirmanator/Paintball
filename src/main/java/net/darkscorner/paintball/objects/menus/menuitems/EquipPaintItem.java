@@ -21,7 +21,7 @@ public class EquipPaintItem extends MenuItem {
 
 	@Override
 	public void open(Player player, ClickType click) {
-		if(getIcon().getType() != Material.LIGHT_GRAY_DYE) { // did not click on a locked dye
+		if(getIcon().getType() != Material.GRAY_DYE) { // did not click on a locked dye
 			if(getIcon().getEnchantments().isEmpty()) {
 				GamePlayer.getGamePlayer(player).setPaint(paint);
 				player.sendMessage(Main.prefix + "Set custom paint colour!");
