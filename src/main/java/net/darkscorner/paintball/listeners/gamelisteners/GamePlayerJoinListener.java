@@ -7,13 +7,13 @@ import org.bukkit.event.Listener;
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.events.GamePlayerJoinEvent;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 
 public class GamePlayerJoinListener implements Listener {
 
 	@EventHandler
 	public void onGameJoin(GamePlayerJoinEvent event) {
-		PaintballGame game = event.getGame();
+		Game game = event.getGame();
 		
 		event.getPlayer().getPlayer().teleport(game.getUsedArena().getLobbyLocation());
 		

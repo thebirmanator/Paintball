@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.arenaeditors;
+package net.darkscorner.paintball.objects.menus.arenaeditors;
 
 import java.util.HashMap;
 
@@ -12,22 +12,22 @@ import net.darkscorner.paintball.commands.ArenaEditCommand;
 public class EditorKit {
 
 	private Player owner;
-	private EditorItem[] editorItems;
+	private ArenaEditorItem[] arenaEditorItems;
 	private Main main;
 	
 	private static HashMap<Player, EditorKit> activeKits = new HashMap<Player, EditorKit>();
-	public EditorKit(Player owner, EditorItem[] editorItems) {
+	public EditorKit(Player owner, ArenaEditorItem[] arenaEditorItems) {
 		this.owner = owner;
-		this.editorItems = editorItems;
+		this.arenaEditorItems = arenaEditorItems;
 		
 		main = Main.getPlugin(Main.class);
 	}
 	
 	public boolean giveKit() {
 		if(!hasKit(owner)) {
-			for(int i = 0; i < editorItems.length; i++) {
-				if(editorItems[i] != null) {
-					owner.getInventory().setItem(i, editorItems[i].getItem());
+			for(int i = 0; i < arenaEditorItems.length; i++) {
+				if(arenaEditorItems[i] != null) {
+					owner.getInventory().setItem(i, arenaEditorItems[i].getItem());
 				}
 			}
 			
@@ -38,7 +38,7 @@ public class EditorKit {
 	}
 	
 	public void removeKit() {
-		for(int i = 0; i < editorItems.length; i++) {
+		for(int i = 0; i < arenaEditorItems.length; i++) {
 			owner.getInventory().setItem(i, new ItemStack(Material.AIR));
 		}
 		
@@ -54,11 +54,11 @@ public class EditorKit {
 		return false;
 	}
 	
-	public EditorItem getFromItemStack(ItemStack item) {
-		for(int i = 0; i < editorItems.length; i++) {
-			if(editorItems[i] != null) {
-				if(editorItems[i].getItem().isSimilar(item)) {
-					return editorItems[i];
+	public ArenaEditorItem getFromItemStack(ItemStack item) {
+		for(int i = 0; i < arenaEditorItems.length; i++) {
+			if(arenaEditorItems[i] != null) {
+				if(arenaEditorItems[i].getItem().isSimilar(item)) {
+					return arenaEditorItems[i];
 				}
 			}
 		}

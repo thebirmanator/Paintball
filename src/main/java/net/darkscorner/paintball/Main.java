@@ -10,6 +10,7 @@ import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.*;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,7 +35,7 @@ import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerLeaveListener
 import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerSpectateListener;
 import net.darkscorner.paintball.listeners.gamelisteners.GameStartListener;
 import net.darkscorner.paintball.listeners.gamelisteners.PowerUpUseListener;
-import net.darkscorner.paintball.objects.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 
 public class Main extends JavaPlugin {
@@ -50,10 +51,11 @@ public class Main extends JavaPlugin {
 	
 	public static String prefix = ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL"+ ChatColor.DARK_GRAY + " ⎜ " + ChatColor.GRAY;
 	public static GameMode defaultGamemode = GameMode.SURVIVAL;
+	private static Main instance;
 	
 	public void onEnable() {
 		// powerup ideas: super jump, shield reflector thingy
-		
+		instance = this;
 		loadConfigs();
 		
 		coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
@@ -122,7 +124,7 @@ public class Main extends JavaPlugin {
 				} else { // is not the arena folder
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
 					if(necessaryFiles[i].equals("main.yml")) {
-						new PaintballGame(config, this);
+						new Game(config, this);
 						loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
 						new Paint(config, this);
@@ -142,7 +144,7 @@ public class Main extends JavaPlugin {
 					saveResource(necessaryFiles[i], true);
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
 					if(necessaryFiles[i].equals("main.yml")) {
-						new PaintballGame(config, this);
+						new Game(config, this);
 						loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
 						new Paint(config, this);
@@ -257,5 +259,9 @@ public class Main extends JavaPlugin {
 
 		return paintballGun;
 
+	}
+
+	public static Main getInstance() {
+		return instance;
 	}
 }

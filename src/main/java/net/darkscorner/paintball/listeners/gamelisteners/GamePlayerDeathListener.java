@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.darkscorner.paintball.GameState;
@@ -18,7 +17,7 @@ import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.Arena;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
@@ -31,7 +30,7 @@ public class GamePlayerDeathListener implements Listener {
 	
 	@EventHandler
 	public void onDeath(GamePlayerDeathEvent event) {
-		PaintballGame game = event.getGame();
+		Game game = event.getGame();
 		Arena arena = game.getUsedArena();
 		GamePlayer victim = event.getVictim();
 		victim.getPlayer().setGameMode(GameMode.SPECTATOR);
@@ -139,11 +138,11 @@ public class GamePlayerDeathListener implements Listener {
 		String msg = "";
 		Random random = new Random();
 		if(isSuicide) {
-			List<String> msgs = PaintballGame.getSuicideDeathMsgs();
+			List<String> msgs = Game.getSuicideDeathMsgs();
 			int index = random.nextInt(msgs.size());
 			msg = msgs.get(index);
 		} else {
-			List<String> msgs = PaintballGame.getNormalDeathMsgs();
+			List<String> msgs = Game.getNormalDeathMsgs();
 			int index = random.nextInt(msgs.size());
 			msg = msgs.get(index);
 		}

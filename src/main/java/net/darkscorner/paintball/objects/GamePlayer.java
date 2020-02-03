@@ -6,6 +6,7 @@ import java.util.*;
 
 import net.darkscorner.paintball.GunType;
 import net.darkscorner.paintball.PlayerStat;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +19,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.GameMenu;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
@@ -26,10 +27,10 @@ public class GamePlayer {
 	// a gameplayer contains a player, their kills for that game, their deaths for that game, and shots fired for that game
 	private static Set<GamePlayer> gamePlayers = new HashSet<GamePlayer>();
 	private UUID uuid;
-	private PaintballGame game;
+	private Game game;
 	private GameStatistics gameStats;
 	private GameScoreboard scoreboard;
-	private Menu viewingMenu;
+	private GameMenu viewingGameMenu;
 	private Paint paint;
 	private Gun gun;
 
@@ -130,11 +131,11 @@ public class GamePlayer {
 		return false;
 	}
 
-	public PaintballGame getCurrentGame() {
+	public Game getCurrentGame() {
 		return game;
 	}
 	
-	public void setCurrentGame(PaintballGame game) {
+	public void setCurrentGame(Game game) {
 		this.game = game;
 	}
 	
@@ -209,19 +210,19 @@ public class GamePlayer {
 		return gamePlayers.size();
 	}
 
-	public Menu getViewingMenu() {
-		return viewingMenu;
+	public GameMenu getViewingMenu() {
+		return viewingGameMenu;
 	}
 	
-	public boolean isViewingMenu() {
+	public boolean getViewingGameMenu() {
 		if(getViewingMenu() != null) {
 			return true;
 		}
 		return false;
 	}
 	
-	public void setViewingMenu(Menu menu) {
-		viewingMenu = menu;
+	public void setViewingGameMenu(GameMenu gameMenu) {
+		viewingGameMenu = gameMenu;
 	}
 	
 	public void setStatsBoard(StatsBoard board) {

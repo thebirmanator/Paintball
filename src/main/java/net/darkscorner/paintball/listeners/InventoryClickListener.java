@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.GameMenu;
 
 public class InventoryClickListener implements Listener {
 	
@@ -21,10 +21,10 @@ public class InventoryClickListener implements Listener {
 			if(clickedInv != null) {
 				if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
 					event.setCancelled(true);
-					if(GamePlayer.getGamePlayer(player).isViewingMenu()) {
-						Menu menu = GamePlayer.getGamePlayer(player).getViewingMenu();
-						if(menu.hasMenuItem(event.getSlot())) {
-							menu.getMenuItem(event.getSlot()).open(player, event.getClick());
+					if(GamePlayer.getGamePlayer(player).getViewingGameMenu()) {
+						GameMenu gameMenu = GamePlayer.getGamePlayer(player).getViewingMenu();
+						if(gameMenu.hasMenuItem(event.getSlot())) {
+							gameMenu.getMenuItem(event.getSlot()).open(player, event.getClick());
 						}
 					} else {
 						if(player.hasMetadata(ArenaEditCommand.editMeta)) { // if not viewing a menu and is editing arenas

@@ -4,16 +4,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 
 public class GameSpectateEvent extends Event {
 
 	private static HandlerList handlers = new HandlerList();
 	
 	private GamePlayer player;
-	private PaintballGame game;
+	private Game game;
 	
-	public GameSpectateEvent(GamePlayer player, PaintballGame game) {
+	public GameSpectateEvent(GamePlayer player, Game game) {
 		this.player = player;
 		this.game = game;
 	}
@@ -30,7 +30,7 @@ public class GameSpectateEvent extends Event {
 		return player;
 	}
 	
-	public PaintballGame getGame() {
+	public Game getGame() {
 		return game;
 	}
 }

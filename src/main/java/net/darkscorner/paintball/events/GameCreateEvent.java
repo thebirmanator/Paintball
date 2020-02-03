@@ -4,19 +4,19 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 
 public class GameCreateEvent extends Event {
 
 	private static HandlerList handlers = new HandlerList();
 	
-	private PaintballGame game;
+	private Game game;
 	
-	public GameCreateEvent(Main main, PaintballGame game) {
+	public GameCreateEvent(Main main, Game game) {
 		this.game = game;
 	}
 	
-	public PaintballGame getGame() {
+	public Game getGame() {
 		return game;
 	}
 	

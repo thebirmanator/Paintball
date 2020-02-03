@@ -15,16 +15,16 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.Arena;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.arenaeditors.CreatorEditor;
-import net.darkscorner.paintball.objects.arenaeditors.EditorItem;
-import net.darkscorner.paintball.objects.arenaeditors.NameEditor;
+import net.darkscorner.paintball.objects.menus.arenaeditors.CreatorArenaEditor;
+import net.darkscorner.paintball.objects.menus.arenaeditors.ArenaEditorItem;
+import net.darkscorner.paintball.objects.menus.arenaeditors.NameArenaEditor;
 
 public class PlayerChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player sender = event.getPlayer();
-		if(sender.hasMetadata(ArenaEditCommand.editMeta) && sender.hasMetadata(EditorItem.editingMeta)) { // using chat to edit arena
+		if(sender.hasMetadata(ArenaEditCommand.editMeta) && sender.hasMetadata(ArenaEditorItem.editingMeta)) { // using chat to edit arena
 			event.setCancelled(true);
 			Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(Main.class), new Runnable() { // make it synchronous
 				
@@ -33,13 +33,13 @@ public class PlayerChatListener implements Listener {
 					Arena arena = Arena.getArena(sender.getMetadata(ArenaEditCommand.editMeta).get(0).asString());
 					String editing = event.getMessage();
 					editing = ChatColor.translateAlternateColorCodes('&', editing);
-					if(sender.getMetadata(EditorItem.editingMeta).get(0).asString().equals(NameEditor.attrMeta)) { // editing arena name
+					if(sender.getMetadata(ArenaEditorItem.editingMeta).get(0).asString().equals(NameArenaEditor.attrMeta)) { // editing arena name
 						arena.setName(editing);
-						sender.removeMetadata(NameEditor.editingMeta, Main.getPlugin(Main.class));
+						sender.removeMetadata(NameArenaEditor.editingMeta, Main.getPlugin(Main.class));
 						sender.sendMessage(Main.prefix + "Set arena display name to " + editing);
-					} else if(sender.getMetadata(EditorItem.editingMeta).get(0).asString().equals(CreatorEditor.attrMeta)) { // editing arena creator 
+					} else if(sender.getMetadata(ArenaEditorItem.editingMeta).get(0).asString().equals(CreatorArenaEditor.attrMeta)) { // editing arena creator
 						arena.setCreator(editing);
-						sender.removeMetadata(CreatorEditor.editingMeta, Main.getPlugin(Main.class));
+						sender.removeMetadata(CreatorArenaEditor.editingMeta, Main.getPlugin(Main.class));
 						sender.sendMessage(Main.prefix + "Set arena creator name to " + editing);
 					}
 					

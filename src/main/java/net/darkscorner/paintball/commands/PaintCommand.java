@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.darkscorner.paintball.GameState;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -20,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.GamePlayer;
 import net.darkscorner.paintball.objects.Paint;
-import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.GameMenu;
 import net.darkscorner.paintball.objects.menus.menuitems.EquipPaintItem;
 
 public class PaintCommand implements CommandExecutor {
@@ -36,7 +35,7 @@ public class PaintCommand implements CommandExecutor {
 			if(player.hasPermission("paintball.command.paint")) {
 				GamePlayer gp = GamePlayer.getGamePlayer(player);
 				if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
-					Menu menu = new Menu("Paints", null, 54);
+					GameMenu gameMenu = new GameMenu("Paints", null, 54);
 					ItemStack icon = new ItemStack(Material.AIR);
 					int index = 0;
 					for(Paint paint : Paint.getAllCustomPaints()) {
@@ -72,10 +71,10 @@ public class PaintCommand implements CommandExecutor {
 							icon.setItemMeta(meta);
 						}
 						EquipPaintItem paintItem = new EquipPaintItem(null, icon, paint);
-						menu.addButton(index, paintItem);
+						gameMenu.addButton(index, paintItem);
 						index++;
 					}
-					menu.openMenu(player);
+					gameMenu.openMenu(player);
 					return true;
 				} else {
 					player.sendMessage(Main.prefix + "You may not use this command in a game.");

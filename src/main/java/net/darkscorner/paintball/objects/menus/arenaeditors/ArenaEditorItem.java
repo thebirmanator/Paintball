@@ -1,25 +1,21 @@
-package net.darkscorner.paintball.objects.arenaeditors;
+package net.darkscorner.paintball.objects.menus.arenaeditors;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
+import net.darkscorner.paintball.objects.menus.ClickableItem;
 import org.bukkit.inventory.ItemStack;
 
 import net.darkscorner.paintball.objects.Arena;
 
-public abstract class EditorItem {
+public abstract class ArenaEditorItem extends ClickableItem {
 
 	private ItemStack item;
 	private Arena arena;
 	
 	public static String editingMeta = "editAttr";
 	
-	public EditorItem(ItemStack item, Arena arena) {
+	public ArenaEditorItem(ItemStack item, Arena arena) {
 		this.item = item;
 		this.arena = arena;
 	}
-	
-	public abstract void use(Player player, Action action, Location loc);
 	
 	public ItemStack getItem() {
 		return item;

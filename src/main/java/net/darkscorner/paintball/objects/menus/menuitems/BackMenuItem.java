@@ -4,9 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-public class BackMenuItem extends MenuItem {
+public class BackMenuItem extends GameMenuItem {
 
-	public BackMenuItem(MenuItem parent, ItemStack icon) {
+	public BackMenuItem(GameMenuItem parent, ItemStack icon) {
 		super(parent, icon);
 	}
 

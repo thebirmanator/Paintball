@@ -10,10 +10,10 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.GamePlayer;
 import net.darkscorner.paintball.objects.Paint;
 
-public class EquipPaintItem extends MenuItem {
+public class EquipPaintItem extends GameMenuItem {
 
 	private Paint paint;
-	public EquipPaintItem(MenuItem parent, ItemStack icon, Paint paint) {
+	public EquipPaintItem(GameMenuItem parent, ItemStack icon, Paint paint) {
 		super(parent, icon);
 		
 		this.paint = paint;

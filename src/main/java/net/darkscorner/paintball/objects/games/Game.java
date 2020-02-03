@@ -1,17 +1,17 @@
-package net.darkscorner.paintball.objects;
+package net.darkscorner.paintball.objects.games;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
+import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.GamePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,10 +33,10 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
-public class PaintballGame {
+public interface Game {
 
 	public static String invulnerableMeta = "invulnerable";
-
+/*
 	private Main main;
 	private static FileConfiguration gameConfig;
 	private static int startPlayerAmount;
@@ -47,33 +47,34 @@ public class PaintballGame {
 	private static Set<Material> blacklistedPaintMaterials = new HashSet<Material>();
 	private static int paintRadius;
 	private static int respawnTime;
-	
+	*/
 	// a game can consist of
 	// an arena
 	// set of in game players
 	// set of spectating players
 	// the games current state
-	
-	private static Set<PaintballGame> allGames = new HashSet<PaintballGame>();
+	/*
+	private static Set<Game> allGames = new HashSet<Game>();
 	private GameState gameState = GameState.IDLE;
 	private Set<GamePlayer> inGamePlayers = new HashSet<GamePlayer>();
 	private Set<GamePlayer> spectatingPlayers = new HashSet<GamePlayer>();
 	private Arena arena;
+	*/
+	//private static List<String> normalDeathMsgs = new ArrayList<String>();
+	//private static List<String> suicideDeathMsgs = new ArrayList<String>();
 	
-	private static List<String> normalDeathMsgs = new ArrayList<String>();
-	private static List<String> suicideDeathMsgs = new ArrayList<String>();
+	//private int currentTaskID = -1;
 	
-	private int currentTaskID = -1;
-	
-	public PaintballGame(FileConfiguration mainConfig, Main main) {
-		gameConfig = mainConfig;
-		this.main = main;
+	//public Game(FileConfiguration mainConfig, Main main) {
+		//gameConfig = mainConfig;
+		//this.main = main;
 		
-		startPlayerAmount = gameConfig.getInt("players-to-start-game");
-		maxPlayerAmount = gameConfig.getInt("max-players-per-game");
-		gameTime = gameConfig.getInt("game-time-in-seconds");
-		lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
-		coinsForKill = gameConfig.getInt("base-crystals-on-kill");
+		//startPlayerAmount = gameConfig.getInt("players-to-start-game");
+		//maxPlayerAmount = gameConfig.getInt("max-players-per-game");
+		//gameTime = gameConfig.getInt("game-time-in-seconds");
+		//lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
+		//coinsForKill = gameConfig.getInt("base-crystals-on-kill");
+		/*
 		List<String> blacklistStrings = gameConfig.getStringList("blacklisted-blocks");
 		for(String materialString : blacklistStrings) {
 			if(Material.getMaterial(materialString) != null) {
@@ -82,10 +83,10 @@ public class PaintballGame {
 			} else {
 				main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
 			}
-		} 
-		paintRadius = gameConfig.getInt("paint-radius");
-		respawnTime = gameConfig.getInt("seconds-to-respawn");
-		
+		} */
+		//paintRadius = gameConfig.getInt("paint-radius");
+		//respawnTime = gameConfig.getInt("seconds-to-respawn");
+		/*
 		normalDeathMsgs = gameConfig.getStringList("death-messages.normal");
 		for(int i = 0; i < normalDeathMsgs.size(); i++) {
 			String coloured = ChatColor.translateAlternateColorCodes('&', normalDeathMsgs.get(i));
@@ -96,50 +97,64 @@ public class PaintballGame {
 		for(int i = 0; i < suicideDeathMsgs.size(); i++) {
 			String coloured = ChatColor.translateAlternateColorCodes('&', suicideDeathMsgs.get(i));
 			suicideDeathMsgs.set(i, coloured);
-		}
-	}
-	
-	public PaintballGame(Main main, Arena arena) {
+		}*/
+	//}
+	/*
+	public Game(Main main, Arena arena) {
 		this.main = main;
 		this.arena = arena;
 		allGames.add(this);
 		
 		this.main.getServer().getPluginManager().callEvent(new GameCreateEvent(this.main, this));
+	}*/
+//TODO: get custom config
+	static FileConfiguration getGameConfig() {
+		return Main.getInstance().getConfig();
+	}
+
+	default int getStartPlayerAmount() {
+		return getGameConfig().getInt("players-to-start-game");
 	}
 	
-	public int getStartPlayerAmount() {
-		return startPlayerAmount;
+	default int getMaxPlayerAmount() {
+		return getGameConfig().getInt("max-players-per-game");
 	}
 	
-	public int getMaxPlayerAmount() {
-		return maxPlayerAmount;
+	default int getGameTimeLength() {
+		return getGameConfig().getInt("game-time-in-seconds");
 	}
 	
-	public int getGameTimeLength() {
-		return gameTime;
+	static Location getLobbySpawn() {
+		return Main.getInstance().configToLoc(getGameConfig(), "lobby-spawnpoint");
 	}
 	
-	public static Location getLobbySpawn() {
-		return lobbySpawn;
+	default int getCoinsPerKill() {
+		return getGameConfig().getInt("base-crystals-on-kill");
+	}
+	//TODO: make this not load everytime the method runs
+	static Set<Material> getUnpaintableMaterials() {
+		List<String> blacklistStrings = getGameConfig().getStringList("blacklisted-blocks");
+		Set<Material> blacklistedMaterials = new HashSet<>();
+		for(String materialString : blacklistStrings) {
+			if(Material.getMaterial(materialString) != null) {
+				Material blackListed = Material.getMaterial(materialString);
+				blacklistedMaterials.add(blackListed);
+			} else {
+				Main.getInstance().getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
+			}
+		}
+		return blacklistedMaterials;
 	}
 	
-	public int getCoinsPerKill() {
-		return coinsForKill;
+	static int getPaintRadius() {
+		return getGameConfig().getInt("paint-radius");
 	}
 	
-	public static Set<Material> getUnpaintableMaterials() {
-		return blacklistedPaintMaterials;
+	default int getRespawnTime() {
+		return getGameConfig().getInt("seconds-to-respawn");
 	}
-	
-	public static int getPaintRadius() {
-		return paintRadius;
-	}
-	
-	public int getRespawnTime() {
-		return respawnTime;
-	}
-	
-	public static Set<PaintballGame> getGames() {
+	/*
+	public static Set<Game> getGames() {
 		return allGames;
 	}
 	
@@ -207,7 +222,7 @@ public class PaintballGame {
 	public void startGame() {
 		
 		// start the game timer
-		PaintballGame game = this;
+		Game game = this;
 		currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
 			int currentTime = 0;
 			@Override
@@ -342,17 +357,28 @@ public class PaintballGame {
 		}
 		
 		allGames.remove(this);
+	}*/
+	//TODO: fancy forEach or something?
+	static List<String> getNormalDeathMsgs() {
+		List<String> msgs = getGameConfig().getStringList("death-messages.normal");
+		for (int i = 0; i < msgs.size(); i++) {
+			String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
+			msgs.set(i, coloured);
+		}
+		return msgs;
 	}
 	
-	public static List<String> getNormalDeathMsgs() {
-		return normalDeathMsgs;
+	static List<String> getSuicideDeathMsgs() {
+		List<String> msgs = getGameConfig().getStringList("death-messages.suicide");
+		for (int i = 0; i < msgs.size(); i++) {
+			//TODO: make colouriser into util
+			String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
+			msgs.set(i, coloured);
+		}
+		return msgs;
 	}
-	
-	public static List<String> getSuicideDeathMsgs() {
-		return suicideDeathMsgs;
-	}
-	
-	private String formatTime(int time) {
+	//TODO: move to a utils
+	default String formatTime(int time) {
 		int minutes = (time % 3600) / 60;
 		int seconds = time % 60;
 		

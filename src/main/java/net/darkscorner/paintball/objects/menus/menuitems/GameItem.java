@@ -14,14 +14,14 @@ import org.bukkit.inventory.meta.SkullMeta;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
-import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.menus.GameMenu;
 
-public class GameItem extends MenuItem {
+public class GameItem extends GameMenuItem {
 
-	private PaintballGame game;
+	private Game game;
 	// main game options menu; shows all games going on
-	public GameItem(ItemStack icon, PaintballGame game) {
+	public GameItem(ItemStack icon, Game game) {
 		// no parent for this menu
 		super(null, icon);
 		
@@ -29,7 +29,7 @@ public class GameItem extends MenuItem {
 	}
 	
 	@Override
-	public void open(Player player, ClickType click) {
+	public void use(Player player, ClickType click) {
 		switch (click) {
 		case LEFT: // send to spectate a game
 			GamePlayer gp = GamePlayer.getGamePlayer(player);
@@ -50,7 +50,7 @@ public class GameItem extends MenuItem {
 			getContainedIn().closeMenu(player);
 			break;
 		case RIGHT: // open player list
-			Menu playerOptionsMenu = new Menu("Players", this, 27);
+			GameMenu playerOptionsGameMenu = new GameMenu("Players", this, 27);
 			int index = 0;
 			for(GamePlayer gamePlayer : game.getInGamePlayers()) {
 				ItemStack icon = new ItemStack(Material.PLAYER_HEAD);
@@ -63,15 +63,15 @@ public class GameItem extends MenuItem {
 				meta.setLore(lore);
 				icon.setItemMeta(meta);
 				PlayerOptionsItem optionsItem = new PlayerOptionsItem(this, icon);
-				playerOptionsMenu.addButton(index, optionsItem);
+				playerOptionsGameMenu.addButton(index, optionsItem);
 				index++;
 			}
 			getContainedIn().closeMenu(player);
-			playerOptionsMenu.openMenu(player);
+			playerOptionsGameMenu.openMenu(player);
 			break;
 		case MIDDLE: // open game options
 			if(player.hasPermission("paintball.options.use")) {
-				Menu gameOptionsMenu = new Menu("Game Options", this, 9);
+				GameMenu gameOptionsGameMenu = new GameMenu("Game Options", this, 9);
 				
 				ItemStack endGameIcon = new ItemStack(Material.BEDROCK);
 				ItemMeta endGameMeta = endGameIcon.getItemMeta();
@@ -81,9 +81,9 @@ public class GameItem extends MenuItem {
 				endGameMeta.setLore(endGameLore);
 				endGameIcon.setItemMeta(endGameMeta);
 				EndGameItem endGameItem = new EndGameItem(this, endGameIcon);
-				gameOptionsMenu.addButton(0, endGameItem);
+				gameOptionsGameMenu.addButton(0, endGameItem);
 				getContainedIn().closeMenu(player);
-				gameOptionsMenu.openMenu(player);
+				gameOptionsGameMenu.openMenu(player);
 			} else {
 				break;
 			}
@@ -92,7 +92,7 @@ public class GameItem extends MenuItem {
 		}
 	}
 	
-	public PaintballGame getGame() {
+	public Game getGame() {
 		return game;
 	}
 

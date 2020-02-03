@@ -9,9 +9,9 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.GamePlayer;
 
-public class EndGameItem extends MenuItem {
+public class EndGameItem extends GameMenuItem {
 
-	public EndGameItem(MenuItem parent, ItemStack icon) {
+	public EndGameItem(GameMenuItem parent, ItemStack icon) {
 		super(parent, icon);
 	}
 

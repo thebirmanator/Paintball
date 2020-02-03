@@ -4,26 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.darkscorner.paintball.GunType;
-import net.darkscorner.paintball.objects.guns.Gun;
-import net.darkscorner.paintball.objects.guns.ShotGun;
-import net.darkscorner.paintball.objects.guns.SniperGun;
-import net.darkscorner.paintball.objects.guns.StandardGun;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GameStartEvent;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.PowerUp;
 
 public class GameStartListener implements Listener {
@@ -35,7 +25,7 @@ public class GameStartListener implements Listener {
 	
 	@EventHandler
 	public void onGameStart(GameStartEvent event) {
-		PaintballGame game = event.getGame();
+		Game game = event.getGame();
 		
 		Random random = new Random();
 		List<Location> availableSpawnpoints = new ArrayList<Location>();

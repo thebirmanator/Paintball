@@ -16,10 +16,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
-import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.menus.GameMenu;
 import net.darkscorner.paintball.objects.menus.menuitems.GameItem;
-import net.darkscorner.paintball.objects.menus.menuitems.MenuItem;
+import net.darkscorner.paintball.objects.menus.menuitems.GameMenuItem;
 
 public class GamesCommand implements CommandExecutor {
 
@@ -33,9 +33,9 @@ public class GamesCommand implements CommandExecutor {
 			GamePlayer gp = GamePlayer.getGamePlayer(player);
 			gp.playSound(SoundEffect.RUN_COMMAND);
 			if(player.hasPermission("paintball.command.games")) {
-				Menu mainMenu = new Menu("Games", null, 27);
+				GameMenu mainGameMenu = new GameMenu("Games", null, 27);
 				int index = 0;
-				for(PaintballGame game : PaintballGame.getGames()) {
+				for(Game game : Game.getGames()) {
 					
 					ItemStack icon = new ItemStack(game.getUsedArena().getMaterial());
 					ItemMeta meta = icon.getItemMeta();
@@ -49,27 +49,27 @@ public class GamesCommand implements CommandExecutor {
 					meta.setLore(lore);
 					icon.setItemMeta(meta);
 					GameItem gameItem = new GameItem(icon, game);
-					mainMenu.addButton(index, gameItem);
+					mainGameMenu.addButton(index, gameItem);
 					index++;
 				}
 				if(args.length == 0) {
-					mainMenu.openMenu(player);
+					mainGameMenu.openMenu(player);
 				} else {
 					String arenaName = args[0];
-					for(PaintballGame g : PaintballGame.getGames()) {
+					for(Game g : Game.getGames()) {
 						if(g.getUsedArena().getSimpleName().equalsIgnoreCase(arenaName)) {
 							if(args.length > 1) {
 								String option = args[1];
-								MenuItem menuItem = null;
-								for(MenuItem mi : mainMenu.getMenuItems()) {
+								GameMenuItem gameMenuItem = null;
+								for(GameMenuItem mi : mainGameMenu.getMenuItems()) {
 									if(mi.getAssociatedGame().equals(g)) {
-										menuItem = mi;
+										gameMenuItem = mi;
 									}
 								}
-								if(menuItem != null) {
+								if(gameMenuItem != null) {
 									switch (option) {
 									case "spectate":
-										menuItem.open(player, ClickType.LEFT);
+										gameMenuItem.open(player, ClickType.LEFT);
 										break;
 									case "players":
 										if(args.length > 2) {
@@ -89,10 +89,10 @@ public class GamesCommand implements CommandExecutor {
 													player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to kick players from a game.");
 												}
 											} else { // open player menu
-												menuItem.open(player, ClickType.RIGHT);
+												gameMenuItem.open(player, ClickType.RIGHT);
 											}
 										} else { // open player menu
-											menuItem.open(player, ClickType.RIGHT);
+											gameMenuItem.open(player, ClickType.RIGHT);
 										}
 										break;
 									case "options":
@@ -101,10 +101,10 @@ public class GamesCommand implements CommandExecutor {
 												if (args[2].equalsIgnoreCase("endgame")) {
 													g.endGame();
 												} else { // open options menu
-													menuItem.open(player, ClickType.MIDDLE);
+													gameMenuItem.open(player, ClickType.MIDDLE);
 												}
 											} else {
-												menuItem.open(player, ClickType.MIDDLE);
+												gameMenuItem.open(player, ClickType.MIDDLE);
 											}
 										} else {
 											player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to do that.");

@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 
 public class EntityDamageListener implements Listener {
 
@@ -42,7 +42,7 @@ public class EntityDamageListener implements Listener {
 						
 						@Override
 						public void run() {
-							player.teleport(PaintballGame.getLobbySpawn());
+							player.teleport(Game.getLobbySpawn());
 						}
 					});
 				}
@@ -54,7 +54,7 @@ public class EntityDamageListener implements Listener {
 					}
 				} else {
 					if(event.getDamage() >= player.getHealth()) {
-						player.teleport(PaintballGame.getLobbySpawn());
+						player.teleport(Game.getLobbySpawn());
 					}
 				}
 			}

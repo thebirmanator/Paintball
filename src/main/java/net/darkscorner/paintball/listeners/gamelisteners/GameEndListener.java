@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GameEndEvent;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class GameEndListener implements Listener {
@@ -29,7 +29,7 @@ public class GameEndListener implements Listener {
 	
 	@EventHandler
 	public void onGameEnd(GameEndEvent event) {
-		PaintballGame game = event.getGame();
+		Game game = event.getGame();
 		
 		// remove powerups from map
 		for(Location loc : game.getUsedArena().getPowerUpSpawnPoints()) {
@@ -85,7 +85,7 @@ public class GameEndListener implements Listener {
 			public void run() {
 				for(GamePlayer p : game.getAllPlayers()) {
 					p.removePowerUps();
-					p.getPlayer().teleport(PaintballGame.getLobbySpawn());
+					p.getPlayer().teleport(Game.getLobbySpawn());
 					p.setStatsBoard(StatsBoard.LOBBY);
 					p.getPlayer().setGameMode(Main.defaultGamemode);
 					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");

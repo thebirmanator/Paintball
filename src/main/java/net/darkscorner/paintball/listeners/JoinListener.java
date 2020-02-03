@@ -15,7 +15,7 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.Arena;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class JoinListener implements Listener {
@@ -53,26 +53,26 @@ public class JoinListener implements Listener {
 			@Override
 			public void run() {
 				Player player = event.getPlayer();
-				player.teleport(PaintballGame.getLobbySpawn());
+				player.teleport(Game.getLobbySpawn());
 				GamePlayer gamePlayer = GamePlayer.getGamePlayer(player);
 				if(gamePlayer != null) {
 					if(gamePlayer.isInGame()) { // player was in a game
-						PaintballGame game = gamePlayer.getCurrentGame();
+						Game game = gamePlayer.getCurrentGame();
 						if(game.getGameState() != GameState.ENDED) { // set player to spectate if their game hasnt ended
 							game.setToSpectating(gamePlayer);
 						} else { // player game has ended
-							player.teleport(PaintballGame.getLobbySpawn());
+							player.teleport(Game.getLobbySpawn());
 							player.sendMessage(Main.prefix + "The game you were in has ended.");
 							gamePlayer.setStatsBoard(StatsBoard.LOBBY);
 						}
 					} else { // player is not in a game
-						player.teleport(PaintballGame.getLobbySpawn());
+						player.teleport(Game.getLobbySpawn());
 						player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 						gamePlayer.setStatsBoard(StatsBoard.LOBBY);
 					}
 				} else { // the player is new to the server
 					new GamePlayer(player);
-					player.teleport(PaintballGame.getLobbySpawn());
+					player.teleport(Game.getLobbySpawn());
 					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
 

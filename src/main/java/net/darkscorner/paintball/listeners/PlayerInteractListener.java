@@ -1,7 +1,6 @@
 package net.darkscorner.paintball.listeners;
 
-import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerDeathListener;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.Gun;
 import net.darkscorner.paintball.objects.guns.ShotGun;
 import org.bukkit.Bukkit;
@@ -10,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -25,7 +23,7 @@ import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.events.PowerUpUseEvent;
 import net.darkscorner.paintball.objects.GamePlayer;
 import net.darkscorner.paintball.objects.PowerUp;
-import net.darkscorner.paintball.objects.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
 
 public class PlayerInteractListener implements Listener {
 
@@ -85,8 +83,8 @@ public class PlayerInteractListener implements Listener {
 				} else {
 					if(Gun.isGun(player.getInventory().getItemInMainHand())) { // shooting a paintball
 						if(!player.hasMetadata(ShotGun.metaCooldown)) { // not on cooldown
-							if (player.hasMetadata(PaintballGame.invulnerableMeta)) { // remove invulnerability on shot if they have it
-								player.removeMetadata(PaintballGame.invulnerableMeta, main);
+							if (player.hasMetadata(Game.invulnerableMeta)) { // remove invulnerability on shot if they have it
+								player.removeMetadata(Game.invulnerableMeta, main);
 							}
 							Gun gun = Gun.getGun(player.getInventory().getItemInMainHand());
 							Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {

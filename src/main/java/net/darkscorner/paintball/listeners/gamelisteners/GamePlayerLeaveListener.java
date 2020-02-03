@@ -10,20 +10,20 @@ import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class GamePlayerLeaveListener implements Listener {
 
 	@EventHandler
 	public void onGameLeave(GamePlayerLeaveEvent event) {
-		PaintballGame game = event.getGame();
+		Game game = event.getGame();
 		GamePlayer player = event.getPlayer();
 		boolean wasSpectator = game.getSpectatingPlayers().contains(player);
 		player.getPlayer().setGameMode(Main.defaultGamemode);
 		
 		// if the game isnt idle (they are in a lobby), dont tp them to the lobby
-		player.getPlayer().teleport(PaintballGame.getLobbySpawn());
+		player.getPlayer().teleport(Game.getLobbySpawn());
 		player.setStatsBoard(StatsBoard.LOBBY);
 		
 		if(!wasSpectator) { // if they were not a spectator

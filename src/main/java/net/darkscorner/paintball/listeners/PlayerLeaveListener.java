@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
 
 public class PlayerLeaveListener implements Listener {
 

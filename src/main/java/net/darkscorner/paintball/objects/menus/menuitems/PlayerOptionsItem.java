@@ -10,10 +10,10 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.GamePlayer;
 
-public class PlayerOptionsItem extends MenuItem {
+public class PlayerOptionsItem extends GameMenuItem {
 
 	// this is the player head item in the game options
-	public PlayerOptionsItem(MenuItem parent, ItemStack icon) {
+	public PlayerOptionsItem(GameMenuItem parent, ItemStack icon) {
 		super(parent, icon);
 	}
 

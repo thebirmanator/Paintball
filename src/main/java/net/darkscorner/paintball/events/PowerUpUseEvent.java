@@ -5,19 +5,19 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.PowerUp;
 
 public class PowerUpUseEvent extends Event {
 
 	private static HandlerList handlers = new HandlerList();
 	
-	private PaintballGame game;
+	private Game game;
 	private Location location;
 	private PowerUp powerUp;
 	private GamePlayer player;
 	
-	public PowerUpUseEvent(PowerUp powerUp, Location location, PaintballGame game, GamePlayer player) {
+	public PowerUpUseEvent(PowerUp powerUp, Location location, Game game, GamePlayer player) {
 		this.powerUp = powerUp;
 		this.location = location;
 		this.game = game;
@@ -36,7 +36,7 @@ public class PowerUpUseEvent extends Event {
 		return location;
 	}
 	
-	public PaintballGame getGame() {
+	public Game getGame() {
 		return game;
 	}
 	

@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-public class EquipGunItem extends MenuItem {
+public class EquipGunItem extends GameMenuItem {
 
     private Gun gun;
-    public EquipGunItem(MenuItem parent, ItemStack icon, Gun gun) {
+    public EquipGunItem(GameMenuItem parent, ItemStack icon, Gun gun) {
         super(parent, icon);
 
         this.gun = gun;

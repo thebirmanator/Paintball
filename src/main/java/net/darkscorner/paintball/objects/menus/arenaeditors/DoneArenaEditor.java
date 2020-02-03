@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.arenaeditors;
+package net.darkscorner.paintball.objects.menus.arenaeditors;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -8,9 +8,9 @@ import org.bukkit.inventory.ItemStack;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.Arena;
 
-public class DoneEditor extends EditorItem {
+public class DoneArenaEditor extends ArenaEditorItem {
 
-	public DoneEditor(ItemStack item, Arena arena) {
+	public DoneArenaEditor(ItemStack item, Arena arena) {
 		super(item, arena);
 	}
 

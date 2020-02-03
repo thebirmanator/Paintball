@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.arenaeditors;
+package net.darkscorner.paintball.objects.menus.arenaeditors;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,12 +10,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.Arena;
 
-public class NameEditor extends EditorItem {
+public class CreatorArenaEditor extends ArenaEditorItem {
 
-	public static String attrMeta = "name";
-	
+	public static String attrMeta = "creator";
 	private Main main;
-	public NameEditor(ItemStack item, Arena arena) {
+	public CreatorArenaEditor(ItemStack item, Arena arena) {
 		super(item, arena);
 		main = Main.getPlugin(Main.class);
 	}
@@ -24,7 +23,8 @@ public class NameEditor extends EditorItem {
 	public void use(Player player, Action action, Location loc) {
 		if(!player.hasMetadata(editingMeta)) {
 			player.setMetadata(editingMeta, new FixedMetadataValue(main, attrMeta));
-			player.sendMessage(Main.prefix + "Type the new display name in chat.");
+			
+			player.sendMessage(Main.prefix + "Type the new creator's name in chat, or \"cancel\" to cancel the change.");
 			
 			new BukkitRunnable() {
 				int seconds = 0;
@@ -35,12 +35,12 @@ public class NameEditor extends EditorItem {
 					} else if(seconds >= 10) { // ran out of time
 						cancel();
 						player.removeMetadata(editingMeta, main);
-						player.sendMessage(Main.prefix + "Name editing timed out. Using the previously set name.");
+						player.sendMessage(Main.prefix + "Creator editing timed out. Using the previously set name.");
 					} else {
 						seconds++;
 					}
 				}
-			}.runTaskTimer(main, 0, 20);
+			}.runTaskTimer(Main.getPlugin(Main.class), 0, 20);
 		} else {
 			player.sendMessage(Main.prefix + "Please type \"cancel\" to stop your previous edit.");
 		}

@@ -15,7 +15,7 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.Arena;
 import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.PaintballGame;
+import net.darkscorner.paintball.objects.games.Game;
 
 public class JoinGameCommand implements CommandExecutor {
 
@@ -34,8 +34,8 @@ public class JoinGameCommand implements CommandExecutor {
 				GamePlayer gp = GamePlayer.getGamePlayer(player);
 				gp.playSound(SoundEffect.RUN_COMMAND);
 				if(!gp.isInGame()) {
-					Set<PaintballGame> games = PaintballGame.getGames();
-					for(PaintballGame game : games) {
+					Set<Game> games = Game.getGames();
+					for(Game game : games) {
 						if((game.getGameState() == GameState.IDLE || game.getGameState() == GameState.COUNTDOWN) && game.getInGamePlayers().size() < game.getMaxPlayerAmount()) {
 							player.sendMessage(Main.prefix + "You have " + ChatColor.GREEN + "joined" + ChatColor.GRAY + " the game!");
 							game.addPlayer(gp, false);
@@ -50,7 +50,7 @@ public class JoinGameCommand implements CommandExecutor {
 					// find an open arena
 					for(Arena arena : arenas) {
 						if(!arena.getIsInUse()) {
-							PaintballGame game = new PaintballGame(main, arena);
+							Game game = new Game(main, arena);
 							game.addPlayer(gp, false);
 							player.sendMessage(Main.prefix + "You have " + ChatColor.GREEN + "joined" + ChatColor.GRAY + " the game!");
 							return true;

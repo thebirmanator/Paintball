@@ -13,8 +13,8 @@ public class InventoryCloseListener implements Listener {
 	public void onClose(InventoryCloseEvent event) {
 		if(event.getPlayer() instanceof Player) {
 			Player player = (Player) event.getPlayer();
-			if(GamePlayer.getGamePlayer(player).isViewingMenu()) {
-				GamePlayer.getGamePlayer(player).setViewingMenu(null);
+			if(GamePlayer.getGamePlayer(player).getViewingGameMenu()) {
+				GamePlayer.getGamePlayer(player).setViewingGameMenu(null);
 			}
 		}
 	}
