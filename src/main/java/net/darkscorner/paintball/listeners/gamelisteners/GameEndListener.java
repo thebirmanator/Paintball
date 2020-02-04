@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import net.darkscorner.paintball.PlayerStat;
+import net.darkscorner.paintball.objects.player.PlayerStat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GameEndEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
@@ -37,11 +37,11 @@ public class GameEndListener implements Listener {
 		}
 		
 		// sort the players from highest to lowest score
-		List<GamePlayer> players = new ArrayList<GamePlayer>(game.getInGamePlayers());
-		Collections.sort(players, new Comparator<GamePlayer>() {
+		List<PlayerProfile> players = new ArrayList<PlayerProfile>(game.getInGamePlayers());
+		Collections.sort(players, new Comparator<PlayerProfile>() {
 
 			@Override
-			public int compare(GamePlayer p1, GamePlayer p2) {
+			public int compare(PlayerProfile p1, PlayerProfile p2) {
 				if(p1.getStats().getKills() > p2.getStats().getKills()) {
 					return -1;
 				} else if(p1.getStats().getKills() < p2.getStats().getKills()) {
@@ -53,7 +53,7 @@ public class GameEndListener implements Listener {
 		});
 		
 		// report stats to each player, update their profiles
-		for(GamePlayer gp : game.getInGamePlayers()) {
+		for(PlayerProfile gp : game.getInGamePlayers()) {
 			sendStatsMessage(gp);
 
 			// gameplayerleavelistener takes care of the other stats, update games played
@@ -69,7 +69,7 @@ public class GameEndListener implements Listener {
 			if(i < players.size()) {
 				String name = players.get(i).getPlayer().getName();
 				int kills = players.get(i).getStats().getKills();
-				for(GamePlayer pInGame : game.getAllPlayers()) {
+				for(PlayerProfile pInGame : game.getAllPlayers()) {
 					if(i == 0) { // top of the board
 						pInGame.getPlayer().sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Leaderboard");
 					}
@@ -83,7 +83,7 @@ public class GameEndListener implements Listener {
 		// send everyone to the lobby after some time
 		Bukkit.getScheduler().runTaskLater(main, new Runnable() {
 			public void run() {
-				for(GamePlayer p : game.getAllPlayers()) {
+				for(PlayerProfile p : game.getAllPlayers()) {
 					p.removePowerUps();
 					p.getPlayer().teleport(Game.getLobbySpawn());
 					p.setStatsBoard(StatsBoard.LOBBY);
@@ -97,7 +97,7 @@ public class GameEndListener implements Listener {
 		}, 100);
 	}
 	
-	private void sendStatsMessage(GamePlayer gp) {
+	private void sendStatsMessage(PlayerProfile gp) {
 		int deaths = gp.getStats().getDeaths();
 		int kills = gp.getStats().getKills();
 		int shots = gp.getStats().getNumShotsFired();

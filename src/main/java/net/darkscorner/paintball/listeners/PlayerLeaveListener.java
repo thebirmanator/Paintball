@@ -10,8 +10,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
-import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.menus.arena.EditorKit;
 
 public class PlayerLeaveListener implements Listener {
 
@@ -25,7 +25,7 @@ public class PlayerLeaveListener implements Listener {
 		String quitMessage = ChatColor.RED + "- " + ChatColor.RESET + event.getPlayer().getDisplayName();
 		event.setQuitMessage(quitMessage);
 		
-		GamePlayer gp = GamePlayer.getGamePlayer(event.getPlayer());
+		PlayerProfile gp = PlayerProfile.getGamePlayer(event.getPlayer());
 		if(gp.isInGame()) {
 			gp.getCurrentGame().removePlayer(gp);
 			
@@ -48,7 +48,7 @@ public class PlayerLeaveListener implements Listener {
 		String quitMessage = ChatColor.RED + "-" + ChatColor.RESET + event.getPlayer().getName();
 		event.setLeaveMessage(quitMessage);
 		
-		GamePlayer gp = GamePlayer.getGamePlayer(event.getPlayer());
+		PlayerProfile gp = PlayerProfile.getGamePlayer(event.getPlayer());
 		if(gp.isInGame()) {
 			gp.getCurrentGame().removePlayer(gp);
 			

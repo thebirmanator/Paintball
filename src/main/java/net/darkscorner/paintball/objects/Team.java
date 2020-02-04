@@ -1,15 +1,16 @@
 package net.darkscorner.paintball.objects;
 
 import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 import java.util.Set;
 
 public class Team {
 
     private String name;
-    private Set<GamePlayer> members;
+    private Set<PlayerProfile> members;
 
-    private Team(String name, Set<GamePlayer> members) {
+    private Team(String name, Set<PlayerProfile> members) {
         this.name = name;
         this.members = members;
     }
@@ -18,11 +19,11 @@ public class Team {
         return name;
     }
 
-    public Set<GamePlayer> getMembers() {
+    public Set<PlayerProfile> getMembers() {
         return members;
     }
 
-    public static Team createTeam(String name, Game game, Set<GamePlayer> members) {
+    public static Team createTeam(String name, Game game, Set<PlayerProfile> members) {
         return new Team(name, members);
     }
 }

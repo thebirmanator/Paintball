@@ -1,5 +1,6 @@
-package net.darkscorner.paintball.objects.menus.menuitems;
+package net.darkscorner.paintball.objects.menus.equipment;
 
+import net.darkscorner.paintball.objects.menus.game.menuitems.GameMenuItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,7 +8,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.Paint;
 
 public class EquipPaintItem extends GameMenuItem {
@@ -23,10 +24,10 @@ public class EquipPaintItem extends GameMenuItem {
 	public void open(Player player, ClickType click) {
 		if(getIcon().getType() != Material.GRAY_DYE) { // did not click on a locked dye
 			if(getIcon().getEnchantments().isEmpty()) {
-				GamePlayer.getGamePlayer(player).setPaint(paint);
+				PlayerProfile.getGamePlayer(player).setPaint(paint);
 				player.sendMessage(Main.prefix + "Set custom paint colour!");
 			} else {
-				GamePlayer.getGamePlayer(player).setPaint(Paint.getDefaultPaint());
+				PlayerProfile.getGamePlayer(player).setPaint(Paint.getDefaultPaint());
 				player.sendMessage(Main.prefix + "Reset custom paint colour.");
 			}
 		} else {

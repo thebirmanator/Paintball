@@ -2,10 +2,10 @@ package net.darkscorner.paintball.commands;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.guns.Gun;
-import net.darkscorner.paintball.objects.menus.GameMenu;
-import net.darkscorner.paintball.objects.menus.menuitems.EquipGunItem;
+import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import net.darkscorner.paintball.objects.menus.equipment.EquipGunItem;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,7 +30,7 @@ public class GunCommand implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(player.hasPermission("paintball.command.guns")) {
-                GamePlayer gp = GamePlayer.getGamePlayer(player);
+                PlayerProfile gp = PlayerProfile.getGamePlayer(player);
                 if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
                     GameMenu gameMenu = new GameMenu("Guns", null, 9);
                     ItemStack icon = new ItemStack(Material.AIR);

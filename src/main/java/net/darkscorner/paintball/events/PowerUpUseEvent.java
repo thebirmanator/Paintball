@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.PowerUp;
 
@@ -15,16 +15,16 @@ public class PowerUpUseEvent extends Event {
 	private Game game;
 	private Location location;
 	private PowerUp powerUp;
-	private GamePlayer player;
+	private PlayerProfile player;
 	
-	public PowerUpUseEvent(PowerUp powerUp, Location location, Game game, GamePlayer player) {
+	public PowerUpUseEvent(PowerUp powerUp, Location location, Game game, PlayerProfile player) {
 		this.powerUp = powerUp;
 		this.location = location;
 		this.game = game;
 		this.player = player;
 	}
 	
-	public GamePlayer getPlayer() {
+	public PlayerProfile getPlayer() {
 		return player;
 	}
 	

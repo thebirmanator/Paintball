@@ -17,7 +17,7 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.PowerUpEffect;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.PowerUpUseEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.PowerUp;
 
 public class PowerUpUseListener implements Listener {
@@ -29,7 +29,7 @@ public class PowerUpUseListener implements Listener {
 	
 	@EventHandler
 	public void onUse(PowerUpUseEvent event) {
-		GamePlayer gp = event.getPlayer();
+		PlayerProfile gp = event.getPlayer();
 		gp.playSound(SoundEffect.POWER_UP);
 		PowerUpEffect effect = event.getPowerUp().getEffect();
 		int duration = event.getPowerUp().getDuration();

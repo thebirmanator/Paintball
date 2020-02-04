@@ -5,7 +5,7 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.*;
 import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -27,10 +27,11 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class BasePaintballGame implements Game {
-    private static Set<Game> allGames = new HashSet<Game>();
+    private static Set<Game> allGames = new HashSet<>();
+
     private GameState gameState = GameState.IDLE;
     // maps player to if they are in game playing
-    private Map<GamePlayer, Boolean> allPlayers = new HashMap<>();
+    private Map<PlayerProfile, Boolean> allPlayers = new HashMap<>();
     private Arena arena;
 
     private int currentTaskID = -1;
@@ -62,7 +63,7 @@ public abstract class BasePaintballGame implements Game {
                 @Override
                 public void run() {
                     if (gameState == GameState.IDLE && getPlayers(true).size() < getStartPlayerAmount()) {
-                        for (GamePlayer p : getPlayers(true)) {
+                        for (PlayerProfile p : getPlayers(true)) {
                             p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "Waiting for " + ChatColor.YELLOW + (getStartPlayerAmount() - getPlayers(true).size()) + ChatColor.GOLD + " player(s).").create());
                         }
                     } else {
@@ -88,7 +89,7 @@ public abstract class BasePaintballGame implements Game {
                 public void run() {
                     if (getPlayers(true).size() >= getStartPlayerAmount()) {
                         if (countdownTime > 0) {
-                            for (GamePlayer p : getAllPlayers()) {
+                            for (PlayerProfile p : getAllPlayers()) {
                                 p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "" + ChatColor.BOLD + countdownTime).create());
                             }
                             countdownTime--;
@@ -124,14 +125,14 @@ public abstract class BasePaintballGame implements Game {
                 int timeRemaining = getGameTimeLength() - currentTime;
                 currentTime++;
 
-                for (GamePlayer p : getAllPlayers()) {
+                for (PlayerProfile p : getAllPlayers()) {
                     p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + formatTime(timeRemaining));
                 }
 
                 if(currentTime > getGameTimeLength()) {
                     endGame();
                     cancelCurrentTask();
-                    for(GamePlayer p : getAllPlayers()) {
+                    for(PlayerProfile p : getAllPlayers()) {
                         p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + "ENDED");
                     }
                 }
@@ -139,7 +140,7 @@ public abstract class BasePaintballGame implements Game {
             }
         }, 0, 20);
 
-        for(GamePlayer p : getAllPlayers()) {
+        for(PlayerProfile p : getAllPlayers()) {
             // tell everyone that the game has started
             p.getPlayer().sendTitle(ChatColor.GREEN + "Go!", "", 5, 20, 5);
             p.playSound(SoundEffect.GAME_START);
@@ -152,21 +153,21 @@ public abstract class BasePaintballGame implements Game {
 
     }
 
-    public Set<GamePlayer> getPlayers(boolean isPlaying) {
-        Set<GamePlayer> desired = new HashSet<>();
-        allPlayers.forEach((player, isDesired) -> {
-            if (isDesired) {
+    public Set<PlayerProfile> getPlayers(boolean isPlaying) {
+        Set<PlayerProfile> desired = new HashSet<>();
+        allPlayers.forEach((player, playState) -> {
+            if (playState.equals(isPlaying)) {
                 desired.add(player);
             }
         });
         return desired;
     }
 
-    public void addPlayer(GamePlayer player, boolean setSpec) {
+    public void addPlayer(PlayerProfile player, boolean setSpec) {
         allPlayers.put(player, !setSpec);
         if(!setSpec) {
-            player.setCurrentGame(this);
-            player.createNewStats();
+            //player.setCurrentGame(this);
+            player.createNewStats(this);
             player.setStatsBoard(StatsBoard.INGAME);
             Scoreboard bukkitBoard = player.getPlayer().getScoreboard();
             player.getGameScoreboard().update(bukkitBoard, "%arena%", arena.getName());
@@ -177,18 +178,18 @@ public abstract class BasePaintballGame implements Game {
 
             Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerJoinEvent(player, this));
         } else {
-            player.setCurrentGame(this);
+            //player.setCurrentGame(this);
             setToSpectating(player);
         }
     }
 
-    public void removePlayer(GamePlayer player) {
+    public void removePlayer(PlayerProfile player) {
         allPlayers.remove(player);
 
         Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerLeaveEvent(player, this));
     }
 
-    public void setToSpectating(GamePlayer player) {
+    public void setToSpectating(PlayerProfile player) {
         allPlayers.replace(player, false);
         player.getPlayer().setGameMode(GameMode.SPECTATOR);
         Location specPoint = arena.getSpectatingPoint();
@@ -224,7 +225,7 @@ public abstract class BasePaintballGame implements Game {
         }
     }
 
-    public Set<GamePlayer> getAllPlayers() {
+    public Set<PlayerProfile> getAllPlayers() {
         return allPlayers.keySet();
     }
 
@@ -237,7 +238,7 @@ public abstract class BasePaintballGame implements Game {
 
         Main.getInstance().getServer().getPluginManager().callEvent(new GameEndEvent(this));
 
-        for(GamePlayer p : getAllPlayers()) {
+        for(PlayerProfile p : getAllPlayers()) {
             p.getPlayer().sendTitle(ChatColor.GREEN + "Game Over!", "", 5, 20, 5);
             p.playSound(SoundEffect.GAME_END);
         }

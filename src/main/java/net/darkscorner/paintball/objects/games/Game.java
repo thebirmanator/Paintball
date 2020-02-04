@@ -1,41 +1,21 @@
 package net.darkscorner.paintball.objects.games;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.GamePlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.events.GameCreateEvent;
-import net.darkscorner.paintball.events.GameEndEvent;
-import net.darkscorner.paintball.events.GamePlayerJoinEvent;
-import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
-import net.darkscorner.paintball.events.GameSpectateEvent;
-import net.darkscorner.paintball.events.GameStartEvent;
-import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 
 public interface Game {
 
-	public static String invulnerableMeta = "invulnerable";
+	String invulnerableMeta = "invulnerable";
 /*
 	private Main main;
 	private static FileConfiguration gameConfig;
@@ -131,6 +111,7 @@ public interface Game {
 	default int getCoinsPerKill() {
 		return getGameConfig().getInt("base-crystals-on-kill");
 	}
+
 	//TODO: make this not load everytime the method runs
 	static Set<Material> getUnpaintableMaterials() {
 		List<String> blacklistStrings = getGameConfig().getStringList("blacklisted-blocks");
@@ -153,6 +134,29 @@ public interface Game {
 	default int getRespawnTime() {
 		return getGameConfig().getInt("seconds-to-respawn");
 	}
+
+	GameState getGameState();
+
+	void setGameState(GameState state);
+
+	void waitForPlayers(boolean start);
+
+	void countdown(boolean start);
+
+	void startGame();
+
+	Set<PlayerProfile> getPlayers(boolean isPlaying);
+
+	void addPlayer(PlayerProfile player, boolean setSpec);
+
+	void removePlayer(PlayerProfile player);
+
+	void setToSpectating(PlayerProfile player);
+
+	Set<PlayerProfile> getAllPlayers();
+
+	void endGame();
+
 	/*
 	public static Set<Game> getGames() {
 		return allGames;

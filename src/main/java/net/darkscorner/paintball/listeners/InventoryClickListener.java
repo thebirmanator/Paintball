@@ -8,8 +8,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import net.darkscorner.paintball.commands.ArenaEditCommand;
-import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.menus.GameMenu;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.menus.game.GameMenu;
 
 public class InventoryClickListener implements Listener {
 	
@@ -21,8 +21,8 @@ public class InventoryClickListener implements Listener {
 			if(clickedInv != null) {
 				if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
 					event.setCancelled(true);
-					if(GamePlayer.getGamePlayer(player).getViewingGameMenu()) {
-						GameMenu gameMenu = GamePlayer.getGamePlayer(player).getViewingMenu();
+					if(PlayerProfile.getGamePlayer(player).getViewingGameMenu()) {
+						GameMenu gameMenu = PlayerProfile.getGamePlayer(player).getViewingMenu();
 						if(gameMenu.hasMenuItem(event.getSlot())) {
 							gameMenu.getMenuItem(event.getSlot()).open(player, event.getClick());
 						}

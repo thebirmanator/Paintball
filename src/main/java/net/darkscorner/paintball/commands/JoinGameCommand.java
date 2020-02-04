@@ -14,7 +14,7 @@ import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 
 public class JoinGameCommand implements CommandExecutor {
@@ -31,7 +31,7 @@ public class JoinGameCommand implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(player.hasPermission("paintball.command.join")) {
-				GamePlayer gp = GamePlayer.getGamePlayer(player);
+				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				gp.playSound(SoundEffect.RUN_COMMAND);
 				if(!gp.isInGame()) {
 					Set<Game> games = Game.getGames();

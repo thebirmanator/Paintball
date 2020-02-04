@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 public class LeaveGameCommand implements CommandExecutor {
 	
@@ -19,7 +19,7 @@ public class LeaveGameCommand implements CommandExecutor {
 
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			GamePlayer gp = GamePlayer.getGamePlayer(player);
+			PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 			gp.playSound(SoundEffect.RUN_COMMAND);
 			if(player.hasPermission("paintball.command.leave")) {
 				if(gp.isInGame()) {

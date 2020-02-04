@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.events.GamePlayerJoinEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 
 public class GamePlayerJoinListener implements Listener {
@@ -18,7 +18,7 @@ public class GamePlayerJoinListener implements Listener {
 		event.getPlayer().getPlayer().teleport(game.getUsedArena().getLobbyLocation());
 		
 		// tell everyone that someone joined
-		for(GamePlayer p : game.getAllPlayers()) {
+		for(PlayerProfile p : game.getAllPlayers()) {
 			if(!p.equals(event.getPlayer())) {
 				p.getPlayer().sendMessage(ChatColor.YELLOW + event.getPlayer().getPlayer().getName() + ChatColor.GRAY + " joined the game.");
 			}

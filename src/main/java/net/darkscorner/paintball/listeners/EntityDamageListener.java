@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 
 public class EntityDamageListener implements Listener {
@@ -25,7 +25,7 @@ public class EntityDamageListener implements Listener {
 		if(event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 
-			GamePlayer victim = GamePlayer.getGamePlayer(player);
+			PlayerProfile victim = PlayerProfile.getGamePlayer(player);
 			// player is in the void
 			if(event.getCause() == DamageCause.VOID) {
 				if(victim.isInGame()) {

@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GameStartEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.PowerUp;
 
@@ -30,7 +30,7 @@ public class GameStartListener implements Listener {
 		Random random = new Random();
 		List<Location> availableSpawnpoints = new ArrayList<Location>();
 		availableSpawnpoints.addAll(game.getUsedArena().getSpawnPoints());
-		for(GamePlayer gp : game.getInGamePlayers()) {
+		for(PlayerProfile gp : game.getInGamePlayers()) {
 			// set gamemode, find a spawnpoint
 			gp.getPlayer().setGameMode(Main.defaultGamemode);
 			

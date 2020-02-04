@@ -12,7 +12,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ArenaEditCommand implements CommandExecutor {
 
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			GamePlayer gp = GamePlayer.getGamePlayer(player);
+			PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 			gp.playSound(SoundEffect.RUN_COMMAND);
 			if(player.hasPermission("paintball.arena.edit")) {
 				if(args.length == 0) {

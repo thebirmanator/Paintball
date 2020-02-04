@@ -3,17 +3,17 @@ package net.darkscorner.paintball.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 
 public class GamePlayerJoinEvent extends Event {
 
 	private static HandlerList handlers = new HandlerList();
 	
-	private GamePlayer player;
+	private PlayerProfile player;
 	private Game game;
 	
-	public GamePlayerJoinEvent(GamePlayer player, Game game) {
+	public GamePlayerJoinEvent(PlayerProfile player, Game game) {
 		this.player = player;
 		this.game = game;
 	}
@@ -26,7 +26,7 @@ public class GamePlayerJoinEvent extends Event {
 		return handlers;
 	}
 	
-	public GamePlayer getPlayer() {
+	public PlayerProfile getPlayer() {
 		return player;
 	}
 	

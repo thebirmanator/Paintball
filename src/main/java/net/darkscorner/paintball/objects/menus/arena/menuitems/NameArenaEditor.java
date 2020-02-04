@@ -1,27 +1,27 @@
-package net.darkscorner.paintball.objects.menus.arenaeditors;
+package net.darkscorner.paintball.objects.menus.arena.menuitems;
 
-import org.bukkit.Location;
+import net.darkscorner.paintball.objects.menus.ClickableItem;
+import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.Arena;
 
 public class NameArenaEditor extends ArenaEditorItem {
 
 	public static String attrMeta = "name";
 	
 	private Main main;
-	public NameArenaEditor(ItemStack item, Arena arena) {
-		super(item, arena);
+	public NameArenaEditor(ArenaEditorMenu editorMenu) {
+		super(editorMenu);
 		main = Main.getPlugin(Main.class);
 	}
 
 	@Override
-	public void use(Player player, Action action, Location loc) {
+	public void use(Player player, ClickType clickType) {
 		if(!player.hasMetadata(editingMeta)) {
 			player.setMetadata(editingMeta, new FixedMetadataValue(main, attrMeta));
 			player.sendMessage(Main.prefix + "Type the new display name in chat.");
@@ -44,6 +44,16 @@ public class NameArenaEditor extends ArenaEditorItem {
 		} else {
 			player.sendMessage(Main.prefix + "Please type \"cancel\" to stop your previous edit.");
 		}
+	}
+
+	@Override
+	public ClickableItem getForPlayer(Player player) {
+		return null;
+	}
+
+	@Override
+	public void createItem() {
+
 	}
 
 }

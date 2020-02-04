@@ -1,6 +1,6 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
-import net.darkscorner.paintball.PlayerStat;
+import net.darkscorner.paintball.objects.player.PlayerStat;
 import net.darkscorner.paintball.objects.guns.ShotGun;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
@@ -18,7 +18,7 @@ public class GamePlayerLeaveListener implements Listener {
 	@EventHandler
 	public void onGameLeave(GamePlayerLeaveEvent event) {
 		Game game = event.getGame();
-		GamePlayer player = event.getPlayer();
+		PlayerProfile player = event.getPlayer();
 		boolean wasSpectator = game.getSpectatingPlayers().contains(player);
 		player.getPlayer().setGameMode(Main.defaultGamemode);
 		
@@ -33,7 +33,7 @@ public class GamePlayerLeaveListener implements Listener {
 
 			// send message to everyone that game that the player left
 			if(game.getGameState() != GameState.ENDED) {
-				for(GamePlayer p : game.getAllPlayers()) {
+				for(PlayerProfile p : game.getAllPlayers()) {
 					p.getPlayer().sendMessage(ChatColor.YELLOW + event.getPlayer().getPlayer().getName() + ChatColor.GRAY + " disconnected from the game.");
 				}
 			}

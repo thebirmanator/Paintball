@@ -1,8 +1,8 @@
 package net.darkscorner.paintball.commands;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.PlayerStat;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerStat;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static net.darkscorner.paintball.PlayerStat.*;
+import static net.darkscorner.paintball.objects.player.PlayerStat.*;
 
 public class ViewStatsCommand implements CommandExecutor {
 
@@ -22,7 +22,7 @@ public class ViewStatsCommand implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(player.hasPermission("paintball.command.viewstats") || player.hasPermission("paintball.command.viewstats.others")) {
-                GamePlayer gp = GamePlayer.getGamePlayer(player);
+                PlayerProfile gp = PlayerProfile.getGamePlayer(player);
                 if(args.length == 0) { // most basic command; show user their own "Overview" stats
                     sendStatsMessage(player, gp, null);
                     return true;
@@ -31,11 +31,11 @@ public class ViewStatsCommand implements CommandExecutor {
 
                     if(Bukkit.getPlayer(arg1) != null || Bukkit.getOfflinePlayer(arg1) != null) { // put a player as the first argument
                         if(player.hasPermission("paintball.command.viewstats.others")) {
-                            GamePlayer target;
+                            PlayerProfile target;
                             if(Bukkit.getPlayer(arg1) != null) {
-                                target = GamePlayer.getGamePlayer(Bukkit.getPlayer(arg1));
+                                target = PlayerProfile.getGamePlayer(Bukkit.getPlayer(arg1));
                             } else {
-                                target = GamePlayer.getGamePlayer(Bukkit.getOfflinePlayer(arg1));
+                                target = PlayerProfile.getGamePlayer(Bukkit.getOfflinePlayer(arg1));
                             }
                             if(args.length == 1) { // only one argument; must want overview stats
                                 sendStatsMessage(player, target, null);
@@ -92,7 +92,7 @@ public class ViewStatsCommand implements CommandExecutor {
         }
     }
 
-    private void sendStatsMessage(Player sendTo, GamePlayer player, PlayerStat stat) {
+    private void sendStatsMessage(Player sendTo, PlayerProfile player, PlayerStat stat) {
         String title = "Overview";
         String[] lines = new String[5];
         if(stat != null) { // is not the overview stats page
@@ -105,12 +105,12 @@ public class ViewStatsCommand implements CommandExecutor {
             leaders[0] = ChatColor.GREEN + "" + ChatColor.BOLD + "Top 5 for " + title;
 
             int leadersLength = 5;
-            if(GamePlayer.getOrderedByStat(stat).size() < leadersLength) {
-                leadersLength = GamePlayer.getOrderedByStat(stat).size();
+            if(PlayerProfile.getOrderedByStat(stat).size() < leadersLength) {
+                leadersLength = PlayerProfile.getOrderedByStat(stat).size();
             }
 
             for(int i = 0; i < leadersLength; i++) {
-                GamePlayer gp = GamePlayer.getOrderedByStat(stat).get(i);
+                PlayerProfile gp = PlayerProfile.getOrderedByStat(stat).get(i);
                 String name = gp.getOfflinePlayer().getName();
                 long amount = gp.getTotal(stat);
 
@@ -120,7 +120,7 @@ public class ViewStatsCommand implements CommandExecutor {
 
             // format text for personal ranking
             lines[1] = ChatColor.GOLD + "  " + title + ": " + ChatColor.YELLOW + player.getTotal(stat);
-            lines[2] = ChatColor.GOLD + "  Ranking: " + ChatColor.YELLOW + player.getRanking(stat) + "/" + GamePlayer.getTotalGamePlayers();
+            lines[2] = ChatColor.GOLD + "  Ranking: " + ChatColor.YELLOW + player.getRanking(stat) + "/" + PlayerProfile.getTotalGamePlayers();
         } else {
             for(int i = 0; i < values().length; i++) {
                 String statName = PlayerStat.values()[i].toString();

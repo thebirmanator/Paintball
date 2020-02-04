@@ -1,7 +1,8 @@
-package net.darkscorner.paintball.objects.menus.arenaeditors;
+package net.darkscorner.paintball.objects.menus.arena;
 
 import java.util.HashMap;
 
+import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,7 @@ public class EditorKit {
 		if(!hasKit(owner)) {
 			for(int i = 0; i < arenaEditorItems.length; i++) {
 				if(arenaEditorItems[i] != null) {
-					owner.getInventory().setItem(i, arenaEditorItems[i].getItem());
+					owner.getInventory().setItem(i, arenaEditorItems[i].getForPlayer(owner).getItemStack());
 				}
 			}
 			
@@ -57,7 +58,7 @@ public class EditorKit {
 	public ArenaEditorItem getFromItemStack(ItemStack item) {
 		for(int i = 0; i < arenaEditorItems.length; i++) {
 			if(arenaEditorItems[i] != null) {
-				if(arenaEditorItems[i].getItem().isSimilar(item)) {
+				if(arenaEditorItems[i].getForPlayer(owner).getItemStack().isSimilar(item)) {
 					return arenaEditorItems[i];
 				}
 			}

@@ -3,23 +3,23 @@ package net.darkscorner.paintball.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 
 public class GamePlayerDeathEvent extends Event {
 
 	private static HandlerList handlers = new HandlerList();
-	private GamePlayer victim;
-	private GamePlayer attacker;
+	private PlayerProfile victim;
+	private PlayerProfile attacker;
 	private Game game;
 	
-	public GamePlayerDeathEvent(Game game, GamePlayer victim, GamePlayer attacker) {
+	public GamePlayerDeathEvent(Game game, PlayerProfile victim, PlayerProfile attacker) {
 		this.game = game;
 		this.victim = victim;
 		this.attacker = attacker;
 	}
 	
-	public GamePlayerDeathEvent(Game game, GamePlayer victim) {
+	public GamePlayerDeathEvent(Game game, PlayerProfile victim) {
 		this.game = game;
 		this.victim = victim;
 		this.attacker = victim;
@@ -29,11 +29,11 @@ public class GamePlayerDeathEvent extends Event {
 		return game;
 	}
 	
-	public GamePlayer getVictim() {
+	public PlayerProfile getVictim() {
 		return victim;
 	}
 	
-	public GamePlayer getKiller() {
+	public PlayerProfile getKiller() {
 		return attacker;
 	}
 	

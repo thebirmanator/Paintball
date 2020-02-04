@@ -16,15 +16,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.menus.arenaeditors.CreatorArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.DoneArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.ArenaEditorItem;
-import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
-import net.darkscorner.paintball.objects.menus.arenaeditors.LobbyArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.NameArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.PowerupLocationArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.SpawnpointsArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.SpecPointArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.CreatorArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.DoneArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
+import net.darkscorner.paintball.objects.menus.arena.EditorKit;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.LobbyArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.NameArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.PowerupLocationArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.SpawnpointsArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.SpecPointArenaEditor;
 
 public class Arena {
 
@@ -44,7 +44,7 @@ public class Arena {
 	private Material material;
 	private String creator;
 	private boolean teamsEnabled;
-	
+	/*
 	private ItemStack powerupEditor = getItem(Material.BEACON, ChatColor.BLUE + "Powerup Locations", "to add location.", "to remove location.");
 	private ItemStack spawnpointsEditor = getItem(Material.GRASS_BLOCK, ChatColor.GREEN + "Spawnpoint Locations", "to add location.", "to remove location.");
 	
@@ -54,7 +54,8 @@ public class Arena {
 	private ItemStack nameEditor = getItem(Material.NAME_TAG, ChatColor.LIGHT_PURPLE + "Arena Name", "to change the name, or", "to change it.");
 	private ItemStack creatorEditor = getItem(Material.BOOK, ChatColor.AQUA + "Creator Name", "to change creator name, or", "to change it.");
 	private ItemStack doneItem = getItem(Material.RABBIT_FOOT, ChatColor.YELLOW + "Done", "to exit edit mode, or", "to exit.");
-	
+
+	/*
 	private ArenaEditorItem[] editHotbar = {
 			new PowerupLocationArenaEditor(powerupEditor, this),
 			new SpawnpointsArenaEditor(spawnpointsEditor, this),
@@ -65,7 +66,7 @@ public class Arena {
 			new NameArenaEditor(nameEditor, this),
 			new CreatorArenaEditor(creatorEditor, this),
 			new DoneArenaEditor(doneItem, this)
-	};
+	};*/
 	
 	public Arena(File file, Main main) {
 		this.file = file;

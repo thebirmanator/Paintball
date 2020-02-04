@@ -21,9 +21,9 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.events.PowerUpUseEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.PowerUp;
-import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.menus.arena.EditorKit;
 
 public class PlayerInteractListener implements Listener {
 
@@ -72,7 +72,7 @@ public class PlayerInteractListener implements Listener {
 
 			if(event.getHand() == EquipmentSlot.HAND && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				Block block = event.getClickedBlock();
-				GamePlayer gp = GamePlayer.getGamePlayer(player);
+				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				// clicked a powerup
 				if(block != null && PowerUp.isPowerUpBlock(block) && gp.getCurrentGame().getUsedArena().getPowerUpSpawnPoints().contains(block.getLocation())) {
 					if(player.getGameMode() != GameMode.SPECTATOR) {
@@ -131,7 +131,7 @@ public class PlayerInteractListener implements Listener {
 					velocity = pDir.clone();
 				}
 				gun.shoot(player, velocity);
-				GamePlayer gp = GamePlayer.getGamePlayer(player);
+				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				gp.getStats().addShot();
 				gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());
 			}

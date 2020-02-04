@@ -12,6 +12,7 @@ import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.*;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.*;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -35,7 +36,7 @@ import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerLeaveListener
 import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerSpectateListener;
 import net.darkscorner.paintball.listeners.gamelisteners.GameStartListener;
 import net.darkscorner.paintball.listeners.gamelisteners.PowerUpUseListener;
-import net.darkscorner.paintball.objects.menus.arenaeditors.EditorKit;
+import net.darkscorner.paintball.objects.menus.arena.EditorKit;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 
 public class Main extends JavaPlugin {
@@ -119,7 +120,7 @@ public class Main extends JavaPlugin {
 				} else if(necessaryFiles[i].equals("playerdata")) {
 					File[] playerFiles = necessaryFile.listFiles();
 					for(int j = 0; j < playerFiles.length; j++) {
-						new GamePlayer(playerFiles[j]);
+						new PlayerProfile(playerFiles[j]);
 					}
 				} else { // is not the arena folder
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);

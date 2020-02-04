@@ -14,10 +14,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.menus.arenaeditors.CreatorArenaEditor;
-import net.darkscorner.paintball.objects.menus.arenaeditors.ArenaEditorItem;
-import net.darkscorner.paintball.objects.menus.arenaeditors.NameArenaEditor;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.CreatorArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
+import net.darkscorner.paintball.objects.menus.arena.menuitems.NameArenaEditor;
 
 public class PlayerChatListener implements Listener {
 
@@ -46,9 +46,9 @@ public class PlayerChatListener implements Listener {
 				}
 			});
 		} else {
-			GamePlayer gSender = GamePlayer.getGamePlayer(sender);
+			PlayerProfile gSender = PlayerProfile.getGamePlayer(sender);
 			Set<Player> playerRecipients = event.getRecipients();
-			Set<GamePlayer> recipients = new HashSet<>();
+			Set<PlayerProfile> recipients = new HashSet<>();
 			if(gSender.isInGame()) {
 				if(gSender.getCurrentGame().getInGamePlayers().contains(gSender)) { // player is in game; send their message to everyone in game and spectating
 					recipients = gSender.getCurrentGame().getAllPlayers();
@@ -57,16 +57,16 @@ public class PlayerChatListener implements Listener {
 				}
 			} else { // player is not in game; send to anyone else not in a game
 				for(Player p : Bukkit.getOnlinePlayers()) {
-					if(!GamePlayer.getGamePlayer(p).isInGame()) {
-						recipients.add(GamePlayer.getGamePlayer(p));
+					if(!PlayerProfile.getGamePlayer(p).isInGame()) {
+						recipients.add(PlayerProfile.getGamePlayer(p));
 					}
 				}
 			}
-			final Set<GamePlayer> finalRecipients = recipients;
+			final Set<PlayerProfile> finalRecipients = recipients;
 			playerRecipients.removeIf(new Predicate<Player>() {
 				@Override
 				public boolean test(Player player) {
-					for(GamePlayer p : finalRecipients) {
+					for(PlayerProfile p : finalRecipients) {
 						if(player.equals(p.getPlayer())) { // player is in the game players; dont remove
 							return false;
 						}

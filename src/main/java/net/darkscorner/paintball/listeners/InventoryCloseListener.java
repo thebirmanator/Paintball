@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 public class InventoryCloseListener implements Listener {
 	
@@ -13,8 +13,8 @@ public class InventoryCloseListener implements Listener {
 	public void onClose(InventoryCloseEvent event) {
 		if(event.getPlayer() instanceof Player) {
 			Player player = (Player) event.getPlayer();
-			if(GamePlayer.getGamePlayer(player).getViewingGameMenu()) {
-				GamePlayer.getGamePlayer(player).setViewingGameMenu(null);
+			if(PlayerProfile.getGamePlayer(player).getViewingGameMenu()) {
+				PlayerProfile.getGamePlayer(player).setViewingGameMenu(null);
 			}
 		}
 	}

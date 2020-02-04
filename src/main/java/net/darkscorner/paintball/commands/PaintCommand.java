@@ -17,10 +17,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.Paint;
-import net.darkscorner.paintball.objects.menus.GameMenu;
-import net.darkscorner.paintball.objects.menus.menuitems.EquipPaintItem;
+import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import net.darkscorner.paintball.objects.menus.equipment.EquipPaintItem;
 
 public class PaintCommand implements CommandExecutor {
 
@@ -33,7 +33,7 @@ public class PaintCommand implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(player.hasPermission("paintball.command.paint")) {
-				GamePlayer gp = GamePlayer.getGamePlayer(player);
+				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
 					GameMenu gameMenu = new GameMenu("Paints", null, 54);
 					ItemStack icon = new ItemStack(Material.AIR);

@@ -16,7 +16,7 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.Arena;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -32,7 +32,7 @@ public class GamePlayerDeathListener implements Listener {
 	public void onDeath(GamePlayerDeathEvent event) {
 		Game game = event.getGame();
 		Arena arena = game.getUsedArena();
-		GamePlayer victim = event.getVictim();
+		PlayerProfile victim = event.getVictim();
 		victim.getPlayer().setGameMode(GameMode.SPECTATOR);
 		victim.getPlayer().teleport(arena.getSpectatingPoint());
 		
@@ -43,7 +43,7 @@ public class GamePlayerDeathListener implements Listener {
 		
 		victim.removePowerUps();
 		
-		GamePlayer killer = event.getKiller();
+		PlayerProfile killer = event.getKiller();
 		String deathMsg = "";
 		if(!killer.equals(victim)) {
 			killer.playSound(SoundEffect.HIT);
@@ -51,7 +51,7 @@ public class GamePlayerDeathListener implements Listener {
 			killer.getStats().setKillStreak(killer.getStats().getKillStreak() + 1);
 			if(killer.getStats().getKillStreak() > 2) {
 				killer.getPlayer().sendMessage(ChatColor.GRAY + "You have a " + ChatColor.RED + killer.getStats().getKillStreak() + " player kill streak" + ChatColor.GRAY + "!");
-				for(GamePlayer p : event.getGame().getAllPlayers()) {
+				for(PlayerProfile p : event.getGame().getAllPlayers()) {
 					if(!p.equals(killer)) {
 						p.getPlayer().sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + killer.getPlayer().getName() + ChatColor.GRAY + " has a " + ChatColor.RED + killer.getStats().getKillStreak() + " player kill streak" + ChatColor.GRAY + "!");
 					}
@@ -74,7 +74,7 @@ public class GamePlayerDeathListener implements Listener {
 			deathMsg = deathMsg.replaceAll("%victim%", victim.getPlayer().getName());
 		}
 		
-		for(GamePlayer p : event.getGame().getAllPlayers()) {
+		for(PlayerProfile p : event.getGame().getAllPlayers()) {
 			p.getPlayer().sendMessage(deathMsg);
 		}
 		
@@ -82,7 +82,7 @@ public class GamePlayerDeathListener implements Listener {
 		if(victim.getStats().getKillStreak() > 0) {
 			if(victim.getStats().getKillStreak() > 2) {
 				killer.getPlayer().sendMessage(ChatColor.GRAY + "You have ended " + ChatColor.YELLOW + victim.getPlayer().getName() + "'s " + ChatColor.RED + victim.getStats().getKillStreak() + " player kill streak" + ChatColor.GRAY + "!");
-				for(GamePlayer p : event.getGame().getAllPlayers()) {
+				for(PlayerProfile p : event.getGame().getAllPlayers()) {
 					if(!p.equals(killer)) {
 						p.getPlayer().sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + killer.getPlayer().getName() + ChatColor.GRAY + " has ended "  + ChatColor.YELLOW + victim.getPlayer().getName() + "'s " + ChatColor.RED + victim.getStats().getKillStreak() + " player kill streak" + ChatColor.GRAY + "!");
 					}

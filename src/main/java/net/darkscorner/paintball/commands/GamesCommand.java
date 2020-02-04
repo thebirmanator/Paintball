@@ -15,11 +15,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.menus.GameMenu;
-import net.darkscorner.paintball.objects.menus.menuitems.GameItem;
-import net.darkscorner.paintball.objects.menus.menuitems.GameMenuItem;
+import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import net.darkscorner.paintball.objects.menus.game.menuitems.GameItem;
+import net.darkscorner.paintball.objects.menus.game.menuitems.GameMenuItem;
 
 public class GamesCommand implements CommandExecutor {
 
@@ -30,7 +30,7 @@ public class GamesCommand implements CommandExecutor {
 		// command layout: /game <PaintballGame> spectate|players|options <kick(players) playername> or endgame(options)
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			GamePlayer gp = GamePlayer.getGamePlayer(player);
+			PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 			gp.playSound(SoundEffect.RUN_COMMAND);
 			if(player.hasPermission("paintball.command.games")) {
 				GameMenu mainGameMenu = new GameMenu("Games", null, 27);
@@ -76,7 +76,7 @@ public class GamesCommand implements CommandExecutor {
 											if(args[2].equalsIgnoreCase("kick")) {
 												if(player.hasPermission("paintball.options.players")) {
 													if (args.length > 3 && Bukkit.getPlayer(args[3]) != null) { // kick a player from the game
-														GamePlayer victim = GamePlayer.getGamePlayer(Bukkit.getPlayer(args[3]));
+														PlayerProfile victim = PlayerProfile.getGamePlayer(Bukkit.getPlayer(args[3]));
 														if (victim.isInGame() && victim.getCurrentGame().equals(g)) {
 															victim.getCurrentGame().removePlayer(victim);
 														} else {

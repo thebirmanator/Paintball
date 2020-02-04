@@ -1,24 +1,23 @@
-package net.darkscorner.paintball.objects.menus;
+package net.darkscorner.paintball.objects.menus.game;
 
 import java.util.Collection;
 
+import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.menus.ClickableItem;
+import net.darkscorner.paintball.objects.menus.Menu;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import net.darkscorner.paintball.objects.GamePlayer;
-import net.darkscorner.paintball.objects.menus.menuitems.BackMenuItem;
-import net.darkscorner.paintball.objects.menus.menuitems.GameMenuItem;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.menus.game.menuitems.BackMenuItem;
 
 public class GameMenu extends Menu {
 
 	private String name;
 	private int size;
+	private GameMenu parent;
 	//private HashMap<Integer, MenuItem> items = new HashMap<Integer, MenuItem>();
 
 	public GameMenu(String name, int size) {
@@ -29,7 +28,8 @@ public class GameMenu extends Menu {
 	public GameMenu(String name, GameMenu parent, int size) {
 		this.name = name;
 		this.size = size;
-		
+		this.parent = parent;
+		/*
 		if (parent != null) {
 			ItemStack backIcon = new ItemStack(Material.BIRCH_DOOR);
 			ItemMeta meta = backIcon.getItemMeta();
@@ -37,7 +37,7 @@ public class GameMenu extends Menu {
 			backIcon.setItemMeta(meta);
 			BackMenuItem backItem = new BackMenuItem(owningItem, backIcon);
 			getItems().put(size - 1, backItem);
-		}
+		}*/
 	}
 	/*
 	public void addButton(int slot, MenuItem item) {
@@ -59,28 +59,44 @@ public class GameMenu extends Menu {
 		return false;
 	}*/
 
+	public Game getGame() {
+		return parent.getGame();
+	}
+
 	@Override
 	public void open(Player player) {
 		Inventory inv = Bukkit.createInventory(player, size, name);
 
-		for(Integer key : getItems().keySet()) {
-			GameMenuItem item = getItems().get(key);
-			inv.setItem(key, item.getIcon());
+		for (Integer key : getItems().keySet()) {
+			ClickableItem item = getItems().get(key);
+			inv.setItem(key, item.getItemStack());
 		}
 		
 		player.openInventory(inv);
 		
-		GamePlayer.getGamePlayer(player).setViewingGameMenu(this);
+		PlayerProfile.getGamePlayer(player).setViewingGameMenu(this);
 	}
-	
-	public void closeMenu(Player player) {
+
+	@Override
+	public void close(Player player) {
 		if(player.getOpenInventory().getType() != InventoryType.CRAFTING) { // they have an open inv
 			player.closeInventory();
 		}
-		GamePlayer.getGamePlayer(player).setViewingGameMenu(null);
+		PlayerProfile.getGamePlayer(player).setViewingGameMenu(null);
 	}
 	
-	public Collection<GameMenuItem> getMenuItems() {
+	public Collection<ClickableItem> getClickableItems() {
 		return getItems().values();
+	}
+
+	public void setNavbarVisibility(boolean show) {
+		if (parent != null && parent.getGame() != null) {
+			if (show) {
+				BackMenuItem backItem = new BackMenuItem(this, parent);
+				getItems().put(size - 1, backItem);
+			} else {
+				getItems().remove(size - 1);
+			}
+		}
 	}
 }

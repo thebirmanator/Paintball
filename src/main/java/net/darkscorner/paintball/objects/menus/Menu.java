@@ -1,6 +1,5 @@
 package net.darkscorner.paintball.objects.menus;
 
-import net.darkscorner.paintball.objects.menus.menuitems.GameMenuItem;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -8,23 +7,25 @@ import java.util.Map;
 
 public abstract class Menu {
 
-    private Map<Integer, GameMenuItem> items = new HashMap<>();
+    private Map<Integer, ClickableItem> items = new HashMap<>();
 
-    public void addItem(int slot, GameMenuItem gameMenuItem) {
-        items.put(slot, gameMenuItem);
+    public void addItem(int slot, ClickableItem clickableItem) {
+        items.put(slot, clickableItem);
     }
 
-    public GameMenuItem getMenuItem(int slot) {
+    public ClickableItem getClickableItem(int slot) {
         return items.get(slot);
     }
 
-    public boolean hasMenuItem(int slot) {
-        return getMenuItem(slot) != null;
+    public boolean hasClickableItem(int slot) {
+        return getClickableItem(slot) != null;
     }
 
     public abstract void open(Player player);
 
-    protected Map<Integer, GameMenuItem> getItems() {
+    public abstract void close(Player player);
+
+    protected Map<Integer, ClickableItem> getItems() {
         return items;
     }
 }

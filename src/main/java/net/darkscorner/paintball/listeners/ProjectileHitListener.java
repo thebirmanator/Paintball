@@ -13,7 +13,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
-import net.darkscorner.paintball.objects.GamePlayer;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 public class ProjectileHitListener implements Listener {
 
@@ -30,19 +30,19 @@ public class ProjectileHitListener implements Listener {
 					Block hitBlock = event.getHitBlock();
 					if(event.getEntity().getShooter() instanceof Player) {
 						Player shooter = (Player) event.getEntity().getShooter();
-						GamePlayer gp = GamePlayer.getGamePlayer(shooter);
+						PlayerProfile gp = PlayerProfile.getGamePlayer(shooter);
 						gp.getPaint().showPaint(hitBlock.getLocation());
 					}
 				} else if(event.getHitEntity() != null) {
 					if(event.getHitEntity() instanceof Player) {
 						Player player = (Player) event.getHitEntity();
 						if(player.getGameMode() == GameMode.SURVIVAL) {
-							GamePlayer victim = GamePlayer.getGamePlayer(player);
+							PlayerProfile victim = PlayerProfile.getGamePlayer(player);
 							if (event.getEntity().getShooter() instanceof Player) {
 								Player pShooter = (Player) event.getEntity().getShooter();
 								if (!player.hasMetadata(Game.invulnerableMeta)) { // is vulnerable
 									victim.playSound(SoundEffect.DEATH);
-									GamePlayer killer = GamePlayer.getGamePlayer(pShooter);
+									PlayerProfile killer = PlayerProfile.getGamePlayer(pShooter);
 									// wait a tick for the paintball to fire first
 									if (!((Player) event.getEntity().getShooter()).equals(player)) { // shooter and victim are different players
 										main.getServer().getPluginManager().callEvent(new GamePlayerDeathEvent(victim.getCurrentGame(), victim, killer));

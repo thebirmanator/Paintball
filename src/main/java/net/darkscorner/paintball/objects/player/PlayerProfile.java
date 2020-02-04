@@ -1,11 +1,11 @@
-package net.darkscorner.paintball.objects;
+package net.darkscorner.paintball.objects.player;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 import net.darkscorner.paintball.GunType;
-import net.darkscorner.paintball.PlayerStat;
+import net.darkscorner.paintball.objects.Paint;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.Gun;
 import org.bukkit.Bukkit;
@@ -19,16 +19,15 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.menus.GameMenu;
+import net.darkscorner.paintball.objects.menus.game.GameMenu;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
-public class GamePlayer {
+public class PlayerProfile {
 	// a gameplayer contains a player, their kills for that game, their deaths for that game, and shots fired for that game
-	private static Set<GamePlayer> gamePlayers = new HashSet<GamePlayer>();
+	private static Set<PlayerProfile> playerProfiles = new HashSet<>();
 	private UUID uuid;
-	private Game game;
-	private GameStatistics gameStats;
+	private PlayerGameStatistics currentGameStats;
 	private GameScoreboard scoreboard;
 	private GameMenu viewingGameMenu;
 	private Paint paint;
@@ -36,25 +35,25 @@ public class GamePlayer {
 
 	private File playerFile;
 	private FileConfiguration config;
-	private final String shotsPath = "shots";
-	private final String hitsPath = "hits";
-	private final String deathsPath = "deaths";
-	private final String gamesPlayedPath = "games-played";
+	//private final String shotsPath = "shots";
+	//private final String hitsPath = "hits";
+	//private final String deathsPath = "deaths";
+	//private final String gamesPlayedPath = "games-played";
 	private final String equippedPaintPath = "equipped-paint";
 	private final String equippedGunPath = "equipped-gun";
 
-	public GamePlayer(File file) {
+	public PlayerProfile(File file) {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
 
 		String uuidString = file.getName().substring(0, file.getName().length() - 4); // string minus the .yml
 		uuid = UUID.fromString(uuidString);
-		gamePlayers.add(this);
+		playerProfiles.add(this);
 	}
 
-	public GamePlayer(Player player) {
+	public PlayerProfile(Player player) {
 		uuid = player.getUniqueId();
-		gamePlayers.add(this);
+		playerProfiles.add(this);
 		
 		setStatsBoard(StatsBoard.LOBBY);
 
@@ -69,6 +68,8 @@ public class GamePlayer {
 	}
 
 	public long getTotal(PlayerStat stat) {
+		return config.getLong(stat.getStatPath(), -1);
+		/*
 		switch (stat) {
 			case GAMES:
 				return config.getLong(gamesPlayedPath);
@@ -80,10 +81,12 @@ public class GamePlayer {
 				return config.getLong(shotsPath);
 			default:
 				return -1;
-		}
+		}*/
 	}
 
 	public void setTotal(PlayerStat stat, long amount) {
+		config.set(stat.getStatPath(), amount);
+		/*
 		switch (stat) {
 			case GAMES:
 				config.set(gamesPlayedPath, amount);
@@ -99,7 +102,7 @@ public class GamePlayer {
 				break;
 			default:
 				break;
-		}
+		}*/
 	}
 
 	public void addToTotal(PlayerStat stat, long amount) {
@@ -125,30 +128,27 @@ public class GamePlayer {
 	}
 	
 	public boolean isInGame() {
-		if(game != null) {
-			return true;
-		}
-		return false;
+		return currentGameStats != null;
 	}
 
 	public Game getCurrentGame() {
-		return game;
+		return currentGameStats.getGame();
 	}
-	
+	/*
 	public void setCurrentGame(Game game) {
 		this.game = game;
-	}
+	}*/
 	
-	public GameStatistics getStats() {
-		return gameStats;
+	public PlayerGameStatistics getCurrentGameStats() {
+		return currentGameStats;
 	}
 	
 	public GameScoreboard getGameScoreboard() {
 		return scoreboard;
 	}
 	
-	public void createNewStats() {
-		gameStats = new GameStatistics();
+	public void createNewStats(Game game) {
+		currentGameStats = new PlayerGameStatistics(game);
 	}
 	
 	public Paint getPaint() {
@@ -168,8 +168,8 @@ public class GamePlayer {
 		saveProfile();
 	}
 
-	public static GamePlayer getGamePlayer(OfflinePlayer player) {
-		for(GamePlayer p : gamePlayers) {
+	public static PlayerProfile getGamePlayer(OfflinePlayer player) {
+		for(PlayerProfile p : playerProfiles) {
 			if(p.uuid.equals(player.getUniqueId())) {
 				return p;
 			}
@@ -177,12 +177,12 @@ public class GamePlayer {
 		return null;
 	}
 
-	public static List<GamePlayer> getOrderedByStat(PlayerStat stat) {
-		List<GamePlayer> players = new ArrayList<>(gamePlayers);
-		Comparator<GamePlayer> comparator;
-		comparator = new Comparator<GamePlayer>() {
+	public static List<PlayerProfile> getOrderedByStat(PlayerStat stat) {
+		List<PlayerProfile> players = new ArrayList<>(playerProfiles);
+		Comparator<PlayerProfile> comparator;
+		comparator = new Comparator<PlayerProfile>() {
 			@Override
-			public int compare(GamePlayer p1, GamePlayer p2) {
+			public int compare(PlayerProfile p1, PlayerProfile p2) {
 				if(p1.getTotal(stat) < p2.getTotal(stat)) {
 					return 1;
 				} else if(p1.getTotal(stat) > p2.getTotal(stat)) {
@@ -200,14 +200,14 @@ public class GamePlayer {
 	public int getRanking(PlayerStat stat) {
 		int ranking = -1;
 
-		List<GamePlayer> players = getOrderedByStat(stat);
+		List<PlayerProfile> players = getOrderedByStat(stat);
 
 		ranking = players.indexOf(this) + 1;
 		return ranking;
 	}
 
 	public static int getTotalGamePlayers() {
-		return gamePlayers.size();
+		return playerProfiles.size();
 	}
 
 	public GameMenu getViewingMenu() {
