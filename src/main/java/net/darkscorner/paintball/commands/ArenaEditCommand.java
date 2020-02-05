@@ -11,7 +11,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 import java.util.ArrayList;

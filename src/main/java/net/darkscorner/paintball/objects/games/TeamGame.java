@@ -1,6 +1,6 @@
 package net.darkscorner.paintball.objects.games;
 
-import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.Team;
 
 import java.util.Set;

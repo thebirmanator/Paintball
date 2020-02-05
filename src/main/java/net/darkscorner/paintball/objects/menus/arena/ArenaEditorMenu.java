@@ -1,6 +1,6 @@
 package net.darkscorner.paintball.objects.menus.arena;
 
-import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.menus.arena.menuitems.*;
 import org.bukkit.Material;

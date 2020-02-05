@@ -2,7 +2,7 @@ package net.darkscorner.paintball.objects.menus.arena.menuitems;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 
-import net.darkscorner.paintball.objects.Arena;
+import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

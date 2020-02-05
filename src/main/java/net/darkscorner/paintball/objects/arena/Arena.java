@@ -1,32 +1,18 @@
-package net.darkscorner.paintball.objects;
+package net.darkscorner.paintball.objects.arena;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.CreatorArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.DoneArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
-import net.darkscorner.paintball.objects.menus.arena.EditorKit;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.LobbyArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.NameArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.PowerupLocationArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.SpawnpointsArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.SpecPointArenaEditor;
 
-public class Arena {
+public class Arena implements ArenaSetting {
 
 	// an arena must have a bounded area determined by two locations, at least one spawn point, and a spectating spawn point, and a name
 	// it may have multiple spawn points and powerup spawn points, but they are not crucial
@@ -35,15 +21,17 @@ public class Arena {
 	
 	private File file;
 	private FileConfiguration config;
+	private boolean isInUse;
+	/*
 	private List<Location> powerUpLocations = new ArrayList<Location>();
 	private String name;
 	private List<Location> spawnPoints = new ArrayList<Location>();
 	private Location specPoint;
-	private boolean isInUse;
 	private Location preGameLobbyLoc;
 	private Material material;
 	private String creator;
 	private boolean teamsEnabled;
+	private Location[] boundaryMarkers;
 	/*
 	private ItemStack powerupEditor = getItem(Material.BEACON, ChatColor.BLUE + "Powerup Locations", "to add location.", "to remove location.");
 	private ItemStack spawnpointsEditor = getItem(Material.GRASS_BLOCK, ChatColor.GREEN + "Spawnpoint Locations", "to add location.", "to remove location.");
@@ -71,40 +59,37 @@ public class Arena {
 	public Arena(File file, Main main) {
 		this.file = file;
 		config = YamlConfiguration.loadConfiguration(file);
-		Set<String> powerUpSections = config.getConfigurationSection("powerup-spawnpoints").getKeys(false);
-		for(String section : powerUpSections) {
-			Location loc = main.configToLoc(config, "powerup-spawnpoints." + section);
-			powerUpLocations.add(loc);
-		}
-		name = ChatColor.translateAlternateColorCodes('&', config.getString("display-name"));
-		Set<String> spawnSections = config.getConfigurationSection("game-spawnpoints").getKeys(false);
-		for(String section : spawnSections) {
-			Location loc = main.configToLoc(config, "game-spawnpoints." + section);
-			spawnPoints.add(loc);
-		}
-		specPoint = main.configToLoc(config, "spectating-spawnpoint");
-		isInUse = false;
-		preGameLobbyLoc = main.configToLoc(config, "waiting-lobby");
 
-		if(Material.getMaterial(config.getString("item-for-guis")) != null) {
-			material = Material.getMaterial(config.getString("item-for-guis"));
-		} else {
-			material = Material.STONE;
-		}
+		//Set<String> powerUpSections = config.getConfigurationSection("powerup-spawnpoints").getKeys(false);
+		//for(String section : powerUpSections) {
+		//	Location loc = main.configToLoc(config, "powerup-spawnpoints." + section);
+		//	powerUpLocations.add(loc);
+		//}
+		//name = ChatColor.translateAlternateColorCodes('&', config.getString("display-name"));
+		//Set<String> spawnSections = config.getConfigurationSection("game-spawnpoints").getKeys(false);
+		//for(String section : spawnSections) {
+		//	Location loc = main.configToLoc(config, "game-spawnpoints." + section);
+		//	spawnPoints.add(loc);
+		//}
+		//specPoint = main.configToLoc(config, "spectating-spawnpoint");
+		isInUse = false;
+		//preGameLobbyLoc = main.configToLoc(config, "waiting-lobby");
+
+		//if(Material.getMaterial(config.getString("item-for-guis")) != null) {
+		//	material = Material.getMaterial(config.getString("item-for-guis"));
+		//} else {
+		//	material = Material.STONE;
+		//}
 		
-		creator = config.getString("creator");
+		//creator = config.getString("creator");
 		
 		arenas.add(this);
 		
 	}
-
-	public boolean supportsTeams() {
-		return teamsEnabled;
-	}
 	
 	public void saveConfig() {
-		Main main = Main.getPlugin(Main.class);
-		
+		//Main main = Main.getPlugin(Main.class);
+/*
 		// powerup spawnpoints
 		String powerupBase = "powerup-spawnpoints";
 		config.set(powerupBase, null);
@@ -133,7 +118,7 @@ public class Arena {
 		
 		// creator
 		config.set("creator", creator.replace('�', '&'));
-		
+		*/
 		try {
 			config.save(file);
 		} catch (IOException e) {
@@ -142,13 +127,13 @@ public class Arena {
 	}
 	
 	public Arena(String name, List<Location> spawnPoints, Location specPoint, List<Location> powerUpLocations, Location preGameLobbyLoc, Material material, String creator) {
-		this.name = name;
+		/*this.name = name;
 		this.spawnPoints = spawnPoints;
 		this.specPoint = specPoint;
 		this.powerUpLocations = powerUpLocations;
 		this.preGameLobbyLoc = preGameLobbyLoc;
 		this.material =  material;
-		this.creator = creator;
+		this.creator = creator;*/
 		isInUse = false;
 
 		String fileName = ChatColor.stripColor(name);
@@ -160,6 +145,7 @@ public class Arena {
 	}
 	
 	// GETTERS
+	/*
 	public String getName() {
 		return name;
 	}
@@ -191,11 +177,11 @@ public class Arena {
 	public void setSpectatingPoint(Location loc) {
 		specPoint = loc;
 	}
-	
+	*/
 	public boolean getIsInUse() {
 		return isInUse;
 	}
-	
+	/*
 	public Material getMaterial() {
 		return material;
 	}
@@ -211,18 +197,18 @@ public class Arena {
 	public void setMaterial(Material material) {
 		this.material = material;
 	}
-	
+	*/
 	public void setIsInUse(boolean isInUse) {
 		this.isInUse = isInUse;
 	}
-	
+	/*
 	public List<Location> getPowerUpSpawnPoints() {
 		return powerUpLocations;
 	}
 	
 	public void giveEditKit(Player player) {
-		EditorKit kit = new EditorKit(player, editHotbar);
-		kit.giveKit();
+		//EditorKit kit = new EditorKit(player, editHotbar);
+		//kit.giveKit();
 		
 	}
 	
@@ -245,7 +231,7 @@ public class Arena {
 		return item;
 		
 	}
-
+*/
 	public void remove() {
 		arenas.remove(this);
 		file.delete();
@@ -266,5 +252,10 @@ public class Arena {
 	
 	public static void addArena(Arena arena) {
 		arenas.add(arena);
+	}
+
+	@Override
+	public FileConfiguration getConfig() {
+		return config;
 	}
 }

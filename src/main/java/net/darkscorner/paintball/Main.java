@@ -10,6 +10,7 @@ import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.*;
+import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.*;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
