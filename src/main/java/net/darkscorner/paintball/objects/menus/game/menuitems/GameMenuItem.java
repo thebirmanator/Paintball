@@ -3,6 +3,7 @@ package net.darkscorner.paintball.objects.menus.game.menuitems;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class GameMenuItem extends ClickableItem {
 

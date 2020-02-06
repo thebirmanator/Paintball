@@ -3,8 +3,12 @@ package net.darkscorner.paintball.objects.menus.arena.menuitems;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
 import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
+import net.darkscorner.paintball.utils.ItemEditor;
+import net.darkscorner.paintball.utils.Text;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -14,6 +18,7 @@ public class CreatorArenaEditor extends ArenaEditorItem {
 
 	public static String attrMeta = "creator";
 	private Main main = Main.getInstance();
+	private static ItemStack templateItem;
 
 	public CreatorArenaEditor(ArenaEditorMenu editorMenu) {
 		super(editorMenu);
@@ -48,11 +53,16 @@ public class CreatorArenaEditor extends ArenaEditorItem {
 
 	@Override
 	public ClickableItem getForPlayer(Player player) {
-		return null;
+		playerItem = templateItem;
+		return this;
 	}
 
 	@Override
-	public void createItem() {
+	public void createTemplate() {
+		templateItem = new ItemEditor(Material.BOOK, Text.format("&bCreator Name"))
+				.addAction(ClickType.LEFT, "to change creator name, or")
+				.addAction(ClickType.RIGHT, "to change it.")
+				.getItemStack();
 
 	}
 

@@ -41,6 +41,15 @@ public class PlayerGameStatistics {
 	public int getStat(PlayerInGameStat stat) {
 		return stats.getOrDefault(stat, 0);
 	}
+
+	public void setStat(PlayerInGameStat stat, int amount) {
+		stats.replace(stat, amount);
+	}
+
+	public void addToStat(PlayerInGameStat stat, int amount) {
+		amount = getStat(stat) + amount;
+		stats.replace(stat, amount);
+	}
 	/*
 	public int getKills() {
 		return kills;

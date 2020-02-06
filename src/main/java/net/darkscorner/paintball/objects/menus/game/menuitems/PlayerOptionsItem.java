@@ -2,6 +2,7 @@ package net.darkscorner.paintball.objects.menus.game.menuitems;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import net.darkscorner.paintball.utils.ItemEditor;
 import net.darkscorner.paintball.utils.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,6 +22,7 @@ import java.util.List;
 public class PlayerOptionsItem extends GameMenuItem {
 
 	private Player representing;
+	private static ItemStack templateItem;
 	// this is the player head item in the game options
 	public PlayerOptionsItem(Player representing, GameMenu parent) {
 		super(parent);
@@ -51,24 +53,24 @@ public class PlayerOptionsItem extends GameMenuItem {
 
 	@Override
 	public ClickableItem getForPlayer(Player player) {
-		ItemStack template = getItemStack().clone();
+		ItemStack specific = templateItem.clone();
 		if (player.hasPermission("paintball.options.players")) {
-			ItemMeta meta = template.getItemMeta();
-			List<String> lore = new ArrayList<>();
-			lore.add(Text.format("&fLeft-click &7to kick player from this game."));
-			meta.setLore(lore);
-			return new PlayerOptionsItem(representing, getOwningMenu());
+			specific = new ItemEditor(specific)
+					.addAction(ClickType.LEFT, "to kick player from this game.")
+			.getItemStack();
+
 		}
+		SkullMeta meta = (SkullMeta) specific.getItemMeta();
+		meta.setOwningPlayer(representing);
+		specific.setItemMeta(meta);
+		playerItem = specific;
 		return this;
 	}
 
 	@Override
-	public void createItem() {
-		ItemStack icon = new ItemStack(Material.PLAYER_HEAD);
-		SkullMeta meta = (SkullMeta) icon.getItemMeta();
-		meta.setOwningPlayer(representing);
-		icon.setItemMeta(meta);
-		setItemStack(icon);
+	public void createTemplate() {
+		templateItem = new ItemEditor(Material.PLAYER_HEAD, null)
+				.getItemStack();
 	}
 
 }

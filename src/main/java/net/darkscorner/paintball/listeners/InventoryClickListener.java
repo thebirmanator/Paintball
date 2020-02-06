@@ -1,24 +1,32 @@
 package net.darkscorner.paintball.listeners;
 
-import org.bukkit.Material;
+import net.darkscorner.paintball.objects.menus.ClickableItem;
+import net.darkscorner.paintball.objects.menus.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import net.darkscorner.paintball.commands.ArenaEditCommand;
-import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.menus.game.GameMenu;
-
 public class InventoryClickListener implements Listener {
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
 		Inventory clickedInv = event.getClickedInventory();
-		if(event.getWhoClicked() instanceof Player) {
+		if (event.getWhoClicked() instanceof Player) {
 			Player player = (Player) event.getWhoClicked();
-			if(clickedInv != null) {
+			if (clickedInv != null) {
+				Menu menu = Menu.getViewing(player);
+				if (menu != null) {
+					ClickableItem clickableItem = menu.getClickableItem(event.getSlot());
+					if (clickableItem != null) {
+						clickableItem.use(player, event.getClick());
+					}
+				}
+			}
+		}
+	}
+				/*
 				if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
 					event.setCancelled(true);
 					if(PlayerProfile.getGamePlayer(player).getViewingGameMenu()) {
@@ -35,9 +43,7 @@ public class InventoryClickListener implements Listener {
 								event.setCancelled(false);
 							}
 						}
-					}
-				}
-			}
-		}
-	}
+					}*/
+
+
 }

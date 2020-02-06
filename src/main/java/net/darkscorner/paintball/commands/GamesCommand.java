@@ -3,6 +3,7 @@ package net.darkscorner.paintball.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.darkscorner.paintball.objects.menus.game.menuitems.EndGameItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,11 +33,40 @@ public class GamesCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 			gp.playSound(SoundEffect.RUN_COMMAND);
-			if(player.hasPermission("paintball.command.games")) {
+			if (player.hasPermission("paintball.command.games")) {
 				GameMenu mainGameMenu = new GameMenu("Games", null, 27);
 				int index = 0;
-				for(Game game : Game.getGames()) {
-					
+				for (Game game : Game.allGames) {
+					mainGameMenu.addItem(index, new GameItem(game));
+					index++;
+				}
+				mainGameMenu.open(player);
+				/*
+				// no args, open game menu at the very start (list all games)
+				if (args.length == 0) {
+					mainGameMenu.open(player);
+				} else {
+					// find which game they are running the command on
+					String arenaName = args[0];
+					Game game = null;
+					for (Game aGame : Game.allGames) {
+						if (aGame.getArena().getSimpleName().equalsIgnoreCase(arenaName)) {
+							game = aGame;
+						}
+					}
+					if (game != null) {
+						if (args.length > 1) { // wants to open a submenu for a particular game
+
+						} else { // open a menu for the particular game
+							//TODO: make a way to set a parents game cuz main one is always null
+							/*
+							GameMenu gameMenu = new GameMenu(game.getArena().getName(), mainGameMenu, 27);
+							gameMenu.addItem(0, new EndGameItem(gameMenu));
+						}
+					}
+
+				}
+					/*
 					ItemStack icon = new ItemStack(game.getUsedArena().getMaterial());
 					ItemMeta meta = icon.getItemMeta();
 					meta.setDisplayName(game.getUsedArena().getName());
@@ -50,8 +80,10 @@ public class GamesCommand implements CommandExecutor {
 					icon.setItemMeta(meta);
 					GameItem gameItem = new GameItem(icon, game);
 					mainGameMenu.addButton(index, gameItem);
-					index++;
-				}
+
+
+				}*/
+					/*
 				if(args.length == 0) {
 					mainGameMenu.openMenu(player);
 				} else {
@@ -139,7 +171,7 @@ public class GamesCommand implements CommandExecutor {
 					}
 					// did not find a game with the inputed arena name
 					player.sendMessage(Main.prefix + arenaName + " is not being used right now or does not exist.");
-				}
+				}*/
 				return true;
 			} else {
 				player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to join a game.");

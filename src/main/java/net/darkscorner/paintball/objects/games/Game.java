@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import net.md_5.bungee.api.ChatColor;
 public interface Game {
 
 	String invulnerableMeta = "invulnerable";
+	Set<Game> allGames = new HashSet<>();
 /*
 	private Main main;
 	private static FileConfiguration gameConfig;
@@ -156,6 +158,8 @@ public interface Game {
 	Set<PlayerProfile> getAllPlayers();
 
 	void endGame();
+
+	Arena getArena();
 
 	/*
 	public static Set<Game> getGames() {

@@ -2,6 +2,7 @@ package net.darkscorner.paintball.objects.menus.game.menuitems;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import net.darkscorner.paintball.utils.ItemEditor;
 import net.darkscorner.paintball.utils.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,6 +20,8 @@ import java.util.List;
 
 public class EndGameItem extends GameMenuItem {
 
+	private static ItemStack templateItem;
+
 	public EndGameItem(GameMenu parent) {
 		super(parent);
 	}
@@ -33,18 +36,15 @@ public class EndGameItem extends GameMenuItem {
 
 	@Override
 	public ClickableItem getForPlayer(Player player) {
+		playerItem = templateItem;
 		return this;
 	}
 
 	@Override
-	public void createItem() {
-		ItemStack endGameIcon = new ItemStack(Material.BEDROCK);
-		ItemMeta endGameMeta = endGameIcon.getItemMeta();
-		endGameMeta.setDisplayName(Text.format("&cEnd Game"));
-		List<String> endGameLore = new ArrayList<>();
-		endGameLore.add(Text.format("&fLeft-click &7to force-end this game."));
-		endGameMeta.setLore(endGameLore);
-		endGameIcon.setItemMeta(endGameMeta);
+	public void createTemplate() {
+		templateItem = new ItemEditor().buildItem(Material.BEDROCK, Text.format("&cEnd Game"))
+				.addAction(ClickType.LEFT, "to force-end this game.")
+				.getItemStack();
 	}
 
 }

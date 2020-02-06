@@ -29,7 +29,7 @@ public class PlayerProfile {
 	private UUID uuid;
 	private PlayerGameStatistics currentGameStats;
 	private GameScoreboard scoreboard;
-	private GameMenu viewingGameMenu;
+	//private GameMenu viewingGameMenu;
 	private Paint paint;
 	private Gun gun;
 
@@ -210,6 +210,7 @@ public class PlayerProfile {
 		return playerProfiles.size();
 	}
 
+	/*
 	public GameMenu getViewingMenu() {
 		return viewingGameMenu;
 	}
@@ -223,7 +224,7 @@ public class PlayerProfile {
 	
 	public void setViewingGameMenu(GameMenu gameMenu) {
 		viewingGameMenu = gameMenu;
-	}
+	}*/
 	
 	public void setStatsBoard(StatsBoard board) {
 		this.scoreboard = GameScoreboard.getBoard(board);

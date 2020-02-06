@@ -8,6 +8,7 @@ import java.util.Map;
 public abstract class Menu {
 
     private Map<Integer, ClickableItem> items = new HashMap<>();
+    protected static Map<Player, Menu> viewing = new HashMap<>();
 
     public void addItem(int slot, ClickableItem clickableItem) {
         items.put(slot, clickableItem);
@@ -27,5 +28,9 @@ public abstract class Menu {
 
     protected Map<Integer, ClickableItem> getItems() {
         return items;
+    }
+
+    public static Menu getViewing(Player player) {
+        return viewing.get(player);
     }
 }

@@ -69,12 +69,13 @@ public class GameMenu extends Menu {
 
 		for (Integer key : getItems().keySet()) {
 			ClickableItem item = getItems().get(key);
-			inv.setItem(key, item.getItemStack());
+			inv.setItem(key, item.getForPlayer(player).getItemStack());
 		}
 		
 		player.openInventory(inv);
+		viewing.put(player, this);
 		
-		PlayerProfile.getGamePlayer(player).setViewingGameMenu(this);
+		//PlayerProfile.getGamePlayer(player).setViewingGameMenu(this);
 	}
 
 	@Override
@@ -82,7 +83,8 @@ public class GameMenu extends Menu {
 		if(player.getOpenInventory().getType() != InventoryType.CRAFTING) { // they have an open inv
 			player.closeInventory();
 		}
-		PlayerProfile.getGamePlayer(player).setViewingGameMenu(null);
+		viewing.remove(player);
+		//PlayerProfile.getGamePlayer(player).setViewingGameMenu(null);
 	}
 	
 	public Collection<ClickableItem> getClickableItems() {

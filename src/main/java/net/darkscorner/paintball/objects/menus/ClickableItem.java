@@ -6,19 +6,15 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class ClickableItem {
 
-    private ItemStack itemStack;
+    protected ItemStack playerItem;
 
     public abstract void use(Player player, ClickType click);
 
     public abstract ClickableItem getForPlayer(Player player);
 
-    public abstract void createItem();
+    public abstract void createTemplate();
 
     public ItemStack getItemStack() {
-        return itemStack;
-    }
-
-    protected void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
+        return playerItem;
     }
 }

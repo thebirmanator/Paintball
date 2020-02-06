@@ -20,6 +20,7 @@ import java.util.List;
 public class PowerupLocationArenaEditor extends ArenaEditorItem implements TargetingItem {
 
 	private Location location;
+	private static ItemStack templateItem;
 
 	public PowerupLocationArenaEditor(ArenaEditorMenu editorMenu) {
 		super(editorMenu);
@@ -46,15 +47,16 @@ public class PowerupLocationArenaEditor extends ArenaEditorItem implements Targe
 
 	@Override
 	public ClickableItem getForPlayer(Player player) {
-		return null;
+		playerItem = templateItem;
+		return this;
 	}
 
 	@Override
-	public void createItem() {
-		setItemStack(new ItemEditor().buildItem(Material.BEACON, Text.format("&9Powerup Locations"))
+	public void createTemplate() {
+		templateItem = new ItemEditor(Material.BEACON, Text.format("&9Powerup Locations"))
 				.addAction(ClickType.LEFT, "to add a location.")
 				.addAction(ClickType.RIGHT, "to remove a location.")
-				.getItemStack());
+				.getItemStack();
 	}
 
 	@Override

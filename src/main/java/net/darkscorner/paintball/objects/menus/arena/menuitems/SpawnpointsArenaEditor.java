@@ -11,10 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 import net.darkscorner.paintball.Main;
+import org.bukkit.inventory.ItemStack;
 
 public class SpawnpointsArenaEditor extends ArenaEditorItem implements TargetingItem {
 
 	private Location location;
+	private static ItemStack templateItem;
 
 	public SpawnpointsArenaEditor(ArenaEditorMenu editorMenu) {
 		super(editorMenu);
@@ -24,12 +26,12 @@ public class SpawnpointsArenaEditor extends ArenaEditorItem implements Targeting
 	public void use(Player player, ClickType clickType) {
 		switch (clickType) {
 			case LEFT:
-				getArena().getSpawnPoints().add(getLocation());
+				getArena().getFreeForAllSpawnPoints().add(getLocation());
 				player.sendMessage(Main.prefix + "Added spawn location for arena " + getArena().getName());
 				break;
 			case RIGHT:
-				if(getArena().getSpawnPoints().contains(getLocation())) {
-					getArena().getSpawnPoints().remove(getLocation());
+				if(getArena().getFreeForAllSpawnPoints().contains(getLocation())) {
+					getArena().getFreeForAllSpawnPoints().remove(getLocation());
 					player.sendMessage(Main.prefix + "Removed spawn location for arena " + getArena().getName());
 				}
 				break;
@@ -41,15 +43,16 @@ public class SpawnpointsArenaEditor extends ArenaEditorItem implements Targeting
 
 	@Override
 	public ClickableItem getForPlayer(Player player) {
-		return null;
+		playerItem = templateItem;
+		return this;
 	}
 
 	@Override
-	public void createItem() {
-		setItemStack(new ItemEditor().buildItem(Material.GRASS_BLOCK, Text.format("&aSpawnpoint Locations"))
+	public void createTemplate() {
+		templateItem = new ItemEditor(Material.GRASS_BLOCK, Text.format("&aSpawnpoint Locations"))
 				.addAction(ClickType.LEFT, "to add a location.")
 				.addAction(ClickType.RIGHT, "to remove a location.")
-				.getItemStack());
+				.getItemStack();
 	}
 
 	@Override

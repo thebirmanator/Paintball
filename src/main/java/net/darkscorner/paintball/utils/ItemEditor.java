@@ -14,9 +14,23 @@ public class ItemEditor {
     private ItemStack itemStack;
     private ItemMeta meta;
 
-    public ItemEditor buildItem(Material material, String displayName) {
+    public ItemEditor(Material material, String displayName) {
         itemStack = new ItemStack(material);
         meta = itemStack.getItemMeta();
+        meta.setDisplayName(displayName);
+    }
+
+    public ItemEditor(ItemStack itemStack) {
+        this.itemStack = itemStack;
+        meta = itemStack.getItemMeta();
+    }
+
+    public ItemEditor setMaterial(Material material) {
+        itemStack.setType(material);
+        return this;
+    }
+
+    public ItemEditor setDisplayName(String displayName) {
         meta.setDisplayName(displayName);
         return this;
     }

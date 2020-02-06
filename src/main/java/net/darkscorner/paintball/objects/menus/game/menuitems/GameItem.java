@@ -1,6 +1,10 @@
 package net.darkscorner.paintball.objects.menus.game.menuitems;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
+import net.darkscorner.paintball.utils.ItemEditor;
+import net.darkscorner.paintball.utils.Text;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
@@ -9,10 +13,13 @@ import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class GameItem extends GameMenuItem {
 
 	private Game game;
+	private static ItemStack templateItem;
 	// main game options menu; shows all games going on
 	public GameItem(Game game) {
 		super(null);
@@ -71,12 +78,22 @@ public class GameItem extends GameMenuItem {
 
 	@Override
 	public ClickableItem getForPlayer(Player player) {
-		return null;
+		ItemEditor editor = new ItemEditor(templateItem.clone())
+				.setMaterial(game.getArena().getMaterial())
+				.setDisplayName(game.getArena().getName());
+		if (player.hasPermission("paintball.options.use")) {
+			editor.addAction(ClickType.MIDDLE, "to view options for this game.");
+		}
+		playerItem = editor.getItemStack();
+		return this;
 	}
 
 	@Override
-	public void createItem() {
-
+	public void createTemplate() {
+		templateItem = new ItemEditor(Material.STONE, "Arena Name Here")
+				.addAction(ClickType.LEFT, " to spectate this game.")
+				.addAction(ClickType.RIGHT, "to view in-game players.")
+				.getItemStack();
 	}
 
 	public Game getGame() {

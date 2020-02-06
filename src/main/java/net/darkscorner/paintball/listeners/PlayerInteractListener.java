@@ -3,6 +3,9 @@ package net.darkscorner.paintball.listeners;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.Gun;
 import net.darkscorner.paintball.objects.guns.ShotGun;
+import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.player.PlayerInGameStat;
+import net.darkscorner.paintball.utils.Clicks;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -12,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -31,10 +35,20 @@ public class PlayerInteractListener implements Listener {
 	public PlayerInteractListener(Main main) {
 		this.main = main;
 	}
-	
-	// shooting the paintball
-		@EventHandler
-		public void onRightClick(PlayerInteractEvent event) {
+
+	@EventHandler
+	public void onRightClick(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		Menu menu = Menu.getViewing(player);
+		// is using an inventory editor
+		if (event.getAction() != Action.PHYSICAL && menu != null) {
+			int slot = player.getInventory().getHeldItemSlot();
+			if (menu.hasClickableItem(slot)) {
+				menu.getClickableItem(slot).use(player, Clicks.asClickType(event.getAction()));
+				return;
+			}
+		}
+/*
 			if(!event.getPlayer().hasMetadata(ArenaEditCommand.editMeta)) {
 				event.setCancelled(true);
 			} else {
@@ -52,7 +66,7 @@ public class PlayerInteractListener implements Listener {
 							EditorItem editor = (EditorItem) clickedItem;
 							editor.use(event.getPlayer(), click, event.getClickedBlock().getLocation());
 						}
-						*/
+						*//*
 						if(EditorKit.hasKit(event.getPlayer())) {
 							EditorKit kit = EditorKit.getActiveKit(event.getPlayer());
 							if(kit.hasItemStack(clickedItem)) {
@@ -66,15 +80,15 @@ public class PlayerInteractListener implements Listener {
 						
 					}
 				}
-			}
+			}*/
 			
-			Player player = event.getPlayer();
+			//Player player = event.getPlayer();
 
 			if(event.getHand() == EquipmentSlot.HAND && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				Block block = event.getClickedBlock();
 				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				// clicked a powerup
-				if(block != null && PowerUp.isPowerUpBlock(block) && gp.getCurrentGame().getUsedArena().getPowerUpSpawnPoints().contains(block.getLocation())) {
+				if(block != null && PowerUp.isPowerUpBlock(block) && gp.getCurrentGame().getArena().getPowerUpSpawnPoints().contains(block.getLocation())) {
 					if(player.getGameMode() != GameMode.SPECTATOR) {
 						main.getServer().getPluginManager().callEvent(new PowerUpUseEvent(PowerUp.getPowerUpBlock(block), event.getClickedBlock().getLocation(), gp.getCurrentGame(), gp));
 						
@@ -96,8 +110,8 @@ public class PlayerInteractListener implements Listener {
 											shootVolley(player, gun);
 										} else { // normal shot
 											gun.shoot(player, Gun.defaultVector); // normal shot, use default velocity
-											gp.getStats().addShot();
-											gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());
+											gp.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
+											gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
 										}
 									}
 								}
@@ -106,10 +120,10 @@ public class PlayerInteractListener implements Listener {
 					}
 				}
 			}
-		}
+	}
 
-		// thanks to blablubbabc on the forums for this crazy maths https://bukkit.org/threads/multiple-arrows-with-vectors.177643/
-		public void shootVolley(Player player, Gun gun) {
+	// thanks to blablubbabc on the forums for this crazy maths https://bukkit.org/threads/multiple-arrows-with-vectors.177643/
+	public void shootVolley(Player player, Gun gun) {
 			int[] angles = {20, 10, 0, -10, -20};
 			
 			Location pLoc = player.getLocation();
@@ -132,12 +146,12 @@ public class PlayerInteractListener implements Listener {
 				}
 				gun.shoot(player, velocity);
 				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
-				gp.getStats().addShot();
-				gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getStats().getNumShotsFired());
+				gp.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
+				gp.getGameScoreboard().update(player.getScoreboard(), "%shots%", "" + gp.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
 			}
-		}
+	}
 		
-		private Vector rotateY(Vector direction, double angleDirection) {
+	private Vector rotateY(Vector direction, double angleDirection) {
 			double angleRotate = Math.toRadians(angleDirection);
 			double x = direction.getX();
 			double z = direction.getZ();
@@ -146,5 +160,5 @@ public class PlayerInteractListener implements Listener {
 			double sin = Math.sin(angleRotate);
 			
 			return (new Vector(x*cos+z*(-sin), 0.0, x*sin+z*cos)).normalize();
-		}
+	}
 }

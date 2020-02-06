@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class BasePaintballGame implements Game {
-    private static Set<Game> allGames = new HashSet<>();
 
     private GameState gameState = GameState.IDLE;
     // maps player to if they are in game playing
@@ -43,8 +42,8 @@ public abstract class BasePaintballGame implements Game {
         Main.getInstance().getServer().getPluginManager().callEvent(new GameCreateEvent(Main.getInstance(), this));
     }
 
-    public static Set<Game> getGames() {
-        return allGames;
+    public Arena getArena() {
+        return arena;
     }
 
     public GameState getGameState() {
