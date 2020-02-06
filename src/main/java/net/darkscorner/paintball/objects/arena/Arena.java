@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.darkscorner.paintball.Main;
+import org.bukkit.entity.Player;
 
 public class Arena implements ArenaSetting {
 
@@ -21,7 +25,7 @@ public class Arena implements ArenaSetting {
 	
 	private File file;
 	private FileConfiguration config;
-	private boolean isInUse;
+	//private boolean isInUse;
 	/*
 	private List<Location> powerUpLocations = new ArrayList<Location>();
 	private String name;
@@ -72,7 +76,7 @@ public class Arena implements ArenaSetting {
 		//	spawnPoints.add(loc);
 		//}
 		//specPoint = main.configToLoc(config, "spectating-spawnpoint");
-		isInUse = false;
+		//isInUse = false;
 		//preGameLobbyLoc = main.configToLoc(config, "waiting-lobby");
 
 		//if(Material.getMaterial(config.getString("item-for-guis")) != null) {
@@ -125,7 +129,14 @@ public class Arena implements ArenaSetting {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public Arena(String fileName) {
+		fileName.replace(" ", "");
+		file = new File("plugins/DarkPaintball/arenas/", fileName + ".yml");
+		config = YamlConfiguration.loadConfiguration(file);
+		saveConfig();
+	}
+
 	public Arena(String name, List<Location> spawnPoints, Location specPoint, List<Location> powerUpLocations, Location preGameLobbyLoc, Material material, String creator) {
 		/*this.name = name;
 		this.spawnPoints = spawnPoints;
@@ -134,7 +145,7 @@ public class Arena implements ArenaSetting {
 		this.preGameLobbyLoc = preGameLobbyLoc;
 		this.material =  material;
 		this.creator = creator;*/
-		isInUse = false;
+		//isInUse = false;
 
 		String fileName = ChatColor.stripColor(name);
 		fileName.replace(" ", "");
@@ -178,8 +189,18 @@ public class Arena implements ArenaSetting {
 		specPoint = loc;
 	}
 	*/
-	public boolean getIsInUse() {
-		return isInUse;
+	public boolean isInUse() {
+		for (Game game : Game.allGames) {
+			if (game.getArena().equals(this)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isEditing(Player player) {
+		Menu menu = Menu.getViewing(player);
+		return menu instanceof ArenaEditorMenu;
 	}
 	/*
 	public Material getMaterial() {
@@ -197,11 +218,10 @@ public class Arena implements ArenaSetting {
 	public void setMaterial(Material material) {
 		this.material = material;
 	}
-	*/
+
 	public void setIsInUse(boolean isInUse) {
 		this.isInUse = isInUse;
 	}
-	/*
 	public List<Location> getPowerUpSpawnPoints() {
 		return powerUpLocations;
 	}
@@ -257,5 +277,11 @@ public class Arena implements ArenaSetting {
 	@Override
 	public FileConfiguration getConfig() {
 		return config;
+	}
+
+	//TODO: code for checking if in the boundaries
+	public boolean isInArena(Player player) {
+		Location location = player.getLocation();
+		return false;
 	}
 }
