@@ -11,8 +11,8 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.Paint;
 
-public class EquipPaintItem extends GameMenuItem {
-
+public class EquipPaintItem /*extends GameMenuItem*/ {
+/*
 	private Paint paint;
 	public EquipPaintItem(GameMenuItem parent, ItemStack icon, Paint paint) {
 		super(parent, icon);
@@ -21,7 +21,7 @@ public class EquipPaintItem extends GameMenuItem {
 	}
 
 	@Override
-	public void open(Player player, ClickType click) {
+	public void use(Player player, ClickType click) {
 		if(getIcon().getType() != Material.GRAY_DYE) { // did not click on a locked dye
 			if(getIcon().getEnchantments().isEmpty()) {
 				PlayerProfile.getGamePlayer(player).setPaint(paint);
@@ -35,6 +35,6 @@ public class EquipPaintItem extends GameMenuItem {
 		}
 		getContainedIn().closeMenu(player);
 		
-	}
+	}*/
 
 }

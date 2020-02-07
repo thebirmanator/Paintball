@@ -8,6 +8,10 @@ import org.bukkit.inventory.ItemStack;
 public abstract class GameMenuItem extends ClickableItem {
 
 	private GameMenu owningMenu;
+
+	protected GameMenuItem() {
+
+	}
 	
 	public GameMenuItem(GameMenu owningMenu) {
 		this.owningMenu = owningMenu;

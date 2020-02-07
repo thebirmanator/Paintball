@@ -29,13 +29,13 @@ public class GameStartListener implements Listener {
 		
 		Random random = new Random();
 		List<Location> availableSpawnpoints = new ArrayList<Location>();
-		availableSpawnpoints.addAll(game.getUsedArena().getSpawnPoints());
-		for(PlayerProfile gp : game.getInGamePlayers()) {
+		availableSpawnpoints.addAll(game.getArena().getFreeForAllSpawnPoints());
+		for(PlayerProfile gp : game.getPlayers(true)) {
 			// set gamemode, find a spawnpoint
 			gp.getPlayer().setGameMode(Main.defaultGamemode);
 			
 			if(availableSpawnpoints.size() == 0) { // all spawn points have been used, add them all back to be used again
-				availableSpawnpoints.addAll(game.getUsedArena().getSpawnPoints());
+				availableSpawnpoints.addAll(game.getArena().getFreeForAllSpawnPoints());
 			}
 			
 			// find a spawnpoint
@@ -49,7 +49,7 @@ public class GameStartListener implements Listener {
 		}
 
 		// spawn powerups at their spawn points
-		List<Location> powerupSpawns = game.getUsedArena().getPowerUpSpawnPoints();
+		List<Location> powerupSpawns = game.getArena().getPowerUpSpawnPoints();
 		for(Location spawn : powerupSpawns) {
 			// choose a random powerup
 			int powerupIndex = random.nextInt(PowerUp.getPowerUps().size());

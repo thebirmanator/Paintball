@@ -49,7 +49,7 @@ public class ViewStatsCommand implements CommandExecutor {
                                 } else if(arg2.equalsIgnoreCase("deaths")) {
                                     sendStatsMessage(player, target, DEATHS);
                                 } else if(arg2.equalsIgnoreCase("games")) {
-                                    sendStatsMessage(player, target, GAMES);
+                                    sendStatsMessage(player, target, GAMES_PLAYED);
                                 } else { // unrecognised second argument, send help
                                     player.sendMessage(Main.prefix + "Help for /viewstats:");
                                     player.sendMessage(ChatColor.DARK_GREEN + " /viewstats" + ChatColor.GREEN + ": View your own overview stats");
@@ -71,7 +71,7 @@ public class ViewStatsCommand implements CommandExecutor {
                         } else if(arg1.equalsIgnoreCase("deaths")) {
                             sendStatsMessage(player, gp, DEATHS);
                         } else if(arg1.equalsIgnoreCase("games")) {
-                            sendStatsMessage(player, gp, GAMES);
+                            sendStatsMessage(player, gp, GAMES_PLAYED);
                         } else { // unrecognised first argument, send help
                             player.sendMessage(Main.prefix + "Help for /viewstats:");
                             player.sendMessage(ChatColor.DARK_GREEN + " /viewstats" + ChatColor.GREEN + ": View your own overview stats");

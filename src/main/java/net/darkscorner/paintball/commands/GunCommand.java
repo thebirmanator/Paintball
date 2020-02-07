@@ -68,12 +68,12 @@ public class GunCommand implements CommandExecutor {
                                 meta.setLore(lore);
                                 icon.setItemMeta(meta);
                             }
-                            EquipGunItem paintItem = new EquipGunItem(null, icon, gun);
-                            gameMenu.addButton(index, paintItem);
+                            //EquipGunItem paintItem = new EquipGunItem(null, icon, gun);
+                            //gameMenu.addItem(index, paintItem);
                             index++;
                         }
                     }
-                    gameMenu.openMenu(player);
+                    gameMenu.open(player);
                     return true;
                 } else {
                     player.sendMessage(Main.prefix + "You may not use this command in a game.");

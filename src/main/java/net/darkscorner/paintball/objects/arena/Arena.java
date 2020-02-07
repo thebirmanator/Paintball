@@ -7,6 +7,7 @@ import java.util.*;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -202,6 +203,15 @@ public class Arena implements ArenaSetting {
 		Menu menu = Menu.getViewing(player);
 		return menu instanceof ArenaEditorMenu;
 	}
+
+	public static Arena getEditing(Player player) {
+		for (Arena arena : getArenas()) {
+			if (arena.isEditing(player)) {
+				return arena;
+			}
+		}
+		return null;
+	}
 	/*
 	public Material getMaterial() {
 		return material;
@@ -269,10 +279,10 @@ public class Arena implements ArenaSetting {
 		}
 		return null;
 	}
-	
+	/*
 	public static void addArena(Arena arena) {
 		arenas.add(arena);
-	}
+	}*/
 
 	@Override
 	public FileConfiguration getConfig() {
@@ -282,6 +292,6 @@ public class Arena implements ArenaSetting {
 	//TODO: code for checking if in the boundaries
 	public boolean isInArena(Player player) {
 		Location location = player.getLocation();
-		return false;
+		return location.toVector().isInAABB(getBoundaries()[0].toVector(), getBoundaries()[1].toVector());
 	}
 }

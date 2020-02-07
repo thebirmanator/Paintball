@@ -15,7 +15,7 @@ public class GamePlayerJoinListener implements Listener {
 	public void onGameJoin(GamePlayerJoinEvent event) {
 		Game game = event.getGame();
 		
-		event.getPlayer().getPlayer().teleport(game.getUsedArena().getLobbyLocation());
+		event.getPlayer().getPlayer().teleport(game.getArena().getLobbyLocation());
 		
 		// tell everyone that someone joined
 		for(PlayerProfile p : game.getAllPlayers()) {
@@ -26,8 +26,8 @@ public class GamePlayerJoinListener implements Listener {
 		
 		// if players joining the game is the same or higher than required start amount, start the countdown
 		if(game.getGameState() == GameState.IDLE) {
-			if(game.getInGamePlayers().size() >= game.getStartPlayerAmount()) {
-				game.startCountdown();
+			if(game.getPlayers(true).size() >= game.getStartPlayerAmount()) {
+				game.countdown(true);
 			}
 		}
 	}

@@ -23,7 +23,13 @@ public class Locations {
     }
 
     public static String locToString(Location location) {
-
+        String world = location.getWorld().getName();
+        double x = location.getX();
+        double y = location.getY();
+        double z = location.getZ();
+        float yaw = location.getYaw();
+        float pitch = location.getPitch();
+        return world + "|" + x + "|" + y + "|" + z + "|" + pitch + "|" + yaw;
     }
 
     public static void locToConfig(FileConfiguration config, String configPath, Location loc) {

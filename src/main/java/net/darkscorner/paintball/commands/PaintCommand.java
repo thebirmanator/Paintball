@@ -70,11 +70,11 @@ public class PaintCommand implements CommandExecutor {
 							meta.setLore(lore);
 							icon.setItemMeta(meta);
 						}
-						EquipPaintItem paintItem = new EquipPaintItem(null, icon, paint);
-						gameMenu.addButton(index, paintItem);
+						//EquipPaintItem paintItem = new EquipPaintItem(null, icon, paint);
+						//gameMenu.addItem(index, paintItem);
 						index++;
 					}
-					gameMenu.openMenu(player);
+					gameMenu.open(player);
 					return true;
 				} else {
 					player.sendMessage(Main.prefix + "You may not use this command in a game.");

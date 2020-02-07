@@ -9,7 +9,7 @@ public class GameCreateListener implements Listener {
 
 	@EventHandler
 	public void onCreate(GameCreateEvent event) {
-		event.getGame().getUsedArena().setIsInUse(true);
-		event.getGame().startWaitingForPlayers();
+		//event.getGame().getUsedArena().setIsInUse(true);
+		event.getGame().waitForPlayers(true);
 	}
 }

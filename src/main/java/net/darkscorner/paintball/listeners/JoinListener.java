@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.listeners;
 
+import net.darkscorner.paintball.objects.menus.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -35,12 +36,16 @@ public class JoinListener implements Listener {
 		event.getPlayer().getInventory().remove(Material.GOLDEN_HOE);
 		
 		// remove edit kit
+		if (Arena.getEditing(event.getPlayer()) != null) {
+			Menu.getViewing(event.getPlayer()).close(event.getPlayer());
+		}
+		/*
 		if(event.getPlayer().hasMetadata(ArenaEditCommand.editMeta)) {
 			String arena = event.getPlayer().getMetadata(ArenaEditCommand.editMeta).get(0).asString();
 			if(!arena.isEmpty()) { // is not in general block edit mode
 				Arena.getArena(arena).removeEditKit(event.getPlayer());
 			}
-		}
+		}*/
 					
 		// set to survival mode in case they were spectating
 		event.getPlayer().setGameMode(GameMode.SURVIVAL);
@@ -53,7 +58,7 @@ public class JoinListener implements Listener {
 			@Override
 			public void run() {
 				Player player = event.getPlayer();
-				player.teleport(Game.getLobbySpawn());
+				//player.teleport(Game.getLobbySpawn());
 				PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
 				if(playerProfile != null) {
 					if(playerProfile.isInGame()) { // player was in a game
@@ -61,18 +66,18 @@ public class JoinListener implements Listener {
 						if(game.getGameState() != GameState.ENDED) { // set player to spectate if their game hasnt ended
 							game.setToSpectating(playerProfile);
 						} else { // player game has ended
-							player.teleport(Game.getLobbySpawn());
+							//player.teleport(Game.getLobbySpawn());
 							player.sendMessage(Main.prefix + "The game you were in has ended.");
 							playerProfile.setStatsBoard(StatsBoard.LOBBY);
 						}
 					} else { // player is not in a game
-						player.teleport(Game.getLobbySpawn());
+						//player.teleport(Game.getLobbySpawn());
 						player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 						playerProfile.setStatsBoard(StatsBoard.LOBBY);
 					}
 				} else { // the player is new to the server
 					new PlayerProfile(player);
-					player.teleport(Game.getLobbySpawn());
+					//player.teleport(Game.getLobbySpawn());
 					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
 

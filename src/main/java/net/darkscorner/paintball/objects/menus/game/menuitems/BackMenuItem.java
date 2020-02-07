@@ -15,6 +15,10 @@ public class BackMenuItem extends GameMenuItem {
 	private GameMenu backMenu;
 	private static ItemStack templateItem;
 
+	protected BackMenuItem() {
+
+	}
+
 	public BackMenuItem(GameMenu parent, GameMenu backMenu) {
 		super(parent);
 		this.backMenu = backMenu;
@@ -33,6 +37,6 @@ public class BackMenuItem extends GameMenuItem {
 
 	@Override
 	public void createTemplate() {
-		templateItem = new ItemEditor().buildItem(Material.BIRCH_DOOR, Text.format("&cGo Back")).getItemStack();
+		templateItem = new ItemEditor(Material.BIRCH_DOOR, Text.format("&cGo Back")).getItemStack();
 	}
 }

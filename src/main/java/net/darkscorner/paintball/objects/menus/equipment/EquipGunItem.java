@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-public class EquipGunItem extends GameMenuItem {
+public class EquipGunItem /*extends GameMenuItem*/ {
 //TODO: integrate equippable stuff into the menu system
+    /*
     private Gun gun;
     public EquipGunItem(GameMenuItem parent, ItemStack icon, Gun gun) {
         super(parent, icon);
@@ -34,5 +35,5 @@ public class EquipGunItem extends GameMenuItem {
         }
         getContainedIn().closeMenu(player);
 
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
+//import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.*;
@@ -49,7 +49,7 @@ public class Main extends JavaPlugin {
 	private PaintCommand paintcmd = new PaintCommand();
 	private ViewStatsCommand viewstatscmd = new ViewStatsCommand();
 	private GunCommand guncmd = new GunCommand();
-	public static ArcadeCoinsAPI coins;
+	//public static ArcadeCoinsAPI coins;
 	
 	public static String prefix = ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL"+ ChatColor.DARK_GRAY + " ⎜ " + ChatColor.GRAY;
 	public static GameMode defaultGamemode = GameMode.SURVIVAL;
@@ -60,7 +60,7 @@ public class Main extends JavaPlugin {
 		instance = this;
 		loadConfigs();
 		
-		coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
+		//coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
 
 		new StandardGun(createGun(Material.GOLDEN_HOE, ChatColor.YELLOW + "Standard-issue"), GunType.STANDARD).setDefault();
 		new MachineGun(createGun(Material.IRON_HOE, ChatColor.YELLOW + "Machine gun: rapid fire"), GunType.MACHINE_GUN);
@@ -126,7 +126,7 @@ public class Main extends JavaPlugin {
 				} else { // is not the arena folder
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
 					if(necessaryFiles[i].equals("main.yml")) {
-						new Game(config, this);
+						//new Game(config, this);
 						loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
 						new Paint(config, this);
@@ -146,7 +146,7 @@ public class Main extends JavaPlugin {
 					saveResource(necessaryFiles[i], true);
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
 					if(necessaryFiles[i].equals("main.yml")) {
-						new Game(config, this);
+						//new Game(config, this);
 						loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
 						new Paint(config, this);
@@ -170,35 +170,9 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public ArcadeCoinsAPI getArcadeCoinsAPI() {
+	/*public ArcadeCoinsAPI getArcadeCoinsAPI() {
 		return coins;
-	}
-	
-	public Location configToLoc(FileConfiguration config, String configPath) {
-		World world = Bukkit.getWorld(config.getString(configPath + ".world"));
-		int x = config.getInt(configPath + ".x");
-		int y = config.getInt(configPath + ".y");
-		int z = config.getInt(configPath + ".z");
-		int yaw = config.getInt(configPath + ".yaw");
-		int pitch = config.getInt(configPath + ".pitch");
-		Location loc = new Location(world, x, y, z, yaw, pitch);
-		return loc;
-	}
-	
-	public void locToConfig(FileConfiguration config, String configPath, Location loc) {
-		String world = loc.getWorld().getName();
-		double x = loc.getX();
-		double y = loc.getY();
-		double z = loc.getZ();
-		float yaw = loc.getYaw();
-		float pitch = loc.getPitch();
-		config.set(configPath + ".world", world);
-		config.set(configPath + ".x", x);
-		config.set(configPath + ".y", y);
-		config.set(configPath + ".z", z);
-		config.set(configPath + ".yaw", yaw);
-		config.set(configPath + ".pitch", pitch);
-	}
+	}*/
 	
 	private void loadPowerUps(FileConfiguration config) {
 		new PowerUp(config);

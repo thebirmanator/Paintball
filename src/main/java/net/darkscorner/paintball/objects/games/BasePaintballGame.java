@@ -14,6 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,6 +24,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,6 +36,8 @@ public abstract class BasePaintballGame implements Game {
     // maps player to if they are in game playing
     private Map<PlayerProfile, Boolean> allPlayers = new HashMap<>();
     private Arena arena;
+    //TODO: be not lazy and fix this later
+    private FileConfiguration config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "main.yml"));
 
     private int currentTaskID = -1;
 
@@ -125,14 +131,14 @@ public abstract class BasePaintballGame implements Game {
                 currentTime++;
 
                 for (PlayerProfile p : getAllPlayers()) {
-                    p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + formatTime(timeRemaining));
+                    //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + formatTime(timeRemaining));
                 }
 
                 if(currentTime > getGameTimeLength()) {
                     endGame();
                     cancelCurrentTask();
                     for(PlayerProfile p : getAllPlayers()) {
-                        p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + "ENDED");
+                        //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + "ENDED");
                     }
                 }
 
@@ -144,7 +150,7 @@ public abstract class BasePaintballGame implements Game {
             p.getPlayer().sendTitle(ChatColor.GREEN + "Go!", "", 5, 20, 5);
             p.playSound(SoundEffect.GAME_START);
 
-            p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + 0);
+            //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + 0);
         }
 
         setGameState(GameState.STARTED);
@@ -167,13 +173,14 @@ public abstract class BasePaintballGame implements Game {
         if(!setSpec) {
             //player.setCurrentGame(this);
             player.createNewStats(this);
+            /*
             player.setStatsBoard(StatsBoard.INGAME);
             Scoreboard bukkitBoard = player.getPlayer().getScoreboard();
             player.getGameScoreboard().update(bukkitBoard, "%arena%", arena.getName());
             player.getGameScoreboard().update(bukkitBoard, "%shots%", "" + 0);
             player.getGameScoreboard().update(bukkitBoard, "%kills%", "" + 0);
             player.getGameScoreboard().update(bukkitBoard, "%deaths%", "" + 0);
-            player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");
+            player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");*/
 
             Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerJoinEvent(player, this));
         } else {
@@ -193,11 +200,11 @@ public abstract class BasePaintballGame implements Game {
         player.getPlayer().setGameMode(GameMode.SPECTATOR);
         Location specPoint = arena.getSpectatingPoint();
         player.getPlayer().teleport(specPoint);
-
+/*
         player.setStatsBoard(StatsBoard.SPECTATE);
         Scoreboard bukkitBoard = player.getPlayer().getScoreboard();
         player.getGameScoreboard().update(bukkitBoard, "%arena%", arena.getName());
-        player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");
+        player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");*/
         Main.getInstance().getServer().getPluginManager().callEvent(new GameSpectateEvent(player, this));
     }
 
@@ -243,5 +250,10 @@ public abstract class BasePaintballGame implements Game {
         }
 
         allGames.remove(this);
+    }
+
+    @Override
+    public FileConfiguration getGameConfig() {
+        return config;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.utils.Locations;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -50,12 +51,12 @@ public interface Game {
 	//public Game(FileConfiguration mainConfig, Main main) {
 		//gameConfig = mainConfig;
 		//this.main = main;
-		
-		//startPlayerAmount = gameConfig.getInt("players-to-start-game");
-		//maxPlayerAmount = gameConfig.getInt("max-players-per-game");
-		//gameTime = gameConfig.getInt("game-time-in-seconds");
-		//lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
-		//coinsForKill = gameConfig.getInt("base-crystals-on-kill");
+
+	//startPlayerAmount = gameConfig.getInt("players-to-start-game");
+	//maxPlayerAmount = gameConfig.getInt("max-players-per-game");
+	//gameTime = gameConfig.getInt("game-time-in-seconds");
+	//lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
+	//coinsForKill = gameConfig.getInt("base-crystals-on-kill");
 		/*
 		List<String> blacklistStrings = gameConfig.getStringList("blacklisted-blocks");
 		for(String materialString : blacklistStrings) {
@@ -66,8 +67,8 @@ public interface Game {
 				main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
 			}
 		} */
-		//paintRadius = gameConfig.getInt("paint-radius");
-		//respawnTime = gameConfig.getInt("seconds-to-respawn");
+	//paintRadius = gameConfig.getInt("paint-radius");
+	//respawnTime = gameConfig.getInt("seconds-to-respawn");
 		/*
 		normalDeathMsgs = gameConfig.getStringList("death-messages.normal");
 		for(int i = 0; i < normalDeathMsgs.size(); i++) {
@@ -89,10 +90,7 @@ public interface Game {
 		
 		this.main.getServer().getPluginManager().callEvent(new GameCreateEvent(this.main, this));
 	}*/
-//TODO: get custom config
-	static FileConfiguration getGameConfig() {
-		return Main.getInstance().getConfig();
-	}
+	FileConfiguration getGameConfig();
 
 	default int getStartPlayerAmount() {
 		return getGameConfig().getInt("players-to-start-game");
@@ -106,8 +104,8 @@ public interface Game {
 		return getGameConfig().getInt("game-time-in-seconds");
 	}
 	
-	static Location getLobbySpawn() {
-		return Main.getInstance().configToLoc(getGameConfig(), "lobby-spawnpoint");
+	default Location getLobbySpawn() {
+		return Locations.stringToLoc(getGameConfig().getString("lobby-spawnpoint"));
 	}
 	
 	default int getCoinsPerKill() {
@@ -115,7 +113,7 @@ public interface Game {
 	}
 
 	//TODO: make this not load everytime the method runs
-	static Set<Material> getUnpaintableMaterials() {
+	default Set<Material> getUnpaintableMaterials() {
 		List<String> blacklistStrings = getGameConfig().getStringList("blacklisted-blocks");
 		Set<Material> blacklistedMaterials = new HashSet<>();
 		for(String materialString : blacklistStrings) {
@@ -129,7 +127,7 @@ public interface Game {
 		return blacklistedMaterials;
 	}
 	
-	static int getPaintRadius() {
+	default int getPaintRadius() {
 		return getGameConfig().getInt("paint-radius");
 	}
 	
@@ -367,7 +365,7 @@ public interface Game {
 		allGames.remove(this);
 	}*/
 	//TODO: fancy forEach or something?
-	static List<String> getNormalDeathMsgs() {
+	default List<String> getNormalDeathMsgs() {
 		List<String> msgs = getGameConfig().getStringList("death-messages.normal");
 		for (int i = 0; i < msgs.size(); i++) {
 			String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
@@ -376,7 +374,7 @@ public interface Game {
 		return msgs;
 	}
 	
-	static List<String> getSuicideDeathMsgs() {
+	default List<String> getSuicideDeathMsgs() {
 		List<String> msgs = getGameConfig().getStringList("death-messages.suicide");
 		for (int i = 0; i < msgs.size(); i++) {
 			//TODO: make colouriser into util

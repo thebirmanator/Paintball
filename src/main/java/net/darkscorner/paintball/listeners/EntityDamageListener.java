@@ -42,7 +42,7 @@ public class EntityDamageListener implements Listener {
 						
 						@Override
 						public void run() {
-							player.teleport(Game.getLobbySpawn());
+							//player.teleport(Game.getLobbySpawn());
 						}
 					});
 				}
@@ -54,7 +54,7 @@ public class EntityDamageListener implements Listener {
 					}
 				} else {
 					if(event.getDamage() >= player.getHealth()) {
-						player.teleport(Game.getLobbySpawn());
+						//player.teleport(Game.getLobbySpawn());
 					}
 				}
 			}

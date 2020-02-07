@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import net.darkscorner.paintball.objects.player.PlayerGameStatistics;
+import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerStat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,32 +34,30 @@ public class GameEndListener implements Listener {
 		Game game = event.getGame();
 		
 		// remove powerups from map
-		for(Location loc : game.getUsedArena().getPowerUpSpawnPoints()) {
+		for(Location loc : game.getArena().getPowerUpSpawnPoints()) {
 			loc.getBlock().setType(Material.AIR);
 		}
 		
 		// sort the players from highest to lowest score
-		List<PlayerProfile> players = new ArrayList<PlayerProfile>(game.getInGamePlayers());
-		Collections.sort(players, new Comparator<PlayerProfile>() {
-
-			@Override
-			public int compare(PlayerProfile p1, PlayerProfile p2) {
-				if(p1.getStats().getKills() > p2.getStats().getKills()) {
-					return -1;
-				} else if(p1.getStats().getKills() < p2.getStats().getKills()) {
-					return 1;
-				}
-				return 0;
-				
+		List<PlayerProfile> players = new ArrayList<PlayerProfile>(game.getPlayers(true));
+		players.sort((p1, p2) -> {
+			if (p1.getCurrentGameStats().getStat(PlayerInGameStat.KILLS) >
+					p2.getCurrentGameStats().getStat(PlayerInGameStat.KILLS)) {
+				return -1;
+			} else if (p1.getCurrentGameStats().getStat(PlayerInGameStat.KILLS) <
+					p2.getCurrentGameStats().getStat(PlayerInGameStat.KILLS)) {
+				return 1;
 			}
+			return 0;
+
 		});
 		
 		// report stats to each player, update their profiles
-		for(PlayerProfile gp : game.getInGamePlayers()) {
+		for(PlayerProfile gp : game.getPlayers(true)) {
 			sendStatsMessage(gp);
 
 			// gameplayerleavelistener takes care of the other stats, update games played
-			gp.addToTotal(PlayerStat.GAMES, 1);
+			gp.addToTotal(PlayerStat.GAMES_PLAYED, 1);
 			gp.saveProfile();
 
 			gp.getPlayer().getInventory().clear();
@@ -68,7 +68,7 @@ public class GameEndListener implements Listener {
 		for(int i = 0; i < 3; i++) {
 			if(i < players.size()) {
 				String name = players.get(i).getPlayer().getName();
-				int kills = players.get(i).getStats().getKills();
+				int kills = players.get(i).getCurrentGameStats().getStat(PlayerInGameStat.KILLS);
 				for(PlayerProfile pInGame : game.getAllPlayers()) {
 					if(i == 0) { // top of the board
 						pInGame.getPlayer().sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Leaderboard");
@@ -85,22 +85,24 @@ public class GameEndListener implements Listener {
 			public void run() {
 				for(PlayerProfile p : game.getAllPlayers()) {
 					p.removePowerUps();
-					p.getPlayer().teleport(Game.getLobbySpawn());
+					p.getPlayer().teleport(game.getLobbySpawn());
 					p.setStatsBoard(StatsBoard.LOBBY);
 					p.getPlayer().setGameMode(Main.defaultGamemode);
 					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
-					game.removePlayer(p);
+					//game.removePlayer(p);
 				}
+				game.getAllPlayers().clear();
 				
-				game.getUsedArena().setIsInUse(false);
+				//game.getUsedArena().setIsInUse(false);
 			}
 		}, 100);
 	}
 	
 	private void sendStatsMessage(PlayerProfile gp) {
-		int deaths = gp.getStats().getDeaths();
-		int kills = gp.getStats().getKills();
-		int shots = gp.getStats().getNumShotsFired();
+		PlayerGameStatistics stats = gp.getCurrentGameStats();
+		int deaths = stats.getStat(PlayerInGameStat.DEATHS);
+		int kills = stats.getStat(PlayerInGameStat.KILLS);
+		int shots = stats.getStat(PlayerInGameStat.SHOTS);
 
 		String kdrMessage;
 		if(deaths == 0) { // undefined kda
@@ -111,7 +113,7 @@ public class GameEndListener implements Listener {
 		}
 		gp.getPlayer().sendMessage("");
 		gp.getPlayer().sendMessage(Main.prefix + "Game Stats:");
-		gp.getPlayer().sendMessage(ChatColor.AQUA + "   You have gained " + (gp.getStats().getKills() * gp.getCurrentGame().getCoinsPerKill()) + " Arcade Coins.");
+		//gp.getPlayer().sendMessage(ChatColor.AQUA + "   You have gained " + (gp.getStats().getKills() * gp.getCurrentGame().getCoinsPerKill()) + " Arcade Coins.");
 		gp.getPlayer().sendMessage(ChatColor.GRAY + "   Your kill-death ratio: " + ChatColor.GREEN + kills + ChatColor.DARK_GRAY + ":" + ChatColor.RED + deaths + ChatColor.GRAY + "=" + kdrMessage);
 
 		if(shots == 0) { // undefined accuracy
@@ -121,7 +123,7 @@ public class GameEndListener implements Listener {
 			String accuracyMessage = String.format("%.2f", accuracy);
 			gp.getPlayer().sendMessage(ChatColor.GRAY + "   Your accuracy: " + ChatColor.GOLD + accuracyMessage);
 		}
-		gp.getPlayer().sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "   Map Creator: " + ChatColor.DARK_AQUA + gp.getCurrentGame().getUsedArena().getCreator());
+		gp.getPlayer().sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "   Map Creator: " + ChatColor.DARK_AQUA + gp.getCurrentGame().getArena().getCreator());
 		gp.getPlayer().sendMessage("");
 	}
 }

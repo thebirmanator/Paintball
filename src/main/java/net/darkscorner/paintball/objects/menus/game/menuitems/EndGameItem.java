@@ -42,7 +42,7 @@ public class EndGameItem extends GameMenuItem {
 
 	@Override
 	public void createTemplate() {
-		templateItem = new ItemEditor().buildItem(Material.BEDROCK, Text.format("&cEnd Game"))
+		templateItem = new ItemEditor(Material.BEDROCK, Text.format("&cEnd Game"))
 				.addAction(ClickType.LEFT, "to force-end this game.")
 				.getItemStack();
 	}

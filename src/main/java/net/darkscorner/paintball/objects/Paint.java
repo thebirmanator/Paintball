@@ -64,17 +64,18 @@ public class Paint {
 	public void showPaint(Location projectileLocation) {
 		// get the locations to paint
 		List<Location> locList = new ArrayList<Location>();
+		/*
 		int radius = Game.getPaintRadius();
 		for(int x = radius * -1; x < radius + 1; x++) {
 			for(int y = radius * -1; y < radius + 1; y++) {
 				for(int z = radius * -1; z < radius + 1; z++) {
 					Location loc = new Location(projectileLocation.getWorld(), projectileLocation.getBlockX() + x, projectileLocation.getBlockY() + y, projectileLocation.getBlockZ() + z);
-					if(!Game.getUnpaintableMaterials().contains(loc.getBlock().getType())) {
+					if(!getUnpaintableMaterials().contains(loc.getBlock().getType())) {
 						locList.add(loc);
 					}
 				}
 			}
-		}
+		}*/
 		
 		// paint the locations for each player
 		for(Location location : locList) {

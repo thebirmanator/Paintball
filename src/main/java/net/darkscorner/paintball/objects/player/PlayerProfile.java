@@ -58,6 +58,11 @@ public class PlayerProfile {
 		setStatsBoard(StatsBoard.LOBBY);
 
 		playerFile = new File("plugins/DarkPaintball/playerdata/" + uuid.toString() + ".yml");
+		try {
+			playerFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		config = YamlConfiguration.loadConfiguration(playerFile);
 
 		// set player stats for new player

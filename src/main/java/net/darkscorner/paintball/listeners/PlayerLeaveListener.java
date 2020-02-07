@@ -1,5 +1,7 @@
 package net.darkscorner.paintball.listeners;
 
+import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -37,9 +39,13 @@ public class PlayerLeaveListener implements Listener {
 		}
 		
 		// remove edit kit
+		/*
 		if(EditorKit.hasKit(event.getPlayer())) {
 			EditorKit.getActiveKit(event.getPlayer()).removeKit();
 			event.getPlayer().removeMetadata(ArenaEditCommand.editMeta, main);
+		}*/
+		if (Menu.getViewing(event.getPlayer()) instanceof ArenaEditorMenu) {
+			Menu.getViewing(event.getPlayer()).close(event.getPlayer());
 		}
 	}
 	
@@ -60,9 +66,13 @@ public class PlayerLeaveListener implements Listener {
 		}
 		
 		// remove edit kit
+		/*
 		if(EditorKit.hasKit(event.getPlayer())) {
 			EditorKit.getActiveKit(event.getPlayer()).removeKit();
 			event.getPlayer().removeMetadata(ArenaEditCommand.editMeta, main);
+		}*/
+		if (Menu.getViewing(event.getPlayer()) instanceof ArenaEditorMenu) {
+			Menu.getViewing(event.getPlayer()).close(event.getPlayer());
 		}
 	}
 }

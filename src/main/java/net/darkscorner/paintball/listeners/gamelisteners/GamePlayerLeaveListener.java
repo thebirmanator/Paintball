@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
+import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerStat;
 import net.darkscorner.paintball.objects.guns.ShotGun;
 import org.bukkit.ChatColor;
@@ -19,11 +20,11 @@ public class GamePlayerLeaveListener implements Listener {
 	public void onGameLeave(GamePlayerLeaveEvent event) {
 		Game game = event.getGame();
 		PlayerProfile player = event.getPlayer();
-		boolean wasSpectator = game.getSpectatingPlayers().contains(player);
+		boolean wasSpectator = game.getPlayers(false).contains(player);
 		player.getPlayer().setGameMode(Main.defaultGamemode);
 		
 		// if the game isnt idle (they are in a lobby), dont tp them to the lobby
-		player.getPlayer().teleport(Game.getLobbySpawn());
+		player.getPlayer().teleport(event.getGame().getLobbySpawn());
 		player.setStatsBoard(StatsBoard.LOBBY);
 		
 		if(!wasSpectator) { // if they were not a spectator
@@ -39,7 +40,7 @@ public class GamePlayerLeaveListener implements Listener {
 			}
 
 			// remove invulnerable if they leave
-			game.makeVulnerable(player.getPlayer());
+			//game.makeVulnerable(player.getPlayer());
 
 			// remove gun cooldown if they leave
 			if(player.getPlayer().hasMetadata(ShotGun.metaCooldown)) {
@@ -47,14 +48,14 @@ public class GamePlayerLeaveListener implements Listener {
 			}
 
 			// if only one player remains in game, end it
-			if(game.getGameState() == GameState.STARTED && game.getInGamePlayers().size() < 2) {
+			if(game.getGameState() == GameState.STARTED && game.getPlayers(true).size() < 2) {
 				game.endGame();
 			}
 
 			// save stats
-			player.addToTotal(PlayerStat.DEATHS, player.getStats().getDeaths());
-			player.addToTotal(PlayerStat.KILLS, player.getStats().getKills());
-			player.addToTotal(PlayerStat.SHOTS, player.getStats().getNumShotsFired());
+			player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
+			player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
+			player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
 			player.saveProfile();
 		}
 	}

@@ -4,13 +4,7 @@ blacklisted-blocks:
 - AIR
 - WATER
 - LAVA
-lobby-spawnpoint:
- world: world
- x: -222
- y: 68
- z: -638
- yaw: -90
- pitch: 0
+lobby-spawnpoint: world|-222|68|-638|-90|0
 paint-radius: 3
 seconds-to-respawn: 5
 game-time-in-seconds: 20
@@ -33,7 +27,7 @@ death-messages:
  normal:
  - '%killer% painted %victim% out of existence.'
  - '%killer% thought %victim% needed a face... and body paint.'
- - '%killer% carefully edited %victim%'s skin.'
+ - '%killer% carefully edited %victim%s skin.'
  suicide:
  - '%victim% thought the paint was icing. They were wrong.'
  - '%victim% considered themselves the enemy.'

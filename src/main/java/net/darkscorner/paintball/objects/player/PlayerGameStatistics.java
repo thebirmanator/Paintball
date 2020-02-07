@@ -38,6 +38,14 @@ public class PlayerGameStatistics {
 		return currentKillStreak;
 	}
 
+	public void setCurrentKillStreak(int amount) {
+		currentKillStreak = amount;
+	}
+
+	public void addToKillStreak(int amount) {
+		setCurrentKillStreak(getCurrentKillStreak() + amount);
+	}
+
 	public int getStat(PlayerInGameStat stat) {
 		return stats.getOrDefault(stat, 0);
 	}

@@ -34,11 +34,11 @@ public class PlayerChatListener implements Listener {
 					String editing = event.getMessage();
 					editing = ChatColor.translateAlternateColorCodes('&', editing);
 					if(sender.getMetadata(ArenaEditorItem.editingMeta).get(0).asString().equals(NameArenaEditor.attrMeta)) { // editing arena name
-						arena.setName(editing);
+						//arena.setName(editing);
 						sender.removeMetadata(NameArenaEditor.editingMeta, Main.getPlugin(Main.class));
 						sender.sendMessage(Main.prefix + "Set arena display name to " + editing);
 					} else if(sender.getMetadata(ArenaEditorItem.editingMeta).get(0).asString().equals(CreatorArenaEditor.attrMeta)) { // editing arena creator
-						arena.setCreator(editing);
+						//arena.setCreator(editing);
 						sender.removeMetadata(CreatorArenaEditor.editingMeta, Main.getPlugin(Main.class));
 						sender.sendMessage(Main.prefix + "Set arena creator name to " + editing);
 					}
@@ -50,10 +50,10 @@ public class PlayerChatListener implements Listener {
 			Set<Player> playerRecipients = event.getRecipients();
 			Set<PlayerProfile> recipients = new HashSet<>();
 			if(gSender.isInGame()) {
-				if(gSender.getCurrentGame().getInGamePlayers().contains(gSender)) { // player is in game; send their message to everyone in game and spectating
+				if(gSender.getCurrentGame().getPlayers(true).contains(gSender)) { // player is in game; send their message to everyone in game and spectating
 					recipients = gSender.getCurrentGame().getAllPlayers();
 				} else { // player is spectating, send message to other spectators
-					recipients = gSender.getCurrentGame().getSpectatingPlayers();
+					recipients = gSender.getCurrentGame().getPlayers(false);
 				}
 			} else { // player is not in game; send to anyone else not in a game
 				for(Player p : Bukkit.getOnlinePlayers()) {
