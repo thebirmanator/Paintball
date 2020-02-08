@@ -1,23 +1,18 @@
-package net.darkscorner.paintball.objects.menus.game.menuitems;
+package net.darkscorner.paintball.objects.menus.game.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
 import net.darkscorner.paintball.utils.ItemEditor;
-import net.darkscorner.paintball.utils.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerOptionsItem extends GameMenuItem {
 
@@ -41,7 +36,7 @@ public class PlayerOptionsItem extends GameMenuItem {
 					player.sendMessage(Main.prefix + "Kicked " + ChatColor.GREEN + gp.getPlayer().getName() + ChatColor.GRAY + " from the game.");
 					PlayerProfile.getGamePlayer(player).playSound(SoundEffect.FORWARD_CLICK);
 					gp.getPlayer().sendMessage(Main.prefix + "You have been " + ChatColor.RED + "kicked" + ChatColor.GRAY + " from the game.");
-					getOwningMenu().close(player);
+					getOwningMenu().close(player, true);
 				} else {
 					player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to kick players from a game.");
 				}

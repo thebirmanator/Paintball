@@ -1,25 +1,20 @@
-package net.darkscorner.paintball.objects.menus.arena.menuitems;
+package net.darkscorner.paintball.objects.menus.arena.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class ArenaEditorItem extends ClickableItem {
-
-	private ArenaEditorMenu editorMenu;
 	
 	public static String editingMeta = "editAttr";
 	
 	public ArenaEditorItem(ArenaEditorMenu editorMenu) {
-		this.editorMenu = editorMenu;
+		super(editorMenu);
 	}
 	
 	public Arena getArena() {
-		return editorMenu.getArena();
+		return ((ArenaEditorMenu) getOwningMenu()).getArena();
 	}
 																//material/display/leftclick/rightclick
 	//private ItemStack powerupEditor = getItem(Material.BEACON, ChatColor.BLUE + "Powerup Locations", "to add location.", "to remove location.");

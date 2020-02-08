@@ -20,7 +20,11 @@ public class InventoryClickListener implements Listener {
 				if (menu != null) {
 					ClickableItem clickableItem = menu.getClickableItem(event.getSlot());
 					if (clickableItem != null) {
-						clickableItem.use(player, event.getClick());
+						// is not the player's inventory; slots in player inv also have slots with the same numbers
+						if (!event.getClickedInventory().equals(player.getOpenInventory().getBottomInventory())) {
+							clickableItem.use(player, event.getClick());
+						}
+						event.setCancelled(true);
 					}
 				}
 			}

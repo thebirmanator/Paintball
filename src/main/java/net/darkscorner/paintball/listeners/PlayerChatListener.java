@@ -15,9 +15,9 @@ import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.CreatorArenaEditor;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.NameArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.items.CreatorArenaEditor;
+import net.darkscorner.paintball.objects.menus.arena.items.ArenaEditorItem;
+import net.darkscorner.paintball.objects.menus.arena.items.NameArenaEditor;
 
 public class PlayerChatListener implements Listener {
 

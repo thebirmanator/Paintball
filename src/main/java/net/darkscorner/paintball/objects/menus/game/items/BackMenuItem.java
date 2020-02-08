@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.menus.game.menuitems;
+package net.darkscorner.paintball.objects.menus.game.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
@@ -8,16 +8,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class BackMenuItem extends GameMenuItem {
 
 	private GameMenu backMenu;
 	private static ItemStack templateItem;
-
-	protected BackMenuItem() {
-
-	}
 
 	public BackMenuItem(GameMenu parent, GameMenu backMenu) {
 		super(parent);

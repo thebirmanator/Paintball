@@ -53,10 +53,10 @@ public class GamePlayerLeaveListener implements Listener {
 			}
 
 			// save stats
-			player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
-			player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
-			player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
-			player.saveProfile();
+			//player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
+			//player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
+			//player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
+			//player.saveProfile();
 		}
 	}
 }

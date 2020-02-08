@@ -1,9 +1,7 @@
-package net.darkscorner.paintball.objects.menus.game.menuitems;
+package net.darkscorner.paintball.objects.menus.game.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.utils.ItemEditor;
-import net.darkscorner.paintball.utils.Text;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -14,17 +12,14 @@ import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class GameItem extends GameMenuItem {
 
 	private Game game;
 	private static ItemStack templateItem;
 	// main game options menu; shows all games going on
-	public GameItem(Game game) {
-		super(null);
-		// no parent for this menu
-		
+	public GameItem(GameMenu parent, Game game) {
+		super(parent);
 		this.game = game;
 	}
 	
@@ -47,10 +42,10 @@ public class GameItem extends GameMenuItem {
 					
 				}
 			}
-			getOwningMenu().close(player);
+			getOwningMenu().close(player, true);
 			break;
 		case RIGHT: // open player list
-			GameMenu playerOptionsMenu = new GameMenu("Players", getOwningMenu(), 27);
+			GameMenu playerOptionsMenu = new GameMenu("Players", (GameMenu) getOwningMenu(), 27);
 			//GameMenu playerOptionsGameMenu = new GameMenu("Players", this, 27);
 			int index = 0;
 			for (PlayerProfile playerProfile : game.getPlayers(true)) {
@@ -58,14 +53,17 @@ public class GameItem extends GameMenuItem {
 				playerOptionsMenu.addItem(index, clickableItem);
 				index++;
 			}
+			//TODO: actually make this work
+			//playerOptionsMenu.showNavBar(true);
 			getOwningMenu().close(player);
 			playerOptionsMenu.open(player);
 			break;
 		case MIDDLE: // open game options
 			if (player.hasPermission("paintball.options.use")) {
-				GameMenu gameOptionsMenu = new GameMenu("Game Options", getOwningMenu(), 9);
+				GameMenu gameOptionsMenu = new GameMenu("Game Options", (GameMenu) getOwningMenu(), 9);
 				ClickableItem endGameItem = new EndGameItem(gameOptionsMenu).getForPlayer(player);
 				gameOptionsMenu.addItem(0, endGameItem);
+				//gameOptionsMenu.showNavBar(true);
 				getOwningMenu().close(player);
 				gameOptionsMenu.open(player);
 			} else {

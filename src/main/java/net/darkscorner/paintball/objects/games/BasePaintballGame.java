@@ -191,6 +191,7 @@ public abstract class BasePaintballGame implements Game {
 
     public void removePlayer(PlayerProfile player) {
         allPlayers.remove(player);
+        player.clearCurrentGameStats();
 
         Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerLeaveEvent(player, this));
     }

@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.menus.game.menuitems;
+package net.darkscorner.paintball.objects.menus.game.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
@@ -13,10 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EndGameItem extends GameMenuItem {
 
@@ -28,10 +24,10 @@ public class EndGameItem extends GameMenuItem {
 
 	@Override
 	public void use(Player player, ClickType click) {
-		getOwningMenu().getGame().endGame();
+		((GameMenu) getOwningMenu()).getGame().endGame();
 		player.sendMessage(Main.prefix + "You have " + ChatColor.RED + "force-ended" + ChatColor.GRAY + " the game.");
 		PlayerProfile.getGamePlayer(player).playSound(SoundEffect.FORWARD_CLICK);
-		getOwningMenu().close(player);
+		getOwningMenu().close(player, true);
 	}
 
 	@Override

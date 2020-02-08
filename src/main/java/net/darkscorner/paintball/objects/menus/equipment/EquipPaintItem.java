@@ -1,16 +1,5 @@
 package net.darkscorner.paintball.objects.menus.equipment;
 
-import net.darkscorner.paintball.objects.menus.game.menuitems.GameMenuItem;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.ItemStack;
-
-import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.Paint;
-
 public class EquipPaintItem /*extends GameMenuItem*/ {
 /*
 	private Paint paint;

@@ -147,6 +147,10 @@ public class PlayerProfile {
 	public PlayerGameStatistics getCurrentGameStats() {
 		return currentGameStats;
 	}
+
+	public void clearCurrentGameStats() {
+		currentGameStats = null;
+	}
 	
 	public GameScoreboard getGameScoreboard() {
 		return scoreboard;
@@ -185,16 +189,13 @@ public class PlayerProfile {
 	public static List<PlayerProfile> getOrderedByStat(PlayerStat stat) {
 		List<PlayerProfile> players = new ArrayList<>(playerProfiles);
 		Comparator<PlayerProfile> comparator;
-		comparator = new Comparator<PlayerProfile>() {
-			@Override
-			public int compare(PlayerProfile p1, PlayerProfile p2) {
-				if(p1.getTotal(stat) < p2.getTotal(stat)) {
-					return 1;
-				} else if(p1.getTotal(stat) > p2.getTotal(stat)) {
-					return -1;
-				} else {
-					return 0;
-				}
+		comparator = (p1, p2) -> {
+			if(p1.getTotal(stat) < p2.getTotal(stat)) {
+				return 1;
+			} else if(p1.getTotal(stat) > p2.getTotal(stat)) {
+				return -1;
+			} else {
+				return 0;
 			}
 		};
 

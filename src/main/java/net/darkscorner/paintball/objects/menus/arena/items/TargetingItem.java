@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.menus.arena.menuitems;
+package net.darkscorner.paintball.objects.menus.arena.items;
 
 import org.bukkit.Location;
 

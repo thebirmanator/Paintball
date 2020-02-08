@@ -58,6 +58,7 @@ public class PlayerGameStatistics {
 		amount = getStat(stat) + amount;
 		stats.replace(stat, amount);
 	}
+
 	/*
 	public int getKills() {
 		return kills;

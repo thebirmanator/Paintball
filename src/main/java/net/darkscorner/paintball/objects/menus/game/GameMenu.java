@@ -10,8 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
-import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.menus.game.menuitems.BackMenuItem;
+import net.darkscorner.paintball.objects.menus.game.items.BackMenuItem;
 
 public class GameMenu extends Menu {
 
@@ -80,18 +79,24 @@ public class GameMenu extends Menu {
 
 	@Override
 	public void close(Player player) {
-		if(player.getOpenInventory().getType() != InventoryType.CRAFTING) { // they have an open inv
-			player.closeInventory();
-		}
 		viewing.remove(player);
 		//PlayerProfile.getGamePlayer(player).setViewingGameMenu(null);
 	}
-	
+
+	@Override
+	public void close(Player player, boolean forceInv) {
+		if (forceInv) {
+			player.closeInventory();
+		}
+		close(player);
+	}
+
 	public Collection<ClickableItem> getClickableItems() {
 		return getItems().values();
 	}
 
-	public void setNavbarVisibility(boolean show) {
+	@Override
+	public void showNavBar(boolean show) {
 		if (parent != null && parent.getGame() != null) {
 			if (show) {
 				BackMenuItem backItem = new BackMenuItem(this, parent);

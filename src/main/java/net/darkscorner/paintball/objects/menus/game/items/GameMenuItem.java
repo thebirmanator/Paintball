@@ -1,24 +1,13 @@
-package net.darkscorner.paintball.objects.menus.game.menuitems;
+package net.darkscorner.paintball.objects.menus.game.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class GameMenuItem extends ClickableItem {
-
-	private GameMenu owningMenu;
-
-	protected GameMenuItem() {
-
-	}
 	
 	public GameMenuItem(GameMenu owningMenu) {
-		this.owningMenu = owningMenu;
-	}
-	
-	public GameMenu getOwningMenu() {
-		return owningMenu;
+		super(owningMenu);
 	}
 
 	/*

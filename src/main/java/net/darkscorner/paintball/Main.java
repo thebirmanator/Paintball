@@ -13,6 +13,7 @@ import net.darkscorner.paintball.objects.*;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.guns.*;
+import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -59,6 +60,7 @@ public class Main extends JavaPlugin {
 		// powerup ideas: super jump, shield reflector thingy
 		instance = this;
 		loadConfigs();
+		ClickableItem.loadItems();
 		
 		//coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
 

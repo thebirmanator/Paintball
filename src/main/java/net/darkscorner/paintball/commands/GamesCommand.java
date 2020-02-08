@@ -1,26 +1,17 @@
 package net.darkscorner.paintball.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.darkscorner.paintball.objects.menus.game.menuitems.EndGameItem;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
-import net.darkscorner.paintball.objects.menus.game.menuitems.GameItem;
-import net.darkscorner.paintball.objects.menus.game.menuitems.GameMenuItem;
+import net.darkscorner.paintball.objects.menus.game.items.GameItem;
 
 public class GamesCommand implements CommandExecutor {
 
@@ -37,7 +28,7 @@ public class GamesCommand implements CommandExecutor {
 				GameMenu mainGameMenu = new GameMenu("Games", null, 27);
 				int index = 0;
 				for (Game game : Game.allGames) {
-					mainGameMenu.addItem(index, new GameItem(game));
+					mainGameMenu.addItem(index, new GameItem(mainGameMenu, game));
 					index++;
 				}
 				mainGameMenu.open(player);

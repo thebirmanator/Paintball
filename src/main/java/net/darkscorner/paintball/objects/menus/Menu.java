@@ -26,6 +26,10 @@ public abstract class Menu {
 
     public abstract void close(Player player);
 
+    public abstract void close(Player player, boolean forceInv);
+
+    public abstract void showNavBar(boolean show);
+
     protected Map<Integer, ClickableItem> getItems() {
         return items;
     }

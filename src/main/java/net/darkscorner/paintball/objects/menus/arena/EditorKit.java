@@ -2,7 +2,7 @@ package net.darkscorner.paintball.objects.menus.arena;
 
 import java.util.HashMap;
 
-import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
+import net.darkscorner.paintball.objects.menus.arena.items.ArenaEditorItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -1,11 +1,9 @@
-package net.darkscorner.paintball.objects.menus.arena.menuitems;
+package net.darkscorner.paintball.objects.menus.arena.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
 import net.darkscorner.paintball.utils.ItemEditor;
 import net.darkscorner.paintball.utils.Text;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -15,22 +13,22 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.darkscorner.paintball.Main;
 
-public class NameArenaEditor extends ArenaEditorItem {
+public class CreatorArenaEditor extends ArenaEditorItem {
 
-	public static String attrMeta = "name";
+	public static String attrMeta = "creator";
+	private Main main = Main.getInstance();
 	private static ItemStack templateItem;
-	
-	private Main main;
-	public NameArenaEditor(ArenaEditorMenu editorMenu) {
+
+	public CreatorArenaEditor(ArenaEditorMenu editorMenu) {
 		super(editorMenu);
-		main = Main.getPlugin(Main.class);
 	}
 
 	@Override
 	public void use(Player player, ClickType clickType) {
 		if(!player.hasMetadata(editingMeta)) {
 			player.setMetadata(editingMeta, new FixedMetadataValue(main, attrMeta));
-			player.sendMessage(Main.prefix + "Type the new display name in chat.");
+			
+			player.sendMessage(Main.prefix + "Type the new creator's name in chat, or \"cancel\" to cancel the change.");
 			
 			new BukkitRunnable() {
 				int seconds = 0;
@@ -41,7 +39,7 @@ public class NameArenaEditor extends ArenaEditorItem {
 					} else if(seconds >= 10) { // ran out of time
 						cancel();
 						player.removeMetadata(editingMeta, main);
-						player.sendMessage(Main.prefix + "Name editing timed out. Using the previously set name.");
+						player.sendMessage(Main.prefix + "Creator editing timed out. Using the previously set name.");
 					} else {
 						seconds++;
 					}
@@ -60,10 +58,11 @@ public class NameArenaEditor extends ArenaEditorItem {
 
 	@Override
 	public void createTemplate() {
-		templateItem = new ItemEditor(Material.NAME_TAG, Text.format("&dArena Name"))
-				.addAction(ClickType.LEFT, "to change the name, or")
-				.addAction(ClickType.RIGHT, "to change the name.")
+		templateItem = new ItemEditor(Material.BOOK, Text.format("&bCreator Name"))
+				.addAction(ClickType.LEFT, "to change creator name, or")
+				.addAction(ClickType.RIGHT, "to change it.")
 				.getItemStack();
+
 	}
 
 }

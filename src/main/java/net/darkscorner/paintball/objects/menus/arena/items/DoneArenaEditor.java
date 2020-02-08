@@ -1,9 +1,8 @@
-package net.darkscorner.paintball.objects.menus.arena.menuitems;
+package net.darkscorner.paintball.objects.menus.arena.items;
 
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
 import net.darkscorner.paintball.objects.menus.arena.EditorKit;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.ArenaEditorItem;
 import net.darkscorner.paintball.utils.ItemEditor;
 import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Material;

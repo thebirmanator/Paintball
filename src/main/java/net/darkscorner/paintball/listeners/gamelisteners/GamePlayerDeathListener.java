@@ -48,7 +48,7 @@ public class GamePlayerDeathListener implements Listener {
 		String deathMsg = "";
 		if (!killer.equals(victim)) {
 			killer.playSound(SoundEffect.HIT);
-			killer.getCurrentGameStats().getStat(PlayerInGameStat.KILLS);
+			killer.getCurrentGameStats().addToStat(PlayerInGameStat.KILLS, 1);
 			killer.getCurrentGameStats().addToKillStreak(1);
 			if(killer.getCurrentGameStats().getCurrentKillStreak() > 2) {
 				killer.getPlayer().sendMessage(ChatColor.GRAY + "You have a " + ChatColor.RED + killer.getCurrentGameStats().getCurrentKillStreak() + " player kill streak" + ChatColor.GRAY + "!");

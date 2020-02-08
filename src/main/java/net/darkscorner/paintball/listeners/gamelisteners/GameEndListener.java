@@ -1,9 +1,6 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import net.darkscorner.paintball.objects.player.PlayerGameStatistics;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
@@ -83,15 +80,28 @@ public class GameEndListener implements Listener {
 		// send everyone to the lobby after some time
 		Bukkit.getScheduler().runTaskLater(main, new Runnable() {
 			public void run() {
-				for(PlayerProfile p : game.getAllPlayers()) {
+				// use a list from the set because a normal for-each loop will throw a ConcurrentModificationException
+				List<PlayerProfile> players = new ArrayList<>(game.getAllPlayers());
+				for (int i = 0; i < players.size(); i++) {
+					PlayerProfile p = players.get(i);
 					p.removePowerUps();
 					p.getPlayer().teleport(game.getLobbySpawn());
 					p.setStatsBoard(StatsBoard.LOBBY);
 					p.getPlayer().setGameMode(Main.defaultGamemode);
 					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
-					//game.removePlayer(p);
+					game.removePlayer(p);
 				}
-				game.getAllPlayers().clear();
+				/*
+				for (Iterator<PlayerProfile> profileIterator = game.getAllPlayers().iterator(); profileIterator.hasNext();) {
+					PlayerProfile p = profileIterator.next();
+					p.removePowerUps();
+					p.getPlayer().teleport(game.getLobbySpawn());
+					p.setStatsBoard(StatsBoard.LOBBY);
+					p.getPlayer().setGameMode(Main.defaultGamemode);
+					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
+					game.removePlayer(p);
+				}*/
+				//game.getAllPlayers().clear();
 				
 				//game.getUsedArena().setIsInUse(false);
 			}

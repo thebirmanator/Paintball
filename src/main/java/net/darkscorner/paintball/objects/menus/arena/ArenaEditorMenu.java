@@ -2,7 +2,7 @@ package net.darkscorner.paintball.objects.menus.arena;
 
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.menus.Menu;
-import net.darkscorner.paintball.objects.menus.arena.menuitems.*;
+import net.darkscorner.paintball.objects.menus.arena.items.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,5 +37,15 @@ public class ArenaEditorMenu extends Menu {
     public void close(Player player) {
         Set<Integer> slots = getItems().keySet();
         slots.forEach((slot) -> player.getInventory().setItem(slot, new ItemStack(Material.AIR)));
+    }
+
+    @Override
+    public void close(Player player, boolean forceInv) {
+        close(player);
+    }
+
+    @Override
+    public void showNavBar(boolean show) {
+
     }
 }

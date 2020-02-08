@@ -41,6 +41,7 @@ public class ItemEditor {
             lore = new ArrayList<>();
         }
         lore.add(clickToString(clickType) + action);
+        meta.setLore(lore);
         return this;
     }
 
