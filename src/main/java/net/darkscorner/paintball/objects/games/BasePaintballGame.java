@@ -1,12 +1,10 @@
 package net.darkscorner.paintball.objects.games;
 
-import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.*;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -14,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -22,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,7 +33,7 @@ public abstract class BasePaintballGame implements Game {
     private Map<PlayerProfile, Boolean> allPlayers = new HashMap<>();
     private Arena arena;
     //TODO: be not lazy and fix this later
-    private FileConfiguration config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "main.yml"));
+    public static FileConfiguration config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "main.yml"));
 
     private int currentTaskID = -1;
 

@@ -2,23 +2,15 @@ package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.Random;
 
+import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.PowerUpEffect;
-import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.PowerUpUseEvent;
-import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.PowerUp;
 
 public class PowerUpUseListener implements Listener {
 
@@ -29,6 +21,7 @@ public class PowerUpUseListener implements Listener {
 	
 	@EventHandler
 	public void onUse(PowerUpUseEvent event) {
+		/*
 		PlayerProfile gp = event.getPlayer();
 		gp.playSound(SoundEffect.POWER_UP);
 		PowerUpEffect effect = event.getPowerUp().getEffect();
@@ -76,7 +69,7 @@ public class PowerUpUseListener implements Listener {
 			break;
 		default:
 			break;
-		}
+		}*/
 		
 		// planning a new spawned powerup at this ones location
 		Location spawn = event.getLocation();

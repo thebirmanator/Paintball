@@ -58,6 +58,8 @@ public class ItemEditor {
                 return Text.format("&fRight-click &7");
             case MIDDLE:
                 return Text.format("&fMiddle-click &7");
+            case UNKNOWN:
+                return Text.format("&7");
             default:
                 return Text.format("&fUnknown click &7");
         }

@@ -11,9 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;

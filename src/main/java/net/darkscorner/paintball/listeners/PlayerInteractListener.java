@@ -1,10 +1,11 @@
 package net.darkscorner.paintball.listeners;
 
 import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.guns.Gun;
-import net.darkscorner.paintball.objects.guns.ShotGun;
+import net.darkscorner.paintball.objects.equippable.guns.Gun;
+import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
+import net.darkscorner.paintball.objects.powerups.PowerUp;
 import net.darkscorner.paintball.utils.Clicks;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -15,19 +16,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.events.PowerUpUseEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.PowerUp;
-import net.darkscorner.paintball.objects.menus.arena.EditorKit;
 
 public class PlayerInteractListener implements Listener {
 
@@ -40,13 +36,32 @@ public class PlayerInteractListener implements Listener {
 	public void onRightClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		Menu menu = Menu.getViewing(player);
-		// is using an inventory editor
+		// Using an inventory editor
 		if (event.getAction() != Action.PHYSICAL && menu != null) {
 			int slot = player.getInventory().getHeldItemSlot();
 			if (menu.hasClickableItem(slot)) {
 				menu.getClickableItem(slot).use(player, Clicks.asClickType(event.getAction()));
 				return;
 			}
+		}
+
+		// Clicked a PowerUp
+		Block block = event.getClickedBlock();
+		PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
+		if (block != null && PowerUp.isPowerUpBlock(block)) {
+			PowerUp.getPowerUpBlock(block).use(player);
+			block.setType(Material.AIR);
+			main.getServer().getPluginManager().callEvent(new PowerUpUseEvent(PowerUp.getPowerUpBlock(block), event.getClickedBlock().getLocation(), playerProfile.getCurrentGame(), playerProfile));
+			return;
+		}
+
+		// Shooting a paintball
+		ItemStack handItem = event.getItem();
+		if (handItem != null && Gun.isGun(handItem)) {
+			//TODO: take care of volley shots n stuff
+			Gun gun = Gun.getGun(handItem);
+			gun.shoot(player, Gun.defaultVector);
+			playerProfile.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
 		}
 /*
 			if(!event.getPlayer().hasMetadata(ArenaEditCommand.editMeta)) {
@@ -80,12 +95,12 @@ public class PlayerInteractListener implements Listener {
 						
 					}
 				}
-			}*/
+			}
 			
 			//Player player = event.getPlayer();
 
 			if(event.getHand() == EquipmentSlot.HAND && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-				Block block = event.getClickedBlock();
+				//Block block = event.getClickedBlock();
 				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				// clicked a powerup
 				if(block != null && PowerUp.isPowerUpBlock(block) && gp.getCurrentGame().getArena().getPowerUpSpawnPoints().contains(block.getLocation())) {
@@ -94,13 +109,14 @@ public class PlayerInteractListener implements Listener {
 						
 						block.setType(Material.AIR);
 					}
-				} else {
+				}*/
 					if(Gun.isGun(player.getInventory().getItemInMainHand())) { // shooting a paintball
 						if(!player.hasMetadata(ShotGun.metaCooldown)) { // not on cooldown
 							if (player.hasMetadata(Game.invulnerableMeta)) { // remove invulnerability on shot if they have it
 								player.removeMetadata(Game.invulnerableMeta, main);
 							}
 							Gun gun = Gun.getGun(player.getInventory().getItemInMainHand());
+							PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 								@Override
 								public void run() {
@@ -117,9 +133,9 @@ public class PlayerInteractListener implements Listener {
 								}
 							}, 2);
 						}
-					}
-				}
+
 			}
+
 	}
 
 	// thanks to blablubbabc on the forums for this crazy maths https://bukkit.org/threads/multiple-arrows-with-vectors.177643/

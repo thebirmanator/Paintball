@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.events.GamePlayerJoinEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;

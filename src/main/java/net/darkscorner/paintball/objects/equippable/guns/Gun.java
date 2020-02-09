@@ -1,6 +1,5 @@
-package net.darkscorner.paintball.objects.guns;
+package net.darkscorner.paintball.objects.equippable.guns;
 
-import net.darkscorner.paintball.GunType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -10,26 +9,20 @@ import java.util.Set;
 
 public abstract class Gun {
     private ItemStack item;
-    private GunType type;
 
     private static Set<Gun> guns = new HashSet<>();
 
     public static Vector defaultVector = new Vector(0, 0, 0);
     private static Gun defaultGun;
 
-    public Gun(ItemStack item, GunType type) {
+    public Gun(ItemStack item) {
         this.item = item;
-        this.type = type;
 
         guns.add(this);
     }
 
     public ItemStack getItem() {
         return item;
-    }
-
-    public GunType getType() {
-        return type;
     }
 
     public abstract void shoot(Player from, Vector velocity);
@@ -51,10 +44,7 @@ public abstract class Gun {
     }
 
     public static boolean isGun(ItemStack item) {
-        if(getGun(item) != null) {
-            return true;
-        }
-        return false;
+        return getGun(item) != null;
     }
 
     public static Set<Gun> getGuns() {
@@ -70,12 +60,19 @@ public abstract class Gun {
         return null;
     }
 
-    public static Gun getGun(GunType type) {
-        for(Gun gun : guns) {
-            if(gun.getType() == type) {
-                return gun;
-            }
+    enum Type {
+
+        STANDARD(StandardGun.getInstance()), SHOTGUN(ShotGun.getInstance()),
+        MACHINE_GUN(MachineGun.getInstance()), SNIPER(SniperGun.getInstance());
+
+        private final Gun gun;
+
+        Type(Gun gun) {
+            this.gun = gun;
         }
-        return null;
+
+        public Gun getGun() {
+            return gun;
+        }
     }
 }

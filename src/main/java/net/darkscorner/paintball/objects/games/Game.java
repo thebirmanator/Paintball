@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import net.darkscorner.paintball.GameState;
 import net.darkscorner.paintball.Main;
 import net.md_5.bungee.api.ChatColor;
 

@@ -9,19 +9,15 @@ import java.util.Set;
 //import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
-import net.darkscorner.paintball.objects.*;
 import net.darkscorner.paintball.objects.arena.Arena;
-import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.guns.*;
+import net.darkscorner.paintball.objects.equippable.guns.*;
+import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -64,10 +60,10 @@ public class Main extends JavaPlugin {
 		
 		//coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
 
-		new StandardGun(createGun(Material.GOLDEN_HOE, ChatColor.YELLOW + "Standard-issue"), GunType.STANDARD).setDefault();
-		new MachineGun(createGun(Material.IRON_HOE, ChatColor.YELLOW + "Machine gun: rapid fire"), GunType.MACHINE_GUN);
-		new ShotGun(createGun(Material.STONE_HOE, ChatColor.YELLOW + "Shotgun: cluster shots"), GunType.SHOTGUN);
-		new SniperGun(createGun(Material.DIAMOND_HOE, ChatColor.YELLOW + "Sniper: fast shots"), GunType.SNIPER);
+		//new StandardGun(createGun(Material.GOLDEN_HOE, ChatColor.YELLOW + "Standard-issue"), GunType.STANDARD).setDefault();
+		//new MachineGun(createGun(Material.IRON_HOE, ChatColor.YELLOW + "Machine gun: rapid fire"), GunType.MACHINE_GUN);
+		//new ShotGun(createGun(Material.STONE_HOE, ChatColor.YELLOW + "Shotgun: cluster shots"), GunType.SHOTGUN);
+		//new SniperGun(createGun(Material.DIAMOND_HOE, ChatColor.YELLOW + "Sniper: fast shots"), GunType.SNIPER);
 
 		getCommand(joincmd.join).setExecutor(joincmd);
 		getCommand(leavecmd.leave).setExecutor(leavecmd);
@@ -129,7 +125,7 @@ public class Main extends JavaPlugin {
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
 					if(necessaryFiles[i].equals("main.yml")) {
 						//new Game(config, this);
-						loadPowerUps(config);
+						//loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
 						new Paint(config, this);
 						loadPaints(config);
@@ -149,7 +145,7 @@ public class Main extends JavaPlugin {
 					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
 					if(necessaryFiles[i].equals("main.yml")) {
 						//new Game(config, this);
-						loadPowerUps(config);
+						//loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
 						new Paint(config, this);
 						loadPaints(config);
@@ -175,7 +171,7 @@ public class Main extends JavaPlugin {
 	/*public ArcadeCoinsAPI getArcadeCoinsAPI() {
 		return coins;
 	}*/
-	
+	/*
 	private void loadPowerUps(FileConfiguration config) {
 		new PowerUp(config);
 		Set<String> powerupSections = config.getConfigurationSection("powerups").getKeys(false);
@@ -198,7 +194,7 @@ public class Main extends JavaPlugin {
 				getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid powerup effect: " + ChatColor.GRAY + powerupString);
 			}
 		}
-	}
+	}*/
 	
 	private void loadPaints(FileConfiguration config) {
 		Set<String> customPaintNames = config.getConfigurationSection("custom-paints").getKeys(false);

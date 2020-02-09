@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects;
+package net.darkscorner.paintball.objects.equippable.paint;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import net.darkscorner.paintball.objects.games.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

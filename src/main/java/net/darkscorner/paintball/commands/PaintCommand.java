@@ -3,7 +3,7 @@ package net.darkscorner.paintball.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,9 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.Paint;
+import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
-import net.darkscorner.paintball.objects.menus.equipment.EquipPaintItem;
 
 public class PaintCommand implements CommandExecutor {
 

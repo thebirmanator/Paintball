@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import net.darkscorner.paintball.GunType;
-import net.darkscorner.paintball.objects.Paint;
+import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.guns.Gun;
+import net.darkscorner.paintball.objects.equippable.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -19,7 +18,6 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.menus.game.GameMenu;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 

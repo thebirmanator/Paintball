@@ -1,11 +1,10 @@
 package net.darkscorner.paintball.commands;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.guns.Gun;
+import net.darkscorner.paintball.objects.equippable.guns.Gun;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
-import net.darkscorner.paintball.objects.menus.equipment.EquipGunItem;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

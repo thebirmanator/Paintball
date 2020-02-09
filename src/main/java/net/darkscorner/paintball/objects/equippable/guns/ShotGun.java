@@ -1,10 +1,14 @@
-package net.darkscorner.paintball.objects.guns;
+package net.darkscorner.paintball.objects.equippable.guns;
 
-import net.darkscorner.paintball.GunType;
 import net.darkscorner.paintball.Main;
+import net.darkscorner.paintball.utils.ItemEditor;
+import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -12,9 +16,10 @@ import org.bukkit.util.Vector;
 public class ShotGun extends Gun {
 
     public static String metaCooldown = "cooldown";
+    private static ShotGun instance;
 
-    public ShotGun(ItemStack item, GunType type) {
-        super(item, type);
+    private ShotGun(ItemStack item) {
+        super(item);
     }
 
     @Override
@@ -37,5 +42,16 @@ public class ShotGun extends Gun {
                 }
             }
         }, 20);
+    }
+
+    static ShotGun getInstance() {
+        if (instance == null) {
+            ItemStack gun = new ItemEditor(Material.STONE_HOE, Text.format("&a&lPAINTBALL GUN"))
+                    .addAction(ClickType.UNKNOWN, "Shotgun: cluster shots")
+                    .addAction(ClickType.RIGHT, "to shoot!")
+                    .getItemStack();
+            instance = new ShotGun(gun);
+        }
+        return instance;
     }
 }

@@ -11,9 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.commands.ArenaEditCommand;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;

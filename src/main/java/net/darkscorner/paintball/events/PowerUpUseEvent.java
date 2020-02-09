@@ -1,12 +1,12 @@
 package net.darkscorner.paintball.events;
 
+import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.PowerUp;
 
 public class PowerUpUseEvent extends Event {
 

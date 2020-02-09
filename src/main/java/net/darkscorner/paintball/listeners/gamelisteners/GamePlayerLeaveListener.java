@@ -1,13 +1,11 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
-import net.darkscorner.paintball.objects.player.PlayerInGameStat;
-import net.darkscorner.paintball.objects.player.PlayerStat;
-import net.darkscorner.paintball.objects.guns.ShotGun;
+import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import net.darkscorner.paintball.GameState;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
