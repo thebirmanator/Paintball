@@ -23,13 +23,15 @@ public class ShotGun extends Gun {
     }
 
     @Override
-    public void shoot(Player from, Vector velocity) {
-        for(int i = 0; i < 5; i++) {
+    public void shoot(Player from) {
+        for (int i = 0; i < 5; i++) {
+            /*
             if(velocity.equals(defaultVector)) {
                 from.launchProjectile(Snowball.class);
             } else {
                 from.launchProjectile(Snowball.class, velocity);
-            }
+            }*/
+            super.shoot(from);
         }
 
         from.setMetadata(metaCooldown, new FixedMetadataValue(Main.getPlugin(Main.class), true));

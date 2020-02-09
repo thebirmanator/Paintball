@@ -36,14 +36,15 @@ public class GunCommand implements CommandExecutor {
                     int index = 0;
                     for(Gun gun : Gun.getGuns()) {
                         if(!gun.equals(Gun.getDefault())) {
-                            String permission = "paintball.gun." + gun.getType().name().toLowerCase();
-                            String friendlyName = gun.getType().name().toLowerCase();
-                            friendlyName = friendlyName.replaceAll("\\_", " ");
-                            friendlyName = WordUtils.capitalize(friendlyName);
+                            String permission = "temp.perm";
+                            //String permission = "paintball.gun." + gun.getType().name().toLowerCase();
+                            //String friendlyName = gun.getType().name().toLowerCase();
+                            //friendlyName = friendlyName.replaceAll("\\_", " ");
+                            //friendlyName = WordUtils.capitalize(friendlyName);
                             if (player.hasPermission(permission) || player.hasPermission("paintball.gun.*")) {
                                 icon = new ItemStack(gun.getItem());
                                 ItemMeta meta = icon.getItemMeta();
-                                meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial)*/);
+                                //meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial)*/);
                                 List<String> lore = new ArrayList<String>();
 
                                 if (gp.getGun().equals(gun)) { // player has this paint equipped already
@@ -62,7 +63,7 @@ public class GunCommand implements CommandExecutor {
                                 ItemMeta meta = icon.getItemMeta();
                                 meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "LOCKED");
                                 List<String> lore = new ArrayList<String>();
-                                lore.add(ChatColor.GREEN + friendlyName/*WordUtils.capitalize(friendlyMaterial)*/);
+                                //lore.add(ChatColor.GREEN + friendlyName/*WordUtils.capitalize(friendlyMaterial)*/);
                                 lore.add(ChatColor.GRAY + "Unlock using " + ChatColor.WHITE + "/store");
                                 meta.setLore(lore);
                                 icon.setItemMeta(meta);

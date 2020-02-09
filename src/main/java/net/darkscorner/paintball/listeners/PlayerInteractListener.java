@@ -58,9 +58,8 @@ public class PlayerInteractListener implements Listener {
 		// Shooting a paintball
 		ItemStack handItem = event.getItem();
 		if (handItem != null && Gun.isGun(handItem)) {
-			//TODO: take care of volley shots n stuff
 			Gun gun = Gun.getGun(handItem);
-			gun.shoot(player, Gun.defaultVector);
+			gun.shoot(player);
 			playerProfile.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
 		}
 /*
@@ -109,7 +108,7 @@ public class PlayerInteractListener implements Listener {
 						
 						block.setType(Material.AIR);
 					}
-				}*/
+				}
 					if(Gun.isGun(player.getInventory().getItemInMainHand())) { // shooting a paintball
 						if(!player.hasMetadata(ShotGun.metaCooldown)) { // not on cooldown
 							if (player.hasMetadata(Game.invulnerableMeta)) { // remove invulnerability on shot if they have it
@@ -135,9 +134,9 @@ public class PlayerInteractListener implements Listener {
 						}
 
 			}
-
+*/
 	}
-
+/*
 	// thanks to blablubbabc on the forums for this crazy maths https://bukkit.org/threads/multiple-arrows-with-vectors.177643/
 	public void shootVolley(Player player, Gun gun) {
 			int[] angles = {20, 10, 0, -10, -20};
@@ -176,5 +175,5 @@ public class PlayerInteractListener implements Listener {
 			double sin = Math.sin(angleRotate);
 			
 			return (new Vector(x*cos+z*(-sin), 0.0, x*sin+z*cos)).normalize();
-	}
+	}*/
 }

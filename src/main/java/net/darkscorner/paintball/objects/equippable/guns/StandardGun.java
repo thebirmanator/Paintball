@@ -16,15 +16,15 @@ public class StandardGun extends Gun {
     public StandardGun(ItemStack item) {
         super(item);
     }
-
+/*
     @Override
-    public void shoot(Player from, Vector velocity) {
+    public void shoot(Player from) {
         if(velocity.equals(Gun.defaultVector)) {
             from.launchProjectile(Snowball.class);
         } else {
-            from.launchProjectile(Snowball.class, velocity);
+            from.launchProjectile(Snowball.class, defaultVector);
         }
-    }
+    }*/
 
     static StandardGun getInstance() {
         if (instance == null) {

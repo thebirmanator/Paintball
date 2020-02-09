@@ -241,18 +241,18 @@ public class PlayerProfile {
 	public Gun getGun() {
 		if(gun == null) {
 			if(config.getString(equippedGunPath) != null) {
-				gun = Gun.getGun(GunType.valueOf(config.getString(equippedGunPath)));
+				//gun = Gun.getGun(GunType.valueOf(config.getString(equippedGunPath)));
 			} else {
-				setGun(Gun.getGun(GunType.STANDARD));
+				//setGun(Gun.getGun(GunType.STANDARD));
 			}
 		}
-		return gun;
+		return Gun.getDefault();
 	}
 
 	public void setGun(Gun gun) {
 		this.gun = gun;
-		config.set(equippedGunPath, gun.getType().toString());
-		saveProfile();
+		//config.set(equippedGunPath, gun.getType().toString());
+		//saveProfile();
 	}
 
 	public void playSound(SoundEffect effect) {

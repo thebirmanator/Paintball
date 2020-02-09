@@ -1,6 +1,8 @@
 package net.darkscorner.paintball.objects.equippable.guns;
 
+import net.darkscorner.paintball.utils.Vectors;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -12,7 +14,7 @@ public abstract class Gun {
 
     private static Set<Gun> guns = new HashSet<>();
 
-    public static Vector defaultVector = new Vector(0, 0, 0);
+    protected Vector shotVector = new Vector(0, 0, 0);
     private static Gun defaultGun;
 
     public Gun(ItemStack item) {
@@ -25,7 +27,22 @@ public abstract class Gun {
         return item;
     }
 
-    public abstract void shoot(Player from, Vector velocity);
+    public void shoot(Player from) {
+        from.launchProjectile(Snowball.class, shotVector);
+        if (from.hasMetadata("volleypowerup")) {
+            shootVolley(from);
+        }
+    }
+
+    void shootVolley(Player from) {
+        Vector old = shotVector;
+        Vector[] vectors = Vectors.getVolleyVectors(from);
+        for (Vector vector : vectors) {
+            shotVector = vector;
+            shoot(from);
+        }
+        shotVector = old;
+    }
 
     public void giveTo(Player player) {
         player.getInventory().setItem(0, item);

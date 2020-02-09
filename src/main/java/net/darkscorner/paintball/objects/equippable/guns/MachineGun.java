@@ -22,18 +22,20 @@ public class MachineGun extends Gun {
     }
 
     @Override
-    public void shoot(Player from, Vector velocity) {
+    public void shoot(Player from) {
         new BukkitRunnable() {
             int times = 0;
             @Override
             public void run() {
-                if(from.getGameMode() != GameMode.SPECTATOR) {
+                if (from.getGameMode() != GameMode.SPECTATOR) {
                     if (times < 3) {
+                        /*
                         if (velocity.equals(defaultVector)) {
                             from.launchProjectile(Snowball.class);
                         } else {
                             from.launchProjectile(Snowball.class, velocity);
-                        }
+                        }*/
+                        MachineGun.super.shoot(from);
                         times++;
                     } else {
                         cancel();
@@ -42,7 +44,7 @@ public class MachineGun extends Gun {
                     cancel();
                 }
             }
-        }.runTaskTimer(Main.getPlugin(Main.class), 2, 2);
+        }.runTaskTimer(Main.getInstance(), 2, 2);
     }
 
     static MachineGun getInstance() {
