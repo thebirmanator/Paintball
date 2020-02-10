@@ -46,7 +46,7 @@ public abstract class PowerUp implements PowerUpSettings {
         return null;
     }
 
-    enum Effect {
+    public enum Effect {
         JUMP(JumpPowerUp.getInstance("JUMP")), SPEED(SpeedPowerUp.getInstance("SPEED")),
         VOLLEY(VolleyPowerUp.getInstance("VOLLEY"));
 

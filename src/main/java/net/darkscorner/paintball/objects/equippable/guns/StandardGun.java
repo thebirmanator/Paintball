@@ -16,20 +16,11 @@ public class StandardGun extends Gun {
     public StandardGun(ItemStack item) {
         super(item);
     }
-/*
-    @Override
-    public void shoot(Player from) {
-        if(velocity.equals(Gun.defaultVector)) {
-            from.launchProjectile(Snowball.class);
-        } else {
-            from.launchProjectile(Snowball.class, defaultVector);
-        }
-    }*/
 
     static StandardGun getInstance() {
         if (instance == null) {
-            ItemStack gun = new ItemEditor(Material.DIAMOND_HOE, Text.format("&a&lPAINTBALL GUN"))
-                    .addAction(ClickType.UNKNOWN, "Sniper: fast shots")
+            ItemStack gun = new ItemEditor(Material.GOLDEN_HOE, Text.format("&a&lPAINTBALL GUN"))
+                    .addAction(ClickType.UNKNOWN, "Standard issue")
                     .addAction(ClickType.RIGHT, "to shoot!")
                     .getItemStack();
             instance = new StandardGun(gun);

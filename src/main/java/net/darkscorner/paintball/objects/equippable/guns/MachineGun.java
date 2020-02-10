@@ -29,12 +29,6 @@ public class MachineGun extends Gun {
             public void run() {
                 if (from.getGameMode() != GameMode.SPECTATOR) {
                     if (times < 3) {
-                        /*
-                        if (velocity.equals(defaultVector)) {
-                            from.launchProjectile(Snowball.class);
-                        } else {
-                            from.launchProjectile(Snowball.class, velocity);
-                        }*/
                         MachineGun.super.shoot(from);
                         times++;
                     } else {

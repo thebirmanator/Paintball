@@ -6,7 +6,9 @@ import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.powerups.PowerUp;
+import net.darkscorner.paintball.objects.powerups.VolleyPowerUp;
 import net.darkscorner.paintball.utils.Clicks;
+import net.darkscorner.paintball.utils.Vectors;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -60,7 +62,16 @@ public class PlayerInteractListener implements Listener {
 		if (handItem != null && Gun.isGun(handItem)) {
 			Gun gun = Gun.getGun(handItem);
 			gun.shoot(player);
-			playerProfile.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
+			/*
+			if (VolleyPowerUp.hasPowerUp(player)) {
+				for (Vector velocity : Vectors.getVolleyVectors(player)) {
+					gun.shoot(player);
+					playerProfile.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
+				}
+			} else {
+				gun.shoot(player);
+				playerProfile.getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
+			}*/
 		}
 /*
 			if(!event.getPlayer().hasMetadata(ArenaEditCommand.editMeta)) {

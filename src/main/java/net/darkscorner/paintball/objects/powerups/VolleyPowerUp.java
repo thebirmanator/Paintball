@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class VolleyPowerUp extends PowerUp {
 
     private static VolleyPowerUp instance;
+    private static String meta = "volley";
 
     private VolleyPowerUp(String effectName) {
         super(effectName);
@@ -17,22 +18,22 @@ public class VolleyPowerUp extends PowerUp {
     public void use(Player player) {
         int duration = getDuration();
         Main main = Main.getInstance();
-        if(player.hasMetadata("volleypowerup")) { // has the powerup already, add a second one to stack it
-            duration = duration + player.getMetadata("volleypowerup").get(0).asInt();
-            player.setMetadata("volleypowerup", new FixedMetadataValue(main, duration));
+        if(player.hasMetadata(meta)) { // has the powerup already, add a second one to stack it
+            duration = duration + player.getMetadata(meta).get(0).asInt();
+            player.setMetadata(meta, new FixedMetadataValue(main, duration));
         } else {
-            player.setMetadata("volleypowerup", new FixedMetadataValue(main, duration));
+            player.setMetadata(meta, new FixedMetadataValue(main, duration));
             new BukkitRunnable() {
 
                 @Override
                 public void run() {
-                    if(player.hasMetadata("volleypowerup")) {
-                        int remainingDuration = player.getMetadata("volleypowerup").get(0).asInt();
+                    if(player.hasMetadata(meta)) {
+                        int remainingDuration = player.getMetadata(meta).get(0).asInt();
                         if(remainingDuration <= 0) {
-                            player.removeMetadata("volleypowerup", main);
+                            player.removeMetadata(meta, main);
                             cancel();
                         } else {
-                            player.setMetadata("volleypowerup", new FixedMetadataValue(main, remainingDuration - 20)); // take one second away (20 ticks)
+                            player.setMetadata(meta, new FixedMetadataValue(main, remainingDuration - 20)); // take one second away (20 ticks)
                         }
                     } else {
                         cancel();
@@ -48,5 +49,9 @@ public class VolleyPowerUp extends PowerUp {
             instance = new VolleyPowerUp(effectName);
         }
         return instance;
+    }
+
+    public static boolean hasPowerUp(Player player) {
+        return player.hasMetadata(meta);
     }
 }

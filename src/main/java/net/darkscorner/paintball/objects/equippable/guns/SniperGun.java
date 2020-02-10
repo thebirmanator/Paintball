@@ -17,20 +17,12 @@ public class SniperGun extends Gun {
 
     public SniperGun(ItemStack item) {
         super(item);
-        shotVector = shotVector.multiply(2);
     }
 
-    /*
     @Override
-    public void shoot(Player from) {
-        if(velocity.equals(defaultVector)) {
-            Projectile projectile = from.launchProjectile(Snowball.class);
-            projectile.setVelocity(projectile.getVelocity().multiply(2));
-        } else {
-            velocity = velocity.multiply(2);
-            from.launchProjectile(Snowball.class, velocity);
-        }
-    }*/
+    Vector getShotVelocity(Player from) {
+        return from.getEyeLocation().getDirection().normalize().multiply(2);
+    }
 
     static SniperGun getInstance() {
         if (instance == null) {

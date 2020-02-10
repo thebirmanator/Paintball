@@ -21,7 +21,7 @@ import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
-public class PlayerProfile {
+public class PlayerProfile implements PlayerSettings {
 	// a gameplayer contains a player, their kills for that game, their deaths for that game, and shots fired for that game
 	private static Set<PlayerProfile> playerProfiles = new HashSet<>();
 	private UUID uuid;
@@ -29,7 +29,7 @@ public class PlayerProfile {
 	private GameScoreboard scoreboard;
 	//private GameMenu viewingGameMenu;
 	private Paint paint;
-	private Gun gun;
+	//private Gun gun;
 
 	private File playerFile;
 	private FileConfiguration config;
@@ -38,7 +38,7 @@ public class PlayerProfile {
 	//private final String deathsPath = "deaths";
 	//private final String gamesPlayedPath = "games-played";
 	private final String equippedPaintPath = "equipped-paint";
-	private final String equippedGunPath = "equipped-gun";
+	//private final String equippedGunPath = "equipped-gun";
 
 	public PlayerProfile(File file) {
 		playerFile = file;
@@ -67,6 +67,7 @@ public class PlayerProfile {
 		for(int i = 0; i < PlayerStat.values().length; i++) {
 			setTotal(PlayerStat.values()[i], 0);
 		}
+		setGun(Gun.getDefault());
 		saveProfile();
 	}
 
@@ -157,7 +158,12 @@ public class PlayerProfile {
 	public void createNewStats(Game game) {
 		currentGameStats = new PlayerGameStatistics(game);
 	}
-	
+
+	@Override
+	public FileConfiguration getConfig() {
+		return config;
+	}
+
 	public Paint getPaint() {
 		if(paint == null) {
 			if(Paint.getPaint(config.getString(equippedPaintPath)) != null) {
@@ -237,7 +243,7 @@ public class PlayerProfile {
 		this.scoreboard.update(scoreboard, "%player%", getPlayer().getName());
 		//this.scoreboard.update(scoreboard, "%crystals%", "" + Main.coins.getCoins(getPlayer().getName()));
 	}
-
+/*
 	public Gun getGun() {
 		if(gun == null) {
 			if(config.getString(equippedGunPath) != null) {
@@ -253,7 +259,7 @@ public class PlayerProfile {
 		this.gun = gun;
 		//config.set(equippedGunPath, gun.getType().toString());
 		//saveProfile();
-	}
+	}*/
 
 	public void playSound(SoundEffect effect) {
 		switch (effect) {

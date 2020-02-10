@@ -1,5 +1,8 @@
 package net.darkscorner.paintball.objects.equippable.guns;
 
+import net.darkscorner.paintball.objects.player.PlayerInGameStat;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.powerups.VolleyPowerUp;
 import net.darkscorner.paintball.utils.Vectors;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -14,8 +17,9 @@ public abstract class Gun {
 
     private static Set<Gun> guns = new HashSet<>();
 
-    protected Vector shotVector = new Vector(0, 0, 0);
-    private static Gun defaultGun;
+    //protected Vector shotVector = new Vector(0, 0, 0);
+    //TODO: find out why this gives a null error thats weird (InitialiserError or something like that)
+    private static Gun defaultGun = Type.STANDARD.getGun();
 
     public Gun(ItemStack item) {
         this.item = item;
@@ -28,20 +32,19 @@ public abstract class Gun {
     }
 
     public void shoot(Player from) {
-        from.launchProjectile(Snowball.class, shotVector);
-        if (from.hasMetadata("volleypowerup")) {
-            shootVolley(from);
+        if (VolleyPowerUp.hasPowerUp(from)) {
+            for (Vector velocity : Vectors.getVolleyVectors(from, getShotVelocity(from))) {
+                from.launchProjectile(Snowball.class, velocity);
+                PlayerProfile.getGamePlayer(from).getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
+            }
+        } else {
+            from.launchProjectile(Snowball.class, getShotVelocity(from));
+            PlayerProfile.getGamePlayer(from).getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);
         }
     }
 
-    void shootVolley(Player from) {
-        Vector old = shotVector;
-        Vector[] vectors = Vectors.getVolleyVectors(from);
-        for (Vector vector : vectors) {
-            shotVector = vector;
-            shoot(from);
-        }
-        shotVector = old;
+    Vector getShotVelocity(Player from) {
+        return from.getEyeLocation().getDirection().normalize();
     }
 
     public void giveTo(Player player) {
@@ -58,6 +61,15 @@ public abstract class Gun {
 
     public void setDefault() {
         defaultGun = this;
+    }
+
+    public Type getType() {
+        for (Type type : Type.values()) {
+            if (type.getGun().equals(this)) {
+                return type;
+            }
+        }
+        return null;
     }
 
     public static boolean isGun(ItemStack item) {
@@ -77,7 +89,7 @@ public abstract class Gun {
         return null;
     }
 
-    enum Type {
+    public enum Type {
 
         STANDARD(StandardGun.getInstance()), SHOTGUN(ShotGun.getInstance()),
         MACHINE_GUN(MachineGun.getInstance()), SNIPER(SniperGun.getInstance());

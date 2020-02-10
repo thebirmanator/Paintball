@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class ShotGun extends Gun {
 
     public static String metaCooldown = "cooldown";
@@ -24,26 +26,29 @@ public class ShotGun extends Gun {
 
     @Override
     public void shoot(Player from) {
-        for (int i = 0; i < 5; i++) {
-            /*
-            if(velocity.equals(defaultVector)) {
-                from.launchProjectile(Snowball.class);
-            } else {
-                from.launchProjectile(Snowball.class, velocity);
-            }*/
-            super.shoot(from);
-        }
-
-        from.setMetadata(metaCooldown, new FixedMetadataValue(Main.getPlugin(Main.class), true));
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(Main.class), new Runnable() {
-            @Override
-            public void run() {
-                if(from.hasMetadata(metaCooldown)) {
-                    from.removeMetadata(metaCooldown, Main.getPlugin(Main.class));
-                }
+        if (!from.hasMetadata(metaCooldown)) {
+            for (int i = 0; i < 5; i++) {
+                super.shoot(from);
             }
-        }, 20);
+            from.setMetadata(metaCooldown, new FixedMetadataValue(Main.getInstance(), true));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                if (from.hasMetadata(metaCooldown)) {
+                    from.removeMetadata(metaCooldown, Main.getInstance());
+                }
+            }, 20);
+        }
+    }
+
+    @Override
+    Vector getShotVelocity(Player from) {
+        Vector velocity = super.getShotVelocity(from);
+        double[] multipliers = new double[3];
+        for (int i = 0; i < multipliers.length; i++) {
+            multipliers[i] = ThreadLocalRandom.current().nextDouble(0.8, 1.2);
+        }
+        return velocity.setX(velocity.getX() * multipliers[0])
+                .setY(velocity.getY() * multipliers[1])
+                .setZ(velocity.getZ() * multipliers[2]);
     }
 
     static ShotGun getInstance() {
