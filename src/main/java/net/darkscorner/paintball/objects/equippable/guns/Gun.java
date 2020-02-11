@@ -15,16 +15,14 @@ import java.util.Set;
 public abstract class Gun {
     private ItemStack item;
 
-    private static Set<Gun> guns = new HashSet<>();
+    //private static Set<Gun> guns = new HashSet<>();
 
     //protected Vector shotVector = new Vector(0, 0, 0);
-    //TODO: find out why this gives a null error thats weird (InitialiserError or something like that)
-    private static Gun defaultGun = Type.STANDARD.getGun();
 
     public Gun(ItemStack item) {
         this.item = item;
 
-        guns.add(this);
+        //guns.add(this);
     }
 
     public ItemStack getItem() {
@@ -56,11 +54,7 @@ public abstract class Gun {
     }
 
     public static Gun getDefault() {
-        return defaultGun;
-    }
-
-    public void setDefault() {
-        defaultGun = this;
+        return Type.STANDARD.getGun();
     }
 
     public Type getType() {
@@ -77,11 +71,15 @@ public abstract class Gun {
     }
 
     public static Set<Gun> getGuns() {
+        Set<Gun> guns = new HashSet<>();
+        for (Type type : Type.values()) {
+            guns.add(type.getGun());
+        }
         return guns;
     }
 
     public static Gun getGun(ItemStack item) {
-        for(Gun gun : guns) {
+        for(Gun gun : getGuns()) {
             if(gun.getItem().isSimilar(item)) {
                 return gun;
             }

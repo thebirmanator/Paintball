@@ -3,6 +3,7 @@ package net.darkscorner.paintball.objects.menus.game;
 import java.util.Collection;
 
 import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.menus.ChestBasedMenu;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.Menu;
 import org.bukkit.Bukkit;
@@ -12,22 +13,14 @@ import org.bukkit.inventory.Inventory;
 
 import net.darkscorner.paintball.objects.menus.game.items.BackMenuItem;
 
-public class GameMenu extends Menu {
-
-	private String name;
-	private int size;
-	private GameMenu parent;
-	//private HashMap<Integer, MenuItem> items = new HashMap<Integer, MenuItem>();
+public class GameMenu extends ChestBasedMenu {
 
 	public GameMenu(String name, int size) {
-		this.name = name;
-		this.size = size;
+		super(name, size);
 	}
 	
 	public GameMenu(String name, GameMenu parent, int size) {
-		this.name = name;
-		this.size = size;
-		this.parent = parent;
+		super(name, parent, size);
 		/*
 		if (parent != null) {
 			ItemStack backIcon = new ItemStack(Material.BIRCH_DOOR);
@@ -59,12 +52,12 @@ public class GameMenu extends Menu {
 	}*/
 
 	public Game getGame() {
-		return parent.getGame();
+		return ((GameMenu) getParent()).getGame();
 	}
-
+/*
 	@Override
 	public void open(Player player) {
-		Inventory inv = Bukkit.createInventory(player, size, name);
+		Inventory inv = Bukkit.createInventory(player, getSize(), getName());
 
 		for (Integer key : getItems().keySet()) {
 			ClickableItem item = getItems().get(key);
@@ -89,7 +82,7 @@ public class GameMenu extends Menu {
 			player.closeInventory();
 		}
 		close(player);
-	}
+	}*/
 
 	public Collection<ClickableItem> getClickableItems() {
 		return getItems().values();
@@ -97,12 +90,12 @@ public class GameMenu extends Menu {
 
 	@Override
 	public void showNavBar(boolean show) {
-		if (parent != null && parent.getGame() != null) {
+		if (getParent() != null && ((GameMenu) getParent()).getGame() != null) {
 			if (show) {
-				BackMenuItem backItem = new BackMenuItem(this, parent);
-				getItems().put(size - 1, backItem);
+				BackMenuItem backItem = new BackMenuItem(this, (GameMenu) getParent());
+				getItems().put(getSize() - 1, backItem);
 			} else {
-				getItems().remove(size - 1);
+				getItems().remove(getSize() - 1);
 			}
 		}
 	}

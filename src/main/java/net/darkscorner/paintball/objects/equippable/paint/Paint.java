@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.darkscorner.paintball.objects.games.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -59,10 +60,27 @@ public class Paint {
 	public Material getDisplayIcon() {
 		return displayIcon;
 	}
+
+	Set<Location> getLocsAround(Location centre) {
+		//TODO: configurable radius
+		int radius = 2;
+		Set<Location> locations = new HashSet<>();
+		for(int x = radius * -1; x < radius + 1; x++) {
+			for(int y = radius * -1; y < radius + 1; y++) {
+				for(int z = radius * -1; z < radius + 1; z++) {
+					Location location = centre.clone().add(x, y, z);
+					//if(!getUnpaintableMaterials().contains(loc.getBlock().getType())) {
+						locations.add(location);
+					//}
+				}
+			}
+		}
+		return locations;
+	}
 	
 	public void showPaint(Location projectileLocation) {
 		// get the locations to paint
-		List<Location> locList = new ArrayList<Location>();
+		//List<Location> locList = new ArrayList<Location>();
 		/*
 		int radius = Game.getPaintRadius();
 		for(int x = radius * -1; x < radius + 1; x++) {
@@ -75,7 +93,17 @@ public class Paint {
 				}
 			}
 		}*/
-		
+
+		// paint the locations
+		Set<Location> paintLocs = getLocsAround(projectileLocation);
+		for (Location location : paintLocs) {
+			paintTile(location);
+		}
+
+		// schedule removal of paint
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> paintLocs.forEach((this::removePaint)), 100);
+
+		/*
 		// paint the locations for each player
 		for(Location location : locList) {
 			Random random = new Random();
@@ -97,7 +125,16 @@ public class Paint {
 					}
 				}
 			}
-		}, 100);
+		}, 100);*/
+	}
+
+	//TODO: make this an abstract class and these will be abstract methods
+	public void paintTile(Location location) {
+
+	}
+
+	public void removePaint(Location location) {
+
 	}
 	
 	public static Paint getPaint(String name) {

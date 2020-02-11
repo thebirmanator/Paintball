@@ -1,4 +1,4 @@
-package net.darkscorner.paintball.objects.menus.equipment;
+package net.darkscorner.paintball.objects.menus.equipment.items;
 
 public class EquipPaintItem /*extends GameMenuItem*/ {
 /*
