@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import net.darkscorner.paintball.Main;
 
-public class Paint {
+public abstract class Paint {
 
 	private static Main main;
 	
@@ -39,7 +39,7 @@ public class Paint {
 				main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid paint material: " + ChatColor.GRAY + defaultPaintString);
 			}
 		}
-		defaultPaint = new Paint("default", Material.STONE, paintMaterials);
+		defaultPaint = new DefaultPaint("default", Material.STONE, paintMaterials);
 		
 	}
 	
@@ -129,13 +129,9 @@ public class Paint {
 	}
 
 	//TODO: make this an abstract class and these will be abstract methods
-	public void paintTile(Location location) {
+	public abstract void paintTile(Location location);
 
-	}
-
-	public void removePaint(Location location) {
-
-	}
+	public abstract void removePaint(Location location);
 	
 	public static Paint getPaint(String name) {
 		for(Paint paint : customPaints) {
