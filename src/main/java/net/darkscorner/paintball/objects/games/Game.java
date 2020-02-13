@@ -1,9 +1,8 @@
 package net.darkscorner.paintball.objects.games;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.utils.Locations;
@@ -382,21 +381,34 @@ public interface Game {
 		}
 		return msgs;
 	}
-	//TODO: move to a utils
-	default String formatTime(int time) {
-		int minutes = (time % 3600) / 60;
-		int seconds = time % 60;
-		
-		String timeString = "";
-		if(minutes > 0 ) {
-			timeString = String.format("%02dm %02ds", minutes, seconds);
-		} else {
-			timeString = String.format("%02ds", seconds);
-		}
-		return timeString;
-	}
 
 	static Game getSettings() {
 		return new FreeForAllGame();
+	}
+
+	static Game createGame() {
+		List<Arena> arenas = Arena.getArenas();
+		// shuffle arenas so it uses a random order
+		Collections.shuffle(arenas);
+		// find an open arena
+		for (Arena arena : arenas) {
+			if (!arena.isInUse()) {
+				Game game;
+				if (arena.allowsTeams()) {
+					boolean teamGame = new Random().nextBoolean();
+					if (teamGame) {
+						Team red = new Team("red", new HashSet<>());
+						Team blue = new Team("blue", new HashSet<>());
+						Set<Team> teams = new HashSet<>();
+						teams.add(red);
+						teams.add(blue);
+						game = new TeamGame(arena, teams);
+					}
+				}
+				game = new FreeForAllGame(arena);
+				return game;
+			}
+		}
+		return null;
 	}
 }

@@ -44,6 +44,16 @@ public class JoinGameCommand implements CommandExecutor {
 					}
 					
 					// all games are full or going, create a new one
+					Game game = Game.createGame();
+					if (game != null) {
+						game.addPlayer(gp, false);
+						player.sendMessage(Main.prefix + "You have " + ChatColor.GREEN + "joined" + ChatColor.GRAY + " the game!");
+					} else {
+						// all arenas are full, tell player to wait
+						player.sendMessage(Main.prefix + "All games are " + ChatColor.RED + "full" + ChatColor.GRAY + ", please wait a few moments and try again.");
+					}
+					return true;
+					/*
 					List<Arena> arenas = Arena.getArenas();
 					// shuffle arenas so it uses a random order
 					Collections.shuffle(arenas);
@@ -56,10 +66,11 @@ public class JoinGameCommand implements CommandExecutor {
 							return true;
 						}
 					}
+
 					
 					// all arenas are full, tell player to wait
 					player.sendMessage(Main.prefix + "All games are " + ChatColor.RED + "full" + ChatColor.GRAY + ", please wait a few moments and try again.");
-					return true;
+					return true;*/
 					
 				} else {
 					player.sendMessage(Main.prefix + "You are already in a game.");
