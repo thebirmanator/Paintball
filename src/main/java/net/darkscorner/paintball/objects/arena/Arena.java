@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.darkscorner.paintball.Main;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class Arena implements ArenaSetting {
 
@@ -26,6 +27,7 @@ public class Arena implements ArenaSetting {
 	
 	private File file;
 	private FileConfiguration config;
+	private Vector[] minMaxVectors;
 	//private boolean isInUse;
 	/*
 	private List<Location> powerUpLocations = new ArrayList<Location>();
@@ -292,6 +294,40 @@ public class Arena implements ArenaSetting {
 	//TODO: code for checking if in the boundaries
 	public boolean isInArena(Player player) {
 		Location location = player.getLocation();
-		return location.toVector().isInAABB(getBoundaries()[0].toVector(), getBoundaries()[1].toVector());
+		Vector minVector = new Vector(0, 0, 0);
+		Vector maxVector = new Vector(0, 0, 0);
+		if (minMaxVectors == null) {
+			minMaxVectors = new Vector[2];
+			Location bound0 = getBoundaries()[0];
+			Location bound1 = getBoundaries()[1];
+			// x
+			//TODO: clean this up?
+			if (bound0.getBlockX() < bound1.getBlockX()) {
+				minVector.setX(bound0.getBlockX());
+				maxVector.setX(bound1.getBlockX());
+			} else {
+				minVector.setX(bound1.getBlockX());
+				maxVector.setX(bound0.getBlockX());
+			}
+// y
+			if (bound0.getBlockY() < bound1.getBlockY()) {
+				minVector.setY(bound0.getBlockY());
+				maxVector.setY(bound1.getBlockY());
+			} else {
+				minVector.setY(bound1.getBlockY());
+				maxVector.setY(bound0.getBlockY());
+			}
+// z
+			if (bound0.getBlockZ() < bound1.getBlockZ()) {
+				minVector.setZ(bound0.getBlockZ());
+				maxVector.setZ(bound1.getBlockZ());
+			} else {
+				minVector.setZ(bound1.getBlockZ());
+				maxVector.setZ(bound0.getBlockZ());
+			}
+			minMaxVectors[0] = minVector;
+			minMaxVectors[1] = maxVector;
+		}
+		return location.toVector().isInAABB(minMaxVectors[0], minMaxVectors[1]);
 	}
 }

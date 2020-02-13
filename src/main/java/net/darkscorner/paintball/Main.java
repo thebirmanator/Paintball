@@ -57,6 +57,7 @@ public class Main extends JavaPlugin {
 		instance = this;
 		loadConfigs();
 		ClickableItem.loadItems();
+		Paint.loadPaints();
 		
 		//coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
 
@@ -127,8 +128,8 @@ public class Main extends JavaPlugin {
 						//new Game(config, this);
 						//loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
-						new Paint(config, this);
-						loadPaints(config);
+						//new Paint(config, this);
+						//loadPaints(config);
 					} else if(necessaryFiles[i].equals("scoreboards.yml")) {
 						GameScoreboard.createFromConfig(config);
 					}
@@ -147,8 +148,8 @@ public class Main extends JavaPlugin {
 						//new Game(config, this);
 						//loadPowerUps(config);
 					} else if(necessaryFiles[i].equals("custompaints.yml")) {
-						new Paint(config, this);
-						loadPaints(config);
+						//new Paint(config, this);
+						//loadPaints(config);
 					}
 				}
 				getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Could not find file " + necessaryFiles[i] + "; created a new file");
@@ -212,11 +213,11 @@ public class Main extends JavaPlugin {
 						getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid paint material: " + ChatColor.GRAY + materialString);
 					}
 				}
-				new Paint(paintName, displayIcon, paintMaterials);
+				//new Paint(paintName, displayIcon, paintMaterials);
 			}
 		}
 	}
-
+/*
 	private ItemStack createGun(Material material, String gunDescription) {
 		// create and give the gun
 		ItemStack paintballGun = new ItemStack(material);
@@ -233,7 +234,7 @@ public class Main extends JavaPlugin {
 
 		return paintballGun;
 
-	}
+	}*/
 
 	public static Main getInstance() {
 		return instance;

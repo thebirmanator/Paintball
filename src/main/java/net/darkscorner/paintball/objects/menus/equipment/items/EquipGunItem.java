@@ -87,7 +87,6 @@ public class EquipGunItem extends EquipmentItem {
                 .addAction(ClickType.UNKNOWN, Text.format("Unlock using &f/store"))
                 .getItemStack();
     }
-//TODO: integrate equippable stuff into the menu system
     /*
     private Gun gun;
     public EquipGunItem(GameMenuItem parent, ItemStack icon, Gun gun) {

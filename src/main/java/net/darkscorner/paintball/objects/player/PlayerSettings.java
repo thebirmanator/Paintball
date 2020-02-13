@@ -17,7 +17,7 @@ public interface PlayerSettings {
     }
 
     default void setPaint(Paint paint) {
-
+        getConfig().set("equipped-paint", paint.getName());
     }
 
     default Gun getGun() {

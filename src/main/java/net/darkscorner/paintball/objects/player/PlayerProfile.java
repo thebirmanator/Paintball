@@ -28,7 +28,7 @@ public class PlayerProfile implements PlayerSettings {
 	private PlayerGameStatistics currentGameStats;
 	private GameScoreboard scoreboard;
 	//private GameMenu viewingGameMenu;
-	private Paint paint;
+	//private Paint paint;
 	//private Gun gun;
 
 	private File playerFile;
@@ -37,7 +37,7 @@ public class PlayerProfile implements PlayerSettings {
 	//private final String hitsPath = "hits";
 	//private final String deathsPath = "deaths";
 	//private final String gamesPlayedPath = "games-played";
-	private final String equippedPaintPath = "equipped-paint";
+	//private final String equippedPaintPath = "equipped-paint";
 	//private final String equippedGunPath = "equipped-gun";
 
 	public PlayerProfile(File file) {
@@ -164,6 +164,7 @@ public class PlayerProfile implements PlayerSettings {
 		return config;
 	}
 
+	/*
 	public Paint getPaint() {
 		if(paint == null) {
 			if(Paint.getPaint(config.getString(equippedPaintPath)) != null) {
@@ -179,7 +180,7 @@ public class PlayerProfile implements PlayerSettings {
 		this.paint = paint;
 		config.set(equippedPaintPath, paint.getName());
 		saveProfile();
-	}
+	}*/
 
 	public static PlayerProfile getGamePlayer(OfflinePlayer player) {
 		for(PlayerProfile p : playerProfiles) {

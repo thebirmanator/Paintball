@@ -25,7 +25,7 @@ public abstract class Paint {
 	private List<Material> paintMaterials = new ArrayList<Material>();
 	
 	private static Paint defaultPaint;
-	private static Set<Paint> customPaints = new HashSet<Paint>();
+	static Set<Paint> customPaints = new HashSet<>();
 	
 	public Paint(FileConfiguration config, Main main) {
 		Paint.main = main;
@@ -39,13 +39,13 @@ public abstract class Paint {
 				main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid paint material: " + ChatColor.GRAY + defaultPaintString);
 			}
 		}
-		defaultPaint = new DefaultPaint("default", Material.STONE, paintMaterials);
+		//defaultPaint = new DefaultPaint("default", Material.STONE, paintMaterials);
 		
 	}
 	
-	public Paint(String name, Material displayIcon, List<Material> paintMaterials) {
+	public Paint(String name, Material displayIcon) {
 		this.name = name;
-		this.paintMaterials = paintMaterials;
+		//this.paintMaterials = paintMaterials;
 		this.displayIcon = displayIcon;
 		
 		if(!name.equals("default")) {
@@ -63,15 +63,15 @@ public abstract class Paint {
 
 	Set<Location> getLocsAround(Location centre) {
 		//TODO: configurable radius
-		int radius = 2;
+		int radius = Game.getSettings().getPaintRadius();
 		Set<Location> locations = new HashSet<>();
-		for(int x = radius * -1; x < radius + 1; x++) {
-			for(int y = radius * -1; y < radius + 1; y++) {
-				for(int z = radius * -1; z < radius + 1; z++) {
+		for (int x = radius * -1; x < radius + 1; x++) {
+			for (int y = radius * -1; y < radius + 1; y++) {
+				for (int z = radius * -1; z < radius + 1; z++) {
 					Location location = centre.clone().add(x, y, z);
-					//if(!getUnpaintableMaterials().contains(loc.getBlock().getType())) {
+					if (!Game.getSettings().getUnpaintableMaterials().contains(location.getBlock().getType())) {
 						locations.add(location);
-					//}
+					}
 				}
 			}
 		}
@@ -128,7 +128,6 @@ public abstract class Paint {
 		}, 100);*/
 	}
 
-	//TODO: make this an abstract class and these will be abstract methods
 	public abstract void paintTile(Location location);
 
 	public abstract void removePaint(Location location);
@@ -147,6 +146,10 @@ public abstract class Paint {
 	}
 	
 	public static Paint getDefaultPaint() {
-		return defaultPaint;
+		return DefaultPaint.getInstance();
+	}
+
+	public static void loadPaints() {
+		MonoColourPaint.loadMonoPaints();
 	}
 }

@@ -44,6 +44,10 @@ public abstract class BasePaintballGame implements Game {
         Main.getInstance().getServer().getPluginManager().callEvent(new GameCreateEvent(Main.getInstance(), this));
     }
 
+    protected BasePaintballGame() {
+
+    }
+
     public Arena getArena() {
         return arena;
     }

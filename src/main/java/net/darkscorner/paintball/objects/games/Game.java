@@ -115,9 +115,9 @@ public interface Game {
 	default Set<Material> getUnpaintableMaterials() {
 		List<String> blacklistStrings = getGameConfig().getStringList("blacklisted-blocks");
 		Set<Material> blacklistedMaterials = new HashSet<>();
-		for(String materialString : blacklistStrings) {
-			if(Material.getMaterial(materialString) != null) {
-				Material blackListed = Material.getMaterial(materialString);
+		for (String materialString : blacklistStrings) {
+			if (Material.getMaterial(materialString, false) != null) {
+				Material blackListed = Material.getMaterial(materialString, false);
 				blacklistedMaterials.add(blackListed);
 			} else {
 				Main.getInstance().getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
@@ -394,5 +394,9 @@ public interface Game {
 			timeString = String.format("%02ds", seconds);
 		}
 		return timeString;
+	}
+
+	static Game getSettings() {
+		return new FreeForAllGame();
 	}
 }

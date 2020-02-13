@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.darkscorner.paintball.objects.games.GameState;
+import net.darkscorner.paintball.objects.menus.equipment.EquipmentMenu;
+import net.darkscorner.paintball.objects.menus.equipment.items.EquipPaintItem;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,11 +35,14 @@ public class PaintCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			if(player.hasPermission("paintball.command.paint")) {
 				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
-				if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
-					GameMenu gameMenu = new GameMenu("Paints", null, 54);
-					ItemStack icon = new ItemStack(Material.AIR);
+				if (!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
+					//GameMenu gameMenu = new GameMenu("Paints", null, 54);
+					EquipmentMenu menu = new EquipmentMenu("Paint", 54);
+					//ItemStack icon = new ItemStack(Material.AIR);
 					int index = 0;
-					for(Paint paint : Paint.getAllCustomPaints()) {
+					for (Paint paint : Paint.getAllCustomPaints()) {
+						menu.addItem(index, new EquipPaintItem(paint, menu));
+						/*
 						String permission = "paintball.paintcolour." + paint.getName();
 						String friendlyName = paint.getName().toLowerCase();
 						friendlyName = friendlyName.replaceAll("\\-", " ");
@@ -45,7 +50,7 @@ public class PaintCommand implements CommandExecutor {
 						if(player.hasPermission(permission)) {
 							icon = new ItemStack(paint.getDisplayIcon());
 							ItemMeta meta = icon.getItemMeta();
-							meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial)*/);
+							meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + friendlyName /*WordUtils.capitalize(friendlyMaterial));
 							List<String> lore = new ArrayList<String>();
 
 							if(gp.getPaint().equals(paint)) { // player has this paint equipped already
@@ -64,16 +69,17 @@ public class PaintCommand implements CommandExecutor {
 							ItemMeta meta = icon.getItemMeta();
 							meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "LOCKED");
 							List<String> lore = new ArrayList<String>();
-							lore.add(ChatColor.GREEN + friendlyName/*WordUtils.capitalize(friendlyMaterial)*/);
+							lore.add(ChatColor.GREEN + friendlyName/*WordUtils.capitalize(friendlyMaterial));
 							lore.add(ChatColor.GRAY + "Unlock using " + ChatColor.WHITE + "/store");
 							meta.setLore(lore);
 							icon.setItemMeta(meta);
 						}
 						//EquipPaintItem paintItem = new EquipPaintItem(null, icon, paint);
 						//gameMenu.addItem(index, paintItem);
+						*/
 						index++;
 					}
-					gameMenu.open(player);
+					menu.open(player);
 					return true;
 				} else {
 					player.sendMessage(Main.prefix + "You may not use this command in a game.");
