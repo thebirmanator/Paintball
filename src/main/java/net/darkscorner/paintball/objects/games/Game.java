@@ -393,9 +393,9 @@ public interface Game {
 		// find an open arena
 		for (Arena arena : arenas) {
 			if (!arena.isInUse()) {
-				Game game;
+				Game game = null;
 				if (arena.allowsTeams()) {
-					boolean teamGame = new Random().nextBoolean();
+					boolean teamGame = true;
 					if (teamGame) {
 						Team red = new Team("red", new HashSet<>());
 						Team blue = new Team("blue", new HashSet<>());
@@ -403,9 +403,10 @@ public interface Game {
 						teams.add(red);
 						teams.add(blue);
 						game = new TeamGame(arena, teams);
+					} else {
+						game = new FreeForAllGame(arena);
 					}
 				}
-				game = new FreeForAllGame(arena);
 				return game;
 			}
 		}

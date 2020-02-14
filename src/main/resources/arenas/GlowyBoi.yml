@@ -1,5 +1,6 @@
 display-name: GlowyBoi
 creator: sillystring
+allows-teams: true
 item-for-guis: DIAMOND
 spectating-spawnpoint: world|-198|75|-641|0|0
 waiting-lobby: world|-194|74|-656|0|0

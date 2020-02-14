@@ -3,6 +3,7 @@ package net.darkscorner.paintball.objects.games;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import org.bukkit.Bukkit;
 
 import java.util.Set;
 
@@ -23,6 +24,7 @@ public class TeamGame extends BasePaintballGame {
         super.addPlayer(player, setSpec);
         if (!setSpec) {
             Team first = getTeams().iterator().next();
+
             int teamSize = first.getMembers().size();
             for (Team team : getTeams()) {
                 if (team.getMembers().size() < teamSize) {
@@ -54,5 +56,14 @@ public class TeamGame extends BasePaintballGame {
                 team.removeMember(player);
             }
         }
+    }
+
+    public Team getTeam(PlayerProfile playerProfile) {
+        for (Team team : getTeams()) {
+            if (team.hasPlayer(playerProfile)) {
+                return team;
+            }
+        }
+        return null;
     }
 }
