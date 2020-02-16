@@ -77,6 +77,6 @@ public interface ArenaSetting {
     }
 
     default boolean allowsTeams() {
-        return getConfig().getBoolean("allows-teams");
+        return getConfig().getBoolean("allows-teams", false);
     }
 }

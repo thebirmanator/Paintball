@@ -14,6 +14,7 @@ import net.darkscorner.paintball.objects.equippable.guns.*;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin {
 		// powerup ideas: super jump, shield reflector thingy
 		instance = this;
 		loadConfigs();
+		GameScoreboard2.loadBoardPresets();
 		ClickableItem.loadItems();
 		Paint.loadPaints();
 		
@@ -131,7 +133,7 @@ public class Main extends JavaPlugin {
 						//new Paint(config, this);
 						//loadPaints(config);
 					} else if(necessaryFiles[i].equals("scoreboards.yml")) {
-						GameScoreboard.createFromConfig(config);
+						//GameScoreboard.createFromConfig(config);
 					}
 					getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Loaded file " + necessaryFiles[i]);
 				}

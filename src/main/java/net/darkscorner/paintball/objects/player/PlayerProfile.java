@@ -26,7 +26,7 @@ public class PlayerProfile implements PlayerSettings {
 	private static Set<PlayerProfile> playerProfiles = new HashSet<>();
 	private UUID uuid;
 	private PlayerGameStatistics currentGameStats;
-	private GameScoreboard scoreboard;
+	//private GameScoreboard scoreboard;
 	//private GameMenu viewingGameMenu;
 	//private Paint paint;
 	//private Gun gun;
@@ -52,8 +52,6 @@ public class PlayerProfile implements PlayerSettings {
 	public PlayerProfile(Player player) {
 		uuid = player.getUniqueId();
 		playerProfiles.add(this);
-		
-		setStatsBoard(StatsBoard.LOBBY);
 
 		playerFile = new File("plugins/DarkPaintball/playerdata/" + uuid.toString() + ".yml");
 		try {
@@ -69,6 +67,7 @@ public class PlayerProfile implements PlayerSettings {
 		}
 		setGun(Gun.getDefault());
 		saveProfile();
+		//setStatsBoard(StatsBoard.LOBBY);
 	}
 
 	public long getTotal(PlayerStat stat) {
@@ -150,10 +149,10 @@ public class PlayerProfile implements PlayerSettings {
 	public void clearCurrentGameStats() {
 		currentGameStats = null;
 	}
-	
+	/*
 	public GameScoreboard getGameScoreboard() {
 		return scoreboard;
-	}
+	}*/
 	
 	public void createNewStats(Game game) {
 		currentGameStats = new PlayerGameStatistics(game);
@@ -236,7 +235,7 @@ public class PlayerProfile implements PlayerSettings {
 	public void setViewingGameMenu(GameMenu gameMenu) {
 		viewingGameMenu = gameMenu;
 	}*/
-	
+	/*
 	public void setStatsBoard(StatsBoard board) {
 		this.scoreboard = GameScoreboard.getBoard(board);
 		Scoreboard scoreboard = this.scoreboard.generateScoreboard();

@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.objects.scoreboards;
 
+import com.google.common.math.Stats;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.utils.Text;
@@ -41,24 +42,37 @@ public class GameScoreboard2 {
         this.scoreboard = scoreboard;
     }
 
-    public void display(Player player) {
-        player.setScoreboard(scoreboard);
+    public static GameScoreboard2 getBoard(PlayerProfile profile, StatsBoard boardType) {
+        //TODO: figure out what is null on line 46
+        if (profile.getPlayer().getScoreboard().getObjective("stats") == null) {
+            return new GameScoreboard2(profile, getContent(boardType));
+        }
+        return new GameScoreboard2(profile, getContent(boardType), profile.getPlayer().getScoreboard());
     }
 
-    public void update() {
+    public void display() {
+        updateAll();
+        profile.getPlayer().setScoreboard(scoreboard);
+    }
+
+    public void update(Variables variable) {
         for (String text : templateText) {
-            for (Variables variable : Variables.values()) {
-                if (text.contains(variable.getAsString())) { // this line in the scoreboard contains the changed variable
-                    int score = templateText.indexOf(text);
-                    Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-                    for (String entry : objective.getScoreboard().getEntries()) {
-                        if (objective.getScore(entry).getScore() == score) { // if score of entry is the same as score in template
-                            objective.getScoreboard().resetScores(entry);
-                            objective.getScore(text.replace(variable.getAsString(), variable.getValue(profile))).setScore(score);
-                        }
+            if (text.contains(variable.getAsString())) {
+                int score = templateText.indexOf(text);
+                Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+                for (String entry : objective.getScoreboard().getEntries()) {
+                    if (objective.getScore(entry).getScore() == score) { // if score of entry is the same as score in template
+                        objective.getScoreboard().resetScores(entry);
+                        objective.getScore(text.replace(variable.getAsString(), variable.getValue(profile))).setScore(score);
                     }
                 }
             }
+        }
+    }
+
+    public void updateAll() {
+        for (Variables variable : Variables.values()) {
+            update(variable);
         }
     }
 
@@ -74,6 +88,10 @@ public class GameScoreboard2 {
         scoreboard = gameScoreboard;
     }
 
+    public static List<String> getContent(StatsBoard boardType) {
+        return boardContents.get(boardType);
+    }
+
     public static void loadBoardPresets() {
         boardContents = new HashMap<>();
         Set<String> boardTypes = config.getKeys(false);
@@ -87,9 +105,5 @@ public class GameScoreboard2 {
                 }
             }
         }
-    }
-
-    public static List<String> contentFor(StatsBoard board) {
-        return boardContents.get(board);
     }
 }

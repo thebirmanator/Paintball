@@ -395,7 +395,7 @@ public interface Game {
 			if (!arena.isInUse()) {
 				Game game = null;
 				if (arena.allowsTeams()) {
-					boolean teamGame = true;
+					boolean teamGame = new Random().nextBoolean();
 					if (teamGame) {
 						Team red = new Team("red", new HashSet<>());
 						Team blue = new Team("blue", new HashSet<>());
@@ -406,6 +406,8 @@ public interface Game {
 					} else {
 						game = new FreeForAllGame(arena);
 					}
+				} else {
+					game = new FreeForAllGame(arena);
 				}
 				return game;
 			}

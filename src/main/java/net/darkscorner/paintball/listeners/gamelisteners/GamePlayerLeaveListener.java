@@ -3,6 +3,7 @@ package net.darkscorner.paintball.listeners.gamelisteners;
 import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
 import net.darkscorner.paintball.objects.games.TeamGame;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +28,7 @@ public class GamePlayerLeaveListener implements Listener {
 		
 		// if the game isnt idle (they are in a lobby), dont tp them to the lobby
 		player.getPlayer().teleport(event.getGame().getLobbySpawn());
-		player.setStatsBoard(StatsBoard.LOBBY);
+		//player.setStatsBoard(StatsBoard.LOBBY);
 		
 		if(!wasSpectator) { // if they were not a spectator
 
@@ -65,6 +66,7 @@ public class GamePlayerLeaveListener implements Listener {
 					}
 				}
 			}
+			GameScoreboard2.getBoard(player, StatsBoard.LOBBY).display();
 
 			// save stats
 			//player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));

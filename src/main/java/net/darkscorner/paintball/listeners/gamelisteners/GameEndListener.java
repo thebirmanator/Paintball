@@ -86,7 +86,7 @@ public class GameEndListener implements Listener {
 					PlayerProfile p = players.get(i);
 					p.removePowerUps();
 					p.getPlayer().teleport(game.getLobbySpawn());
-					p.setStatsBoard(StatsBoard.LOBBY);
+					//p.setStatsBoard(StatsBoard.LOBBY);
 					p.getPlayer().setGameMode(Main.defaultGamemode);
 					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
 					game.removePlayer(p);
