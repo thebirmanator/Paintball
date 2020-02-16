@@ -3,7 +3,10 @@ package net.darkscorner.paintball.listeners.gamelisteners;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import net.darkscorner.paintball.objects.Team;
+import net.darkscorner.paintball.objects.games.TeamGame;
 import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,6 +29,16 @@ public class GameStartListener implements Listener {
 	@EventHandler
 	public void onGameStart(GameStartEvent event) {
 		Game game = event.getGame();
+
+		// End game if a team has 0 players
+		if (game instanceof TeamGame) {
+			Set<Team> teams = ((TeamGame) game).getTeams();
+			for (Team team : teams) {
+				if (team.getMembers().size() < 1) {
+					game.endGame();
+				}
+			}
+		}
 		
 		Random random = new Random();
 		List<Location> availableSpawnpoints = new ArrayList<Location>();

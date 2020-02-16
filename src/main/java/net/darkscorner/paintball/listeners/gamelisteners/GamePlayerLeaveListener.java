@@ -1,6 +1,8 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
+import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
+import net.darkscorner.paintball.objects.games.TeamGame;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +13,8 @@ import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
+
+import java.util.Set;
 
 public class GamePlayerLeaveListener implements Listener {
 
@@ -42,12 +46,24 @@ public class GamePlayerLeaveListener implements Listener {
 
 			// remove gun cooldown if they leave
 			if(player.getPlayer().hasMetadata(ShotGun.metaCooldown)) {
-				player.getPlayer().removeMetadata(ShotGun.metaCooldown, Main.getPlugin(Main.class));
+				player.getPlayer().removeMetadata(ShotGun.metaCooldown, Main.getInstance());
 			}
 
-			// if only one player remains in game, end it
-			if(game.getGameState() == GameState.STARTED && game.getPlayers(true).size() < 2) {
-				game.endGame();
+			if (game.getGameState() == GameState.STARTED) {
+				// If only one player remains in game, end it
+				if (game.getPlayers(true).size() < 2) {
+					game.endGame();
+				}
+				// If it's a team game and a team now has 0 players, end the game
+				if (game instanceof TeamGame) {
+					Set<Team> teams = ((TeamGame) game).getTeams();
+					for (Team team : teams) {
+						if (team.getMembers().size() < 1) {
+							game.endGame();
+							break;
+						}
+					}
+				}
 			}
 
 			// save stats

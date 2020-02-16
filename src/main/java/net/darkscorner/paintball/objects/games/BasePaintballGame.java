@@ -63,6 +63,7 @@ public abstract class BasePaintballGame implements Game {
     public void waitForPlayers(boolean start) {
         if (start) {
             gameState = GameState.IDLE;
+            /*
             BukkitRunnable waitingTask = new BukkitRunnable() {
 
                 @Override
@@ -77,16 +78,34 @@ public abstract class BasePaintballGame implements Game {
 
                 }
             };
-            waitingTask.runTaskTimer(Main.getInstance(), 0, 20);
-            currentTaskID = waitingTask.getTaskId();
+            waitingTask.runTaskTimer(Main.getInstance(), 0, 20);*/
+            currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), getWaitingTask(), 0, 20);
+            //currentTaskID = waitingTask.getTaskId();
         } else {
             Bukkit.getScheduler().cancelTask(currentTaskID);
         }
     }
 
+    private Runnable getWaitingTask() {
+        return () -> {
+            if (getGameState() == GameState.IDLE && getPlayers(true).size() < getStartPlayerAmount()) {
+                for (PlayerProfile p : getPlayers(true)) {
+                    p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "Waiting for " + ChatColor.YELLOW + (getStartPlayerAmount() - getPlayers(true).size()) + ChatColor.GOLD + " player(s).").create());
+                }
+            } else {
+                waitForPlayers(false);
+                // Has enough players to start game, commence countdown!
+                if (getPlayers(true).size() >= getStartPlayerAmount()) {
+                    countdown(true);
+                }
+            }
+        };
+    }
+
     public void countdown(boolean start) {
         if (start) {
             gameState = GameState.COUNTDOWN;
+            /*
             currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
                 int countdownTime = 20;
 
@@ -108,10 +127,36 @@ public abstract class BasePaintballGame implements Game {
                     }
 
                 }
-            }, 0, 20);
+            }, 0, 20);*/
+            currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), getCountdownTask(), 0, 20);
         } else {
             Bukkit.getScheduler().cancelTask(currentTaskID);
         }
+    }
+
+    private Runnable getCountdownTask() {
+        return new Runnable() {
+            int countdownTime = 20;
+
+            @Override
+            public void run() {
+                if (getPlayers(true).size() >= getStartPlayerAmount()) {
+                    if (countdownTime > 0) {
+                        for (PlayerProfile p : getAllPlayers()) {
+                            p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "" + ChatColor.BOLD + countdownTime).create());
+                        }
+                        countdownTime--;
+                    } else {
+                        countdown(false);
+                        startGame();
+                    }
+                } else { // not enough people to start
+                    countdown(false);
+                    waitForPlayers(true);
+                }
+
+            }
+        };
     }
 
     public void cancelCurrentTask() {

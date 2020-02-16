@@ -25,10 +25,10 @@ public class GamePlayerJoinListener implements Listener {
 		}
 		
 		// if players joining the game is the same or higher than required start amount, start the countdown
-		if(game.getGameState() == GameState.IDLE) {
-			if(game.getPlayers(true).size() >= game.getStartPlayerAmount()) {
-				game.countdown(true);
-			}
-		}
+		//if(game.getGameState() == GameState.IDLE) {
+		//	if(game.getPlayers(true).size() >= game.getStartPlayerAmount()) {
+		//		game.countdown(true);
+		//	}
+		//}
 	}
 }

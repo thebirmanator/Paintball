@@ -3,7 +3,6 @@ package net.darkscorner.paintball.objects.games;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import org.bukkit.Bukkit;
 
 import java.util.Set;
 

@@ -13,4 +13,8 @@ public enum PlayerInGameStat {
     public String getStatPath() {
         return stat;
     }
+
+    public String toPlaceholder() {
+        return "%" + stat + "%";
+    }
 }

@@ -1,6 +1,15 @@
 package net.darkscorner.paintball.objects.player;
 
 import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.scoreboards.IScoreboard;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +19,7 @@ public class PlayerGameStatistics {
 
 	private Game game;
 	private Map<PlayerInGameStat, Integer> stats;
+	private Scoreboard scoreboard;
 	//private int kills;
 	//private int deaths;
 	//private int shotsFired;
@@ -52,6 +62,7 @@ public class PlayerGameStatistics {
 
 	public void setStat(PlayerInGameStat stat, int amount) {
 		stats.replace(stat, amount);
+		//update(stat.toPlaceholder(), amount + "");
 	}
 
 	public void addToStat(PlayerInGameStat stat, int amount) {
