@@ -45,7 +45,7 @@ public class GameItem extends GameMenuItem {
 			getOwningMenu().close(player, true);
 			break;
 		case RIGHT: // open player list
-			GameMenu playerOptionsMenu = new GameMenu("Players", (GameMenu) getOwningMenu(), 27);
+			GameMenu playerOptionsMenu = new GameMenu("Players", (GameMenu) getOwningMenu(), 27, game);
 			//GameMenu playerOptionsGameMenu = new GameMenu("Players", this, 27);
 			int index = 0;
 			for (PlayerProfile playerProfile : game.getPlayers(true)) {
@@ -53,17 +53,16 @@ public class GameItem extends GameMenuItem {
 				playerOptionsMenu.addItem(index, clickableItem);
 				index++;
 			}
-			//TODO: actually make this work
-			//playerOptionsMenu.showNavBar(true);
+			playerOptionsMenu.showNavBar(true);
 			getOwningMenu().close(player);
 			playerOptionsMenu.open(player);
 			break;
 		case MIDDLE: // open game options
 			if (player.hasPermission("paintball.options.use")) {
-				GameMenu gameOptionsMenu = new GameMenu("Game Options", (GameMenu) getOwningMenu(), 9);
+				GameMenu gameOptionsMenu = new GameMenu("Game Options", (GameMenu) getOwningMenu(), 9, game);
 				ClickableItem endGameItem = new EndGameItem(gameOptionsMenu).getForPlayer(player);
 				gameOptionsMenu.addItem(0, endGameItem);
-				//gameOptionsMenu.showNavBar(true);
+				gameOptionsMenu.showNavBar(true);
 				getOwningMenu().close(player);
 				gameOptionsMenu.open(player);
 			} else {
@@ -97,5 +96,4 @@ public class GameItem extends GameMenuItem {
 	public Game getGame() {
 		return game;
 	}
-
 }

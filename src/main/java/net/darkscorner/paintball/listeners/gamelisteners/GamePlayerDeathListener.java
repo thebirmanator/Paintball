@@ -140,11 +140,11 @@ public class GamePlayerDeathListener implements Listener {
 		Random random = new Random();
 
 		if(isSuicide) {
-			List<String> msgs = game.getSuicideDeathMsgs();
+			List<String> msgs = game.getDeathMsgs("suicide");
 			int index = random.nextInt(msgs.size());
 			msg = msgs.get(index);
 		} else {
-			List<String> msgs = game.getNormalDeathMsgs();
+			List<String> msgs = game.getDeathMsgs("normal");
 			int index = random.nextInt(msgs.size());
 			msg = msgs.get(index);
 		}

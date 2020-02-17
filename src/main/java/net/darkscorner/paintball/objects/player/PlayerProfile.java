@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.games.Game;
 import net.darkscorner.paintball.objects.equippable.guns.Gun;
 import org.bukkit.Bukkit;
@@ -14,12 +13,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Scoreboard;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
-import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class PlayerProfile implements PlayerSettings {
 	// a gameplayer contains a player, their kills for that game, their deaths for that game, and shots fired for that game
@@ -134,6 +130,7 @@ public class PlayerProfile implements PlayerSettings {
 		return currentGameStats != null;
 	}
 
+	//TODO: make gamestats account for spectating games
 	public Game getCurrentGame() {
 		return currentGameStats.getGame();
 	}
@@ -155,7 +152,7 @@ public class PlayerProfile implements PlayerSettings {
 	}*/
 	
 	public void createNewStats(Game game) {
-		currentGameStats = new PlayerGameStatistics(game);
+		currentGameStats = new PlayerGameStatistics(game, this);
 	}
 
 	@Override

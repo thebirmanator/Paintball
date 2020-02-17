@@ -1,6 +1,6 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -13,7 +13,8 @@ public class GamePlayerSpectateListener implements Listener {
 	
 	@EventHandler
 	public void onGameSpectate(GameSpectateEvent event) {
-		GameScoreboard2.getBoard(event.getPlayer(), StatsBoard.SPECTATE).display();
+		new GameScoreboard(event.getPlayer(), GameScoreboard.getContent(StatsBoard.SPECTATE)).display();
+		//GameScoreboard2.getBoard(event.getPlayer(), StatsBoard.SPECTATE).display();
 		event.getPlayer().getPlayer().sendMessage(Main.prefix + "You are now " + ChatColor.GREEN + "spectating" + ChatColor.GRAY + " this game.");
 	}
 }

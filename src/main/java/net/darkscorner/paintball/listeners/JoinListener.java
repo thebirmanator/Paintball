@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.listeners;
 
 import net.darkscorner.paintball.objects.menus.Menu;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -65,18 +66,20 @@ public class JoinListener implements Listener {
 						if(game.getGameState() != GameState.ENDED) { // set player to spectate if their game hasnt ended
 							game.setToSpectating(playerProfile);
 						} else { // player game has ended
-							//player.teleport(Game.getLobbySpawn());
+							player.teleport(Game.getSettings().getLobbySpawn());
 							player.sendMessage(Main.prefix + "The game you were in has ended.");
+							new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
 							//playerProfile.setStatsBoard(StatsBoard.LOBBY);
 						}
 					} else { // player is not in a game
-						//player.teleport(Game.getLobbySpawn());
+						player.teleport(Game.getSettings().getLobbySpawn());
 						player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
+						new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
 						//playerProfile.setStatsBoard(StatsBoard.LOBBY);
 					}
 				} else { // the player is new to the server
 					new PlayerProfile(player);
-					//player.teleport(Game.getLobbySpawn());
+					player.teleport(Game.getSettings().getLobbySpawn());
 					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
 

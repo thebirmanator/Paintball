@@ -15,8 +15,15 @@ import net.darkscorner.paintball.objects.menus.game.items.BackMenuItem;
 
 public class GameMenu extends ChestBasedMenu {
 
+	private Game game;
+
 	public GameMenu(String name, int size) {
 		super(name, size);
+	}
+
+	public GameMenu(String name, GameMenu parent, int size, Game game) {
+		super(name, parent, size);
+		this.game = game;
 	}
 	
 	public GameMenu(String name, GameMenu parent, int size) {
@@ -52,7 +59,18 @@ public class GameMenu extends ChestBasedMenu {
 	}*/
 
 	public Game getGame() {
-		return ((GameMenu) getParent()).getGame();
+		if (game != null) {
+			return game;
+		} else {
+			GameMenu parent = (GameMenu) getParent();
+			while (parent != null) {
+				if (parent.getGame() != null) {
+					return parent.getGame();
+				}
+				parent = (GameMenu) parent.getParent();
+			}
+		}
+		return null;
 	}
 /*
 	@Override
@@ -90,7 +108,7 @@ public class GameMenu extends ChestBasedMenu {
 
 	@Override
 	public void showNavBar(boolean show) {
-		if (getParent() != null && ((GameMenu) getParent()).getGame() != null) {
+		if (getParent() != null /*&& ((GameMenu) getParent()).getGame() != null*/) {
 			if (show) {
 				BackMenuItem backItem = new BackMenuItem(this, (GameMenu) getParent());
 				getItems().put(getSize() - 1, backItem);

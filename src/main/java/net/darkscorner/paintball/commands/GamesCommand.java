@@ -19,7 +19,6 @@ public class GamesCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		// command layout: /game <PaintballGame> spectate|players|options <kick(players) playername> or endgame(options)
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			PlayerProfile gp = PlayerProfile.getGamePlayer(player);
@@ -49,7 +48,7 @@ public class GamesCommand implements CommandExecutor {
 						if (args.length > 1) { // wants to open a submenu for a particular game
 
 						} else { // open a menu for the particular game
-							//TODO: make a way to set a parents game cuz main one is always null
+
 							/*
 							GameMenu gameMenu = new GameMenu(game.getArena().getName(), mainGameMenu, 27);
 							gameMenu.addItem(0, new EndGameItem(gameMenu));

@@ -1,5 +1,7 @@
 package net.darkscorner.paintball.objects.player;
 
+import net.darkscorner.paintball.objects.scoreboards.Variables;
+
 public enum PlayerInGameStat {
 
     SHOTS("shots"), KILLS("kills"), DEATHS("deaths"), BIGGEST_KILLSTREAK("biggest-killstreak");
@@ -16,5 +18,9 @@ public enum PlayerInGameStat {
 
     public String toPlaceholder() {
         return "%" + stat + "%";
+    }
+
+    public Variables toVariable() {
+        return Variables.fromString(toPlaceholder());
     }
 }

@@ -5,6 +5,9 @@ import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.*;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
+import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
+import net.darkscorner.paintball.objects.scoreboards.Variables;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -18,7 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.HashMap;
@@ -29,13 +31,13 @@ import java.util.Set;
 public abstract class BasePaintballGame implements Game {
 
     private GameState gameState = GameState.IDLE;
-    // maps player to if they are in game playing
+    // Maps player to if they are in game playing
     private Map<PlayerProfile, Boolean> allPlayers = new HashMap<>();
     private Arena arena;
-    //TODO: be not lazy and fix this later
-    public static FileConfiguration config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "main.yml"));
+    private static FileConfiguration config;
 
     private int currentTaskID = -1;
+    private int currentGameTime = -1;
 
     public BasePaintballGame(Arena arena) {
         this.arena = arena;
@@ -168,24 +170,26 @@ public abstract class BasePaintballGame implements Game {
 
         // start the game timer
         Game game = this;
+        currentGameTime = 0;
         currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
-            int currentTime = 0;
+            //int currentTime = 0;
             @Override
             public void run() {
-                int timeRemaining = getGameTimeLength() - currentTime;
-                currentTime++;
+                currentGameTime++;
 
                 for (PlayerProfile p : getAllPlayers()) {
+                    //GameScoreboard2.getBoard(p, StatsBoard.INGAME).update(Variables.CURRENT_GAME_TIME_REMAINING);
                     //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + formatTime(timeRemaining));
                 }
 
-                if(currentTime > getGameTimeLength()) {
+                if(currentGameTime > getGameTimeLength()) {
                     endGame();
                     cancelCurrentTask();
                     for(PlayerProfile p : getAllPlayers()) {
                         //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + "ENDED");
                     }
                 }
+                getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.INGAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
 
             }
         }, 0, 20);
@@ -301,5 +305,14 @@ public abstract class BasePaintballGame implements Game {
     @Override
     public FileConfiguration getGameConfig() {
         return config;
+    }
+
+    @Override
+    public int getTimeRemaining() {
+        return getGameTimeLength() - currentGameTime;
+    }
+
+    public static void loadConfig() {
+        config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "main.yml"));
     }
 }

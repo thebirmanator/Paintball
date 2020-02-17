@@ -1,13 +1,11 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.events.GamePlayerJoinEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.games.Game;
@@ -20,7 +18,8 @@ public class GamePlayerJoinListener implements Listener {
 		PlayerProfile playerProfile = event.getPlayer();
 		
 		playerProfile.getPlayer().teleport(game.getArena().getLobbyLocation());
-		GameScoreboard2.getBoard(playerProfile, StatsBoard.INGAME).display();
+		new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.INGAME)).display();
+		//GameScoreboard2.getBoard(playerProfile, StatsBoard.INGAME).display();
 		
 		// tell everyone that someone joined
 		for(PlayerProfile p : game.getAllPlayers()) {

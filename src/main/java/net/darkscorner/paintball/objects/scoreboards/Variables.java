@@ -1,7 +1,10 @@
 package net.darkscorner.paintball.objects.scoreboards;
 
+import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.utils.Text;
 
 public enum Variables {
 
@@ -33,9 +36,25 @@ public enum Variables {
             case CURRENT_GAME_DEATHS:
                 return playerProfile.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS) + "";
             case CURRENT_GAME_TIME_REMAINING:
-                return "1";
+                Game game = playerProfile.getCurrentGame();
+                if (game.getGameState() == GameState.IDLE || game.getGameState() == GameState.COUNTDOWN) {
+                    return "NOT STARTED";
+                } else if (game.getGameState() == GameState.ENDED) {
+                    return "ENDED";
+                } else {
+                    return Text.formatTime(playerProfile.getCurrentGame().getTimeRemaining());
+                }
             default:
                 return "Unknown";
         }
+    }
+
+    public static Variables fromString(String string) {
+        for (Variables variable : values()) {
+            if (variable.getAsString().equals(string)) {
+                return variable;
+            }
+        }
+        return null;
     }
 }

@@ -62,7 +62,6 @@ public abstract class Paint {
 	}
 
 	Set<Location> getLocsAround(Location centre) {
-		//TODO: configurable radius
 		int radius = Game.getSettings().getPaintRadius();
 		Set<Location> locations = new HashSet<>();
 		for (int x = radius * -1; x < radius + 1; x++) {

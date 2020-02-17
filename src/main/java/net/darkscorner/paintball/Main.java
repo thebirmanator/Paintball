@@ -10,11 +10,11 @@ import java.util.Set;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.arena.Arena;
-import net.darkscorner.paintball.objects.equippable.guns.*;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
+import net.darkscorner.paintball.objects.games.BasePaintballGame;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -22,9 +22,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.darkscorner.paintball.listeners.gamelisteners.GameCreateListener;
@@ -36,7 +33,6 @@ import net.darkscorner.paintball.listeners.gamelisteners.GamePlayerSpectateListe
 import net.darkscorner.paintball.listeners.gamelisteners.GameStartListener;
 import net.darkscorner.paintball.listeners.gamelisteners.PowerUpUseListener;
 import net.darkscorner.paintball.objects.menus.arena.EditorKit;
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 
 public class Main extends JavaPlugin {
 	
@@ -57,7 +53,8 @@ public class Main extends JavaPlugin {
 		// powerup ideas: super jump, shield reflector thingy
 		instance = this;
 		loadConfigs();
-		GameScoreboard2.loadBoardPresets();
+		BasePaintballGame.loadConfig();
+		GameScoreboard.loadBoardPresets();
 		ClickableItem.loadItems();
 		Paint.loadPaints();
 		

@@ -1,7 +1,7 @@
 package net.darkscorner.paintball.objects.player;
 
 import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -21,7 +21,8 @@ public class PlayerGameStatistics {
 	
 	private int currentKillStreak;
 	
-	public PlayerGameStatistics(Game game) {
+	public PlayerGameStatistics(Game game, PlayerProfile owner) {
+		this.owner = owner;
 		this.game = game;
 		stats = new HashMap<>();
 		for (PlayerInGameStat stat : PlayerInGameStat.values()) {
@@ -57,7 +58,7 @@ public class PlayerGameStatistics {
 
 	public void setStat(PlayerInGameStat stat, int amount) {
 		stats.replace(stat, amount);
-		GameScoreboard2.getBoard(owner, StatsBoard.INGAME).updateAll();
+		GameScoreboard.getBoard(owner, StatsBoard.INGAME).update(stat.toVariable());
 		//update(stat.toPlaceholder(), amount + "");
 	}
 

@@ -3,7 +3,7 @@ package net.darkscorner.paintball.listeners.gamelisteners;
 import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
 import net.darkscorner.paintball.objects.games.TeamGame;
-import net.darkscorner.paintball.objects.scoreboards.GameScoreboard2;
+import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -66,7 +66,8 @@ public class GamePlayerLeaveListener implements Listener {
 					}
 				}
 			}
-			GameScoreboard2.getBoard(player, StatsBoard.LOBBY).display();
+			new GameScoreboard(player, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
+			//GameScoreboard2.getBoard(player, StatsBoard.LOBBY).display();
 
 			// save stats
 			//player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));

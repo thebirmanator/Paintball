@@ -1,98 +1,108 @@
 package net.darkscorner.paintball.objects.scoreboards;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
+import net.darkscorner.paintball.Main;
+import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import com.google.common.collect.Lists;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class GameScoreboard {
 
-	private List<String> displayText;
-	private StatsBoard type;
-	
-	private static Set<GameScoreboard> boards = new HashSet<GameScoreboard>();
-	
-	private GameScoreboard(String title, List<String> displayText, StatsBoard type) {
-		this.displayText = new ArrayList<String>(Lists.reverse(displayText));
+    private PlayerProfile profile;
+    private List<String> templateText;
+    private Scoreboard scoreboard;
 
-		this.type = type;
-		
-		boards.add(this);
-	}
-	
-	public List<String> getTemplateDisplayText() {
-		return displayText;
-	}
-	
-	public StatsBoard getType() {
-		return type;
-	}
-	
-	public Scoreboard generateScoreboard() {
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard gameScoreboard = manager.getNewScoreboard();
-		Objective objective = gameScoreboard.registerNewObjective("stats", "dummy", ChatColor.GOLD + "" + ChatColor.BOLD + "Paintball");
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		
-		for(int i = 0; i < this.displayText.size(); i++) {
-			objective.getScore(this.displayText.get(i)).setScore(i);
-		}
-		return gameScoreboard;
-	}
-	
-	public void update(Scoreboard scoreboard, String variable, String newValue) {
-		for(String text : displayText) {
-			if(text.contains(variable)) { // this line in the scoreboard contains the changed variable
-				int score = displayText.indexOf(text);
-				Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-				for(String entry : objective.getScoreboard().getEntries()) {
-					if(objective.getScore(entry).getScore() == score) { // if score of entry is the same as score in template
-						objective.getScoreboard().resetScores(entry);
-						objective.getScore(text.replace(variable, newValue)).setScore(score);
-					}
-				}
-			}
-		}
-	}
-	
-	public static GameScoreboard getBoard(StatsBoard boardType) {
-		for(GameScoreboard board : boards) {
-			if(board.getType() == boardType) {
-				return board;
-			}
-		}
-		return null;
-	}
-	
-	public static void createFromConfig(FileConfiguration config) {
-		String title = config.getString("title");
-		title = ChatColor.translateAlternateColorCodes('&', title);
-		
-		Set<String> boardTypes = config.getKeys(false);
-		
-		for(String boardType : boardTypes) {
-			if(config.isList(boardType)) {
-				if(StatsBoard.valueOf(boardType) != null) {
-					List<String> displayText = config.getStringList(boardType);
-					for(int i = 0; i < displayText.size(); i++) {
-						String text = displayText.get(i);
-						text = ChatColor.translateAlternateColorCodes('&', text);
-						displayText.set(i, text);
-					}
-					StatsBoard board = StatsBoard.valueOf(boardType);
-					new GameScoreboard(title, displayText, board);
-				}
-			}
-		}
-	}
+    private static Map<StatsBoard, List<String>> boardContents;
+    private static FileConfiguration config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "scoreboards.yml"));
+    private static String title = config.getString("title");
+
+    public GameScoreboard(PlayerProfile profile, List<String> templateText) {
+        this.profile = profile;
+        this.templateText = templateText;
+        generateScoreboard();
+    }
+
+    public GameScoreboard(PlayerProfile profile, List<String> templateText, Scoreboard scoreboard) {
+        this.profile = profile;
+        this.templateText = templateText;
+        this.scoreboard = scoreboard;
+    }
+
+    public static GameScoreboard getBoard(PlayerProfile profile, StatsBoard boardType) {
+        if (profile.getPlayer().getScoreboard().getObjective("stats") == null) {
+            return new GameScoreboard(profile, getContent(boardType));
+        }
+        return new GameScoreboard(profile, getContent(boardType), profile.getPlayer().getScoreboard());
+    }
+
+    public void display() {
+        updateAll();
+        profile.getPlayer().setScoreboard(scoreboard);
+    }
+
+    public void update(Variables variable) {
+        for (String text : templateText) {
+            if (text.contains(variable.getAsString())) {
+                int score = templateText.indexOf(text);
+                Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+                for (String entry : objective.getScoreboard().getEntries()) {
+                    if (objective.getScore(entry).getScore() == score) { // if score of entry is the same as score in template
+                        objective.getScoreboard().resetScores(entry);
+                        objective.getScore(text.replace(variable.getAsString(), variable.getValue(profile))).setScore(score);
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateAll() {
+        for (Variables variable : Variables.values()) {
+            update(variable);
+        }
+    }
+
+    private void generateScoreboard() {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard gameScoreboard = manager.getNewScoreboard();
+        Objective objective = gameScoreboard.registerNewObjective("stats", "dummy", ChatColor.GOLD + "" + ChatColor.BOLD + "Paintball");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        for(int i = 0; i < templateText.size(); i++) {
+            objective.getScore(templateText.get(i)).setScore(i);
+        }
+        scoreboard = gameScoreboard;
+    }
+
+    public static List<String> getContent(StatsBoard boardType) {
+        return boardContents.get(boardType);
+    }
+
+    public static void loadBoardPresets() {
+        boardContents = new HashMap<>();
+        Set<String> boardTypes = config.getKeys(false);
+        for(String boardType : boardTypes) {
+            if(config.isList(boardType)) {
+                if(StatsBoard.valueOf(boardType) != null) {
+                    // Get text in reverse because scoreboards are weird like that
+                    List<String> displayText = Lists.reverse(config.getStringList(boardType));
+                    displayText.forEach((text) -> displayText.set(displayText.indexOf(text), Text.format(text)));
+                    StatsBoard board = StatsBoard.valueOf(boardType);
+                    boardContents.put(board, displayText);
+                }
+            }
+        }
+    }
 }

@@ -60,7 +60,7 @@ public class ProjectileHitListener implements Listener {
 								}
 								// wait a tick for the paintball to fire first
 								victim.playSound(SoundEffect.DEATH);
-								if (pShooter.equals(victim.getPlayer())) { // shooter and victim are different players
+								if (!pShooter.equals(victim.getPlayer())) { // shooter and victim are different players
 									main.getServer().getPluginManager().callEvent(new GamePlayerDeathEvent(victim.getCurrentGame(), victim, killer));
 								} else {
 									main.getServer().getPluginManager().callEvent(new GamePlayerDeathEvent(victim.getCurrentGame(), victim));

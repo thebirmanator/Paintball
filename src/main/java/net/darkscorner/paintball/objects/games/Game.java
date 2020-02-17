@@ -6,6 +6,7 @@ import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.utils.Locations;
+import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -362,7 +363,14 @@ public interface Game {
 		
 		allGames.remove(this);
 	}*/
-	//TODO: fancy forEach or something?
+
+	default List<String> getDeathMsgs(String type) {
+		List<String> msgs = getGameConfig().getStringList("death-messages." + type);
+		msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
+		return msgs;
+	}
+
+	/*
 	default List<String> getNormalDeathMsgs() {
 		List<String> msgs = getGameConfig().getStringList("death-messages.normal");
 		for (int i = 0; i < msgs.size(); i++) {
@@ -374,14 +382,15 @@ public interface Game {
 	
 	default List<String> getSuicideDeathMsgs() {
 		List<String> msgs = getGameConfig().getStringList("death-messages.suicide");
+		msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
+		/*
 		for (int i = 0; i < msgs.size(); i++) {
-			//TODO: make colouriser into util
 			String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
 			msgs.set(i, coloured);
 		}
 		return msgs;
 	}
-
+*/
 	static Game getSettings() {
 		return new FreeForAllGame();
 	}
@@ -414,4 +423,6 @@ public interface Game {
 		}
 		return null;
 	}
+
+	int getTimeRemaining();
 }

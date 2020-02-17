@@ -291,7 +291,6 @@ public class Arena implements ArenaSetting {
 		return config;
 	}
 
-	//TODO: code for checking if in the boundaries
 	public boolean isInArena(Player player) {
 		Location location = player.getLocation();
 		Vector minVector = new Vector(0, 0, 0);
