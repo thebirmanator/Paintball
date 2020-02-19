@@ -1,8 +1,10 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
-import net.darkscorner.paintball.objects.Team;
+import net.darkscorner.paintball.objects.games.Team;
 import net.darkscorner.paintball.objects.equippable.guns.ShotGun;
 import net.darkscorner.paintball.objects.games.TeamGame;
+import net.darkscorner.paintball.objects.player.PlayerInGameStat;
+import net.darkscorner.paintball.objects.player.PlayerStat;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -12,7 +14,7 @@ import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerLeaveEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 import java.util.Set;
@@ -21,7 +23,7 @@ public class GamePlayerLeaveListener implements Listener {
 
 	@EventHandler
 	public void onGameLeave(GamePlayerLeaveEvent event) {
-		Game game = event.getGame();
+		GameSettings game = event.getGame();
 		PlayerProfile player = event.getPlayer();
 		boolean wasSpectator = game.getPlayers(false).contains(player);
 		player.getPlayer().setGameMode(Main.defaultGamemode);
@@ -34,6 +36,10 @@ public class GamePlayerLeaveListener implements Listener {
 
 			// remove paintball gun on leave
 			player.getGun().removeFrom(player.getPlayer());
+			// If team game, remove team armour
+			if (game instanceof TeamGame) {
+				player.getPlayer().getInventory().setArmorContents(null);
+			}
 
 			// send message to everyone that game that the player left
 			if(game.getGameState() != GameState.ENDED) {
@@ -66,14 +72,15 @@ public class GamePlayerLeaveListener implements Listener {
 					}
 				}
 			}
+			//TODO: figure out why it lags when you leave?
 			new GameScoreboard(player, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
 			//GameScoreboard2.getBoard(player, StatsBoard.LOBBY).display();
 
 			// save stats
-			//player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
-			//player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
-			//player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
-			//player.saveProfile();
+			player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
+			player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
+			player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
+			player.saveProfile();
 		}
 	}
 }

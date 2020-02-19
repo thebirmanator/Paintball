@@ -1,10 +1,8 @@
 package net.darkscorner.paintball.listeners;
 
-import net.darkscorner.paintball.objects.Team;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.Team;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.games.TeamGame;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -49,7 +47,7 @@ public class ProjectileHitListener implements Listener {
 							Player pShooter = (Player) event.getEntity().getShooter();
 							//if (!player.hasMetadata(Game.invulnerableMeta)) { // is vulnerable
 								PlayerProfile killer = PlayerProfile.getGamePlayer(pShooter);
-								Game game = killer.getCurrentGame();
+								GameSettings game = killer.getCurrentGame();
 								// Check if players are on the same team if it's a team game
 								if (game instanceof TeamGame) {
 									TeamGame teamGame = (TeamGame) game;

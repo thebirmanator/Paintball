@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import net.darkscorner.paintball.objects.Team;
+import net.darkscorner.paintball.objects.games.Team;
 import net.darkscorner.paintball.objects.games.TeamGame;
 import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GameStartEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 
 public class GameStartListener implements Listener {
 
@@ -28,7 +28,7 @@ public class GameStartListener implements Listener {
 	
 	@EventHandler
 	public void onGameStart(GameStartEvent event) {
-		Game game = event.getGame();
+		GameSettings game = event.getGame();
 
 		// End game if a team has 0 players
 		if (game instanceof TeamGame) {

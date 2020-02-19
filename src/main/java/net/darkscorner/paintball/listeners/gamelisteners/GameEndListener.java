@@ -5,6 +5,7 @@ import java.util.*;
 import net.darkscorner.paintball.objects.player.PlayerGameStatistics;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerStat;
+import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,8 +17,7 @@ import org.bukkit.event.Listener;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GameEndEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
-import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
+import net.darkscorner.paintball.objects.games.GameSettings;
 
 public class GameEndListener implements Listener {
 
@@ -28,7 +28,7 @@ public class GameEndListener implements Listener {
 	
 	@EventHandler
 	public void onGameEnd(GameEndEvent event) {
-		Game game = event.getGame();
+		GameSettings game = event.getGame();
 		
 		// remove powerups from map
 		for(Location loc : game.getArena().getPowerUpSpawnPoints()) {
@@ -78,33 +78,32 @@ public class GameEndListener implements Listener {
 		}
 
 		// send everyone to the lobby after some time
-		Bukkit.getScheduler().runTaskLater(main, new Runnable() {
-			public void run() {
-				// use a list from the set because a normal for-each loop will throw a ConcurrentModificationException
-				List<PlayerProfile> players = new ArrayList<>(game.getAllPlayers());
-				for (int i = 0; i < players.size(); i++) {
-					PlayerProfile p = players.get(i);
-					p.removePowerUps();
-					p.getPlayer().teleport(game.getLobbySpawn());
-					//p.setStatsBoard(StatsBoard.LOBBY);
-					p.getPlayer().setGameMode(Main.defaultGamemode);
-					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
-					game.removePlayer(p);
-				}
-				/*
-				for (Iterator<PlayerProfile> profileIterator = game.getAllPlayers().iterator(); profileIterator.hasNext();) {
-					PlayerProfile p = profileIterator.next();
-					p.removePowerUps();
-					p.getPlayer().teleport(game.getLobbySpawn());
-					p.setStatsBoard(StatsBoard.LOBBY);
-					p.getPlayer().setGameMode(Main.defaultGamemode);
-					p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
-					game.removePlayer(p);
-				}*/
-				//game.getAllPlayers().clear();
-				
-				//game.getUsedArena().setIsInUse(false);
+		Bukkit.getScheduler().runTaskLater(main, () -> {
+			// use a list from the set because a normal for-each loop will throw a ConcurrentModificationException
+			List<PlayerProfile> players1 = new ArrayList<>(game.getAllPlayers());
+			for (int i = 0; i < players1.size(); i++) {
+				PlayerProfile p = players1.get(i);
+				//p.removePowerUps();
+				PowerUp.clearEffects(p.getPlayer());
+				p.getPlayer().teleport(game.getLobbySpawn());
+				//p.setStatsBoard(StatsBoard.LOBBY);
+				p.getPlayer().setGameMode(Main.defaultGamemode);
+				p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
+				game.removePlayer(p);
 			}
+			/*
+			for (Iterator<PlayerProfile> profileIterator = game.getAllPlayers().iterator(); profileIterator.hasNext();) {
+				PlayerProfile p = profileIterator.next();
+				p.removePowerUps();
+				p.getPlayer().teleport(game.getLobbySpawn());
+				p.setStatsBoard(StatsBoard.LOBBY);
+				p.getPlayer().setGameMode(Main.defaultGamemode);
+				p.getPlayer().sendMessage(Main.prefix + "You have been sent to the lobby.");
+				game.removePlayer(p);
+			}*/
+			//game.getAllPlayers().clear();
+
+			//game.getUsedArena().setIsInUse(false);
 		}, 100);
 	}
 	

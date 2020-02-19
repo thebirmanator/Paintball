@@ -15,10 +15,26 @@ public class VolleyPowerUp extends PowerUp {
     }
 
     @Override
+    public boolean hasEffect(Player player) {
+        return player.hasMetadata(meta);
+    }
+
+    public int getRemainingDuration(Player player, boolean inSeconds) {
+        if (!hasEffect(player)) return 0;
+        int ticks = player.getMetadata(meta).get(0).asInt();
+        if (inSeconds) {
+            return ticks / 20;
+        } else {
+            return ticks;
+        }
+    }
+
+    @Override
     public void use(Player player) {
         int duration = getDuration();
         Main main = Main.getInstance();
-        if(player.hasMetadata(meta)) { // has the powerup already, add a second one to stack it
+        /*
+        if (hasEffect(player)) { // has the powerup already, add a second one to stack it
             duration = duration + player.getMetadata(meta).get(0).asInt();
             player.setMetadata(meta, new FixedMetadataValue(main, duration));
         } else {
@@ -27,10 +43,10 @@ public class VolleyPowerUp extends PowerUp {
 
                 @Override
                 public void run() {
-                    if(player.hasMetadata(meta)) {
+                    if(hasEffect(player)) {
                         int remainingDuration = player.getMetadata(meta).get(0).asInt();
                         if(remainingDuration <= 0) {
-                            player.removeMetadata(meta, main);
+                            remove(player);
                             cancel();
                         } else {
                             player.setMetadata(meta, new FixedMetadataValue(main, remainingDuration - 20)); // take one second away (20 ticks)
@@ -41,7 +57,31 @@ public class VolleyPowerUp extends PowerUp {
 
                 }
             }.runTaskTimer(main, 0, 20);
+        }*/
+        player.setMetadata(meta, new FixedMetadataValue(main, duration));
+        // Start a timer if they don't yet have the effect
+        if (!hasEffect(player)) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (hasEffect(player)) {
+                        if (getRemainingDuration(player, false) <= 0) {
+                            remove(player);
+                            cancel();
+                        } else {
+                            player.setMetadata(meta, new FixedMetadataValue(main, getRemainingDuration(player, false) - 20)); // take one second away (20 ticks)
+                        }
+                    } else {
+                        cancel();
+                    }
+                }
+            }.runTaskTimer(main, 0, 20);
         }
+    }
+
+    @Override
+    public void remove(Player player) {
+        player.removeMetadata(meta, Main.getInstance());
     }
 
     static VolleyPowerUp getInstance(String effectName) {
@@ -49,9 +89,5 @@ public class VolleyPowerUp extends PowerUp {
             instance = new VolleyPowerUp(effectName);
         }
         return instance;
-    }
-
-    public static boolean hasPowerUp(Player player) {
-        return player.hasMetadata(meta);
     }
 }

@@ -2,11 +2,11 @@ package net.darkscorner.paintball.objects.games;
 
 import java.util.*;
 
-import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.utils.Locations;
 import net.darkscorner.paintball.utils.Text;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,10 +14,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import net.darkscorner.paintball.Main;
 import net.md_5.bungee.api.ChatColor;
 
-public interface Game {
+public interface GameSettings {
 
 	String invulnerableMeta = "invulnerable";
-	Set<Game> allGames = new HashSet<>();
+	Set<GameSettings> allGames = new HashSet<>();
 /*
 	private Main main;
 	private static FileConfiguration gameConfig;
@@ -364,8 +364,8 @@ public interface Game {
 		allGames.remove(this);
 	}*/
 
-	default List<String> getDeathMsgs(String type) {
-		List<String> msgs = getGameConfig().getStringList("death-messages." + type);
+	default List<String> getDeathMsgs(DeathType type) {
+		List<String> msgs = getGameConfig().getStringList("death-messages." + type.getType());
 		msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
 		return msgs;
 	}
@@ -391,23 +391,24 @@ public interface Game {
 		return msgs;
 	}
 */
-	static Game getSettings() {
+	static GameSettings getSettings() {
 		return new FreeForAllGame();
 	}
 
-	static Game createGame() {
+	static GameSettings createGame() {
 		List<Arena> arenas = Arena.getArenas();
-		// shuffle arenas so it uses a random order
+		// Shuffle arenas so it uses a random order
 		Collections.shuffle(arenas);
-		// find an open arena
+		// Find an open arena
 		for (Arena arena : arenas) {
 			if (!arena.isInUse()) {
-				Game game = null;
+				GameSettings game;
 				if (arena.allowsTeams()) {
-					boolean teamGame = new Random().nextBoolean();
+					//boolean teamGame = new Random().nextBoolean();
+					boolean teamGame = true;
 					if (teamGame) {
-						Team red = new Team("red", new HashSet<>());
-						Team blue = new Team("blue", new HashSet<>());
+						Team red = new Team("red", Color.RED, new HashSet<>());
+						Team blue = new Team("blue", Color.BLUE, new HashSet<>());
 						Set<Team> teams = new HashSet<>();
 						teams.add(red);
 						teams.add(blue);
@@ -424,5 +425,24 @@ public interface Game {
 		return null;
 	}
 
+	static void loadSettings() {
+		PaintballGame game = (PaintballGame) getSettings();
+		game.loadSettings();
+	}
+
 	int getTimeRemaining();
+
+	enum DeathType {
+		NORMAL("normal"), SUICIDE("suicide");
+
+		private final String type;
+
+		DeathType(String type) {
+			this.type = type;
+		}
+
+		public String getType() {
+			return type;
+		}
+	}
 }

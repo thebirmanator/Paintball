@@ -47,6 +47,6 @@
             </plugin>
         </plugins>
 
-        <finalName>DarkPaintball</finalName>
+        <finalName>Paintball</finalName>
     </build>
 </project>

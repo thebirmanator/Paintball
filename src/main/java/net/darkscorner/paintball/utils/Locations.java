@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.utils;
 
+import net.darkscorner.paintball.Main;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,14 +11,10 @@ public class Locations {
 
     public static Location stringToLoc(String locationString) {
         String[] parameters = locationString.split("\\|");
-        World world = null;
+        World world = Main.getInstance().getServer().getWorld(parameters[0]);
         int[] coords = new int[5];
-        for (int i = 0; i < parameters.length; i++) {
-            if (i == 0) {
-                world = Bukkit.getWorld(parameters[0]);
-            } else {
-                coords[i - 1] = NumberUtils.createInteger(parameters[i]);
-            }
+        for (int i = 1; i < parameters.length; i++) {
+            coords[i - 1] = NumberUtils.createInteger(parameters[i]);
         }
         return new Location(world, coords[0], coords[1], coords[2], coords[3], coords[4]);
     }

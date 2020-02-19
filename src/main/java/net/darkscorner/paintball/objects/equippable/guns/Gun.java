@@ -2,6 +2,7 @@ package net.darkscorner.paintball.objects.equippable.guns;
 
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.powerups.PowerUp;
 import net.darkscorner.paintball.objects.powerups.VolleyPowerUp;
 import net.darkscorner.paintball.utils.Vectors;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ public abstract class Gun {
     }
 
     public void shoot(Player from) {
-        if (VolleyPowerUp.hasPowerUp(from)) {
+        if (PowerUp.Effect.VOLLEY.getPowerUp().hasEffect(from)) {
             for (Vector velocity : Vectors.getVolleyVectors(from, getShotVelocity(from))) {
                 from.launchProjectile(Snowball.class, velocity);
                 PlayerProfile.getGamePlayer(from).getCurrentGameStats().addToStat(PlayerInGameStat.SHOTS, 1);

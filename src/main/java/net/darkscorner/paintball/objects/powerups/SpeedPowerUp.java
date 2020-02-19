@@ -13,12 +13,23 @@ public class SpeedPowerUp extends PowerUp {
     }
 
     @Override
+    public boolean hasEffect(Player player) {
+        return player.hasPotionEffect(PotionEffectType.SPEED);
+    }
+
+    @Override
     public void use(Player player) {
+        /*
         int duration = getDuration();
         if (player.hasPotionEffect(PotionEffectType.SPEED)) {
             duration = duration + player.getPotionEffect(PotionEffectType.SPEED).getDuration();
-        }
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 2), true);
+        }*/
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, getDuration(), 2), true);
+    }
+
+    @Override
+    public void remove(Player player) {
+        player.removePotionEffect(PotionEffectType.SPEED);
     }
 
     static SpeedPowerUp getInstance(String effectName) {

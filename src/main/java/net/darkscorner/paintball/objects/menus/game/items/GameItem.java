@@ -9,16 +9,16 @@ import org.bukkit.event.inventory.ClickType;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
 import org.bukkit.inventory.ItemStack;
 
 public class GameItem extends GameMenuItem {
 
-	private Game game;
+	private GameSettings game;
 	private static ItemStack templateItem;
 	// main game options menu; shows all games going on
-	public GameItem(GameMenu parent, Game game) {
+	public GameItem(GameMenu parent, GameSettings game) {
 		super(parent);
 		this.game = game;
 	}
@@ -93,7 +93,7 @@ public class GameItem extends GameMenuItem {
 				.getItemStack();
 	}
 
-	public Game getGame() {
+	public GameSettings getGame() {
 		return game;
 	}
 }

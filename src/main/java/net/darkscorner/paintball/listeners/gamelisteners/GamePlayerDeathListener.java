@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
+import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -18,7 +19,7 @@ import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
@@ -31,18 +32,17 @@ public class GamePlayerDeathListener implements Listener {
 	
 	@EventHandler
 	public void onDeath(GamePlayerDeathEvent event) {
-		Game game = event.getGame();
+		GameSettings game = event.getGame();
 		Arena arena = game.getArena();
 		PlayerProfile victim = event.getVictim();
 		victim.getPlayer().setGameMode(GameMode.SPECTATOR);
 		victim.getPlayer().teleport(arena.getSpectatingPoint());
 		
 		victim.getCurrentGameStats().addToStat(PlayerInGameStat.DEATHS, 1);
-		//victim.getGameScoreboard().update(victim.getPlayer().getScoreboard(), "%deaths%", "" + victim.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
 		
 		victim.playSound(SoundEffect.DEATH);
-		
-		victim.removePowerUps();
+
+		PowerUp.clearEffects(victim.getPlayer());
 		
 		PlayerProfile killer = event.getKiller();
 		String deathMsg = "";
@@ -135,16 +135,16 @@ public class GamePlayerDeathListener implements Listener {
 		
 	}
 	
-	public String getDeathMessage(Game game, boolean isSuicide) {
+	public String getDeathMessage(GameSettings game, boolean isSuicide) {
 		String msg = "";
 		Random random = new Random();
 
 		if(isSuicide) {
-			List<String> msgs = game.getDeathMsgs("suicide");
+			List<String> msgs = game.getDeathMsgs(GameSettings.DeathType.SUICIDE);
 			int index = random.nextInt(msgs.size());
 			msg = msgs.get(index);
 		} else {
-			List<String> msgs = game.getDeathMsgs("normal");
+			List<String> msgs = game.getDeathMsgs(GameSettings.DeathType.NORMAL);
 			int index = random.nextInt(msgs.size());
 			msg = msgs.get(index);
 		}

@@ -8,6 +8,7 @@ import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import net.darkscorner.paintball.objects.scoreboards.Variables;
+import net.darkscorner.paintball.utils.Text;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -23,12 +24,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public abstract class BasePaintballGame implements Game {
+public abstract class PaintballGame implements GameSettings {
 
     private GameState gameState = GameState.IDLE;
     // Maps player to if they are in game playing
@@ -39,14 +37,25 @@ public abstract class BasePaintballGame implements Game {
     private int currentTaskID = -1;
     private int currentGameTime = -1;
 
-    public BasePaintballGame(Arena arena) {
+    // Game settings
+    private static Set<Material> blacklisted;
+    private static int startPlayerAmount;
+    private static int maxPlayerAmount;
+    private static int gameTime;
+    private static Location lobbySpawn;
+    private static int coinsForKill;
+    private static int paintRadius;
+    private static int respawnTime;
+    private static Map<DeathType, List<String>> deathMsgs;
+
+    public PaintballGame(Arena arena) {
         this.arena = arena;
         allGames.add(this);
 
         Main.getInstance().getServer().getPluginManager().callEvent(new GameCreateEvent(Main.getInstance(), this));
     }
 
-    protected BasePaintballGame() {
+    protected PaintballGame() {
 
     }
 
@@ -65,24 +74,7 @@ public abstract class BasePaintballGame implements Game {
     public void waitForPlayers(boolean start) {
         if (start) {
             gameState = GameState.IDLE;
-            /*
-            BukkitRunnable waitingTask = new BukkitRunnable() {
-
-                @Override
-                public void run() {
-                    if (gameState == GameState.IDLE && getPlayers(true).size() < getStartPlayerAmount()) {
-                        for (PlayerProfile p : getPlayers(true)) {
-                            p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "Waiting for " + ChatColor.YELLOW + (getStartPlayerAmount() - getPlayers(true).size()) + ChatColor.GOLD + " player(s).").create());
-                        }
-                    } else {
-                        cancel();
-                    }
-
-                }
-            };
-            waitingTask.runTaskTimer(Main.getInstance(), 0, 20);*/
             currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), getWaitingTask(), 0, 20);
-            //currentTaskID = waitingTask.getTaskId();
         } else {
             Bukkit.getScheduler().cancelTask(currentTaskID);
         }
@@ -92,7 +84,7 @@ public abstract class BasePaintballGame implements Game {
         return () -> {
             if (getGameState() == GameState.IDLE && getPlayers(true).size() < getStartPlayerAmount()) {
                 for (PlayerProfile p : getPlayers(true)) {
-                    p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "Waiting for " + ChatColor.YELLOW + (getStartPlayerAmount() - getPlayers(true).size()) + ChatColor.GOLD + " player(s).").create());
+                    p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(Text.format("&6&lWaiting for &e" + (getStartPlayerAmount() - getPlayers(true).size()) + " &6player(s).")).create());
                 }
             } else {
                 waitForPlayers(false);
@@ -107,29 +99,6 @@ public abstract class BasePaintballGame implements Game {
     public void countdown(boolean start) {
         if (start) {
             gameState = GameState.COUNTDOWN;
-            /*
-            currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
-                int countdownTime = 20;
-
-                @Override
-                public void run() {
-                    if (getPlayers(true).size() >= getStartPlayerAmount()) {
-                        if (countdownTime > 0) {
-                            for (PlayerProfile p : getAllPlayers()) {
-                                p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "" + ChatColor.BOLD + countdownTime).create());
-                            }
-                            countdownTime--;
-                        } else {
-                            countdown(false);
-                            startGame();
-                        }
-                    } else { // not enough people to start
-                        countdown(false);
-                        waitForPlayers(true);
-                    }
-
-                }
-            }, 0, 20);*/
             currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), getCountdownTask(), 0, 20);
         } else {
             Bukkit.getScheduler().cancelTask(currentTaskID);
@@ -139,13 +108,12 @@ public abstract class BasePaintballGame implements Game {
     private Runnable getCountdownTask() {
         return new Runnable() {
             int countdownTime = 20;
-
             @Override
             public void run() {
                 if (getPlayers(true).size() >= getStartPlayerAmount()) {
                     if (countdownTime > 0) {
                         for (PlayerProfile p : getAllPlayers()) {
-                            p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.GOLD + "" + ChatColor.BOLD + countdownTime).create());
+                            p.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(Text.format("&6&l" + countdownTime)).create());
                         }
                         countdownTime--;
                     } else {
@@ -167,44 +135,25 @@ public abstract class BasePaintballGame implements Game {
     }
 
     public void startGame() {
-
-        // start the game timer
-        Game game = this;
+        GameSettings game = this;
         currentGameTime = 0;
-        currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
-            //int currentTime = 0;
-            @Override
-            public void run() {
-                currentGameTime++;
-
-                for (PlayerProfile p : getAllPlayers()) {
-                    //GameScoreboard2.getBoard(p, StatsBoard.INGAME).update(Variables.CURRENT_GAME_TIME_REMAINING);
-                    //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + formatTime(timeRemaining));
-                }
-
-                if(currentGameTime > getGameTimeLength()) {
-                    endGame();
-                    cancelCurrentTask();
-                    for(PlayerProfile p : getAllPlayers()) {
-                        //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + "ENDED");
-                    }
-                }
-                getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.INGAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
-
+        currentTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
+            currentGameTime++;
+            if (currentGameTime > getGameTimeLength()) {
+                endGame();
+                cancelCurrentTask();
             }
+            getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.INGAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
         }, 0, 20);
 
-        for(PlayerProfile p : getAllPlayers()) {
+        for (PlayerProfile p : getAllPlayers()) {
             // tell everyone that the game has started
             p.getPlayer().sendTitle(ChatColor.GREEN + "Go!", "", 5, 20, 5);
             p.playSound(SoundEffect.GAME_START);
-
-            //p.getGameScoreboard().update(p.getPlayer().getScoreboard(), "%timeleft%", "" + 0);
         }
 
         setGameState(GameState.STARTED);
         Main.getInstance().getServer().getPluginManager().callEvent(new GameStartEvent(game));
-
     }
 
     public Set<PlayerProfile> getPlayers(boolean isPlaying) {
@@ -220,29 +169,18 @@ public abstract class BasePaintballGame implements Game {
     public void addPlayer(PlayerProfile player, boolean setSpec) {
         allPlayers.put(player, !setSpec);
         if(!setSpec) {
-            //player.setCurrentGame(this);
             player.createNewStats(this);
-            /*
-            player.setStatsBoard(StatsBoard.INGAME);
-            Scoreboard bukkitBoard = player.getPlayer().getScoreboard();
-            player.getGameScoreboard().update(bukkitBoard, "%arena%", arena.getName());
-            player.getGameScoreboard().update(bukkitBoard, "%shots%", "" + 0);
-            player.getGameScoreboard().update(bukkitBoard, "%kills%", "" + 0);
-            player.getGameScoreboard().update(bukkitBoard, "%deaths%", "" + 0);
-            player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");*/
 
             Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerJoinEvent(player, this));
         } else {
-            //player.setCurrentGame(this);
             setToSpectating(player);
         }
     }
 
     public void removePlayer(PlayerProfile player) {
         allPlayers.remove(player);
-        player.clearCurrentGameStats();
-
         Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerLeaveEvent(player, this));
+        player.clearCurrentGameStats();
     }
 
     public void setToSpectating(PlayerProfile player) {
@@ -250,14 +188,11 @@ public abstract class BasePaintballGame implements Game {
         player.getPlayer().setGameMode(GameMode.SPECTATOR);
         Location specPoint = arena.getSpectatingPoint();
         player.getPlayer().teleport(specPoint);
-/*
-        player.setStatsBoard(StatsBoard.SPECTATE);
-        Scoreboard bukkitBoard = player.getPlayer().getScoreboard();
-        player.getGameScoreboard().update(bukkitBoard, "%arena%", arena.getName());
-        player.getGameScoreboard().update(bukkitBoard, "%timeleft%", "NOT STARTED");*/
+
         Main.getInstance().getServer().getPluginManager().callEvent(new GameSpectateEvent(player, this));
     }
 
+    //TODO: make use of this
     public void makeInvulnerable(Player player, int time) {
         player.setMetadata(invulnerableMeta, new FixedMetadataValue(Main.getInstance(), true));
         ItemStack helmet = new ItemStack(Material.GRAY_STAINED_GLASS);
@@ -291,20 +226,63 @@ public abstract class BasePaintballGame implements Game {
 
     public void endGame() {
         gameState = GameState.ENDED;
-
         Main.getInstance().getServer().getPluginManager().callEvent(new GameEndEvent(this));
-
-        for(PlayerProfile p : getAllPlayers()) {
+        for (PlayerProfile p : getAllPlayers()) {
             p.getPlayer().sendTitle(ChatColor.GREEN + "Game Over!", "", 5, 20, 5);
             p.playSound(SoundEffect.GAME_END);
         }
-
         allGames.remove(this);
     }
 
+    // Settings overrides
     @Override
     public FileConfiguration getGameConfig() {
         return config;
+    }
+
+    @Override
+    public Set<Material> getUnpaintableMaterials() {
+        return blacklisted;
+    }
+
+    @Override
+    public int getStartPlayerAmount() {
+        return startPlayerAmount;
+    }
+
+    @Override
+    public int getMaxPlayerAmount() {
+        return maxPlayerAmount;
+    }
+
+    @Override
+    public int getGameTimeLength() {
+        return gameTime;
+    }
+
+    @Override
+    public Location getLobbySpawn() {
+        return lobbySpawn;
+    }
+
+    @Override
+    public int getCoinsPerKill() {
+        return coinsForKill;
+    }
+
+    @Override
+    public int getPaintRadius() {
+        return paintRadius;
+    }
+
+    @Override
+    public int getRespawnTime() {
+        return respawnTime;
+    }
+
+    @Override
+    public List<String> getDeathMsgs(DeathType type) {
+        return deathMsgs.get(type);
     }
 
     @Override
@@ -312,7 +290,19 @@ public abstract class BasePaintballGame implements Game {
         return getGameTimeLength() - currentGameTime;
     }
 
-    public static void loadConfig() {
+    protected void loadSettings() {
         config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "main.yml"));
+        blacklisted = GameSettings.super.getUnpaintableMaterials();
+        startPlayerAmount = GameSettings.super.getStartPlayerAmount();
+        maxPlayerAmount = GameSettings.super.getMaxPlayerAmount();
+        gameTime = GameSettings.super.getGameTimeLength();
+        lobbySpawn = GameSettings.super.getLobbySpawn();
+        coinsForKill = GameSettings.super.getCoinsPerKill();
+        paintRadius = GameSettings.super.getPaintRadius();
+        respawnTime = GameSettings.super.getRespawnTime();
+        deathMsgs = new HashMap<>();
+        for (DeathType type : DeathType.values()) {
+            deathMsgs.put(type, GameSettings.super.getDeathMsgs(type));
+        }
     }
 }

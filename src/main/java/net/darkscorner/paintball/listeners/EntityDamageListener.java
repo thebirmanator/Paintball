@@ -10,7 +10,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
 
 public class EntityDamageListener implements Listener {
 

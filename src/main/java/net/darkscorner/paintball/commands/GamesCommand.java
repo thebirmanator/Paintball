@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.game.GameMenu;
 import net.darkscorner.paintball.objects.menus.game.items.GameItem;
 
@@ -26,7 +26,7 @@ public class GamesCommand implements CommandExecutor {
 			if (player.hasPermission("paintball.command.games")) {
 				GameMenu mainGameMenu = new GameMenu("Games", null, 27);
 				int index = 0;
-				for (Game game : Game.allGames) {
+				for (GameSettings game : GameSettings.allGames) {
 					mainGameMenu.addItem(index, new GameItem(mainGameMenu, game));
 					index++;
 				}

@@ -3,18 +3,18 @@ package net.darkscorner.paintball.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 
 public class GameEndEvent extends Event {
 
-	private Game game;
+	private GameSettings game;
 	private static HandlerList handlers = new HandlerList();
 	
-	public GameEndEvent(Game game) {
+	public GameEndEvent(GameSettings game) {
 		this.game = game;
 	}
 	
-	public Game getGame() {
+	public GameSettings getGame() {
 		return game;
 	}
 	

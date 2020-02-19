@@ -16,7 +16,7 @@ import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 
 public class JoinListener implements Listener {
@@ -62,24 +62,24 @@ public class JoinListener implements Listener {
 				PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
 				if(playerProfile != null) {
 					if(playerProfile.isInGame()) { // player was in a game
-						Game game = playerProfile.getCurrentGame();
+						GameSettings game = playerProfile.getCurrentGame();
 						if(game.getGameState() != GameState.ENDED) { // set player to spectate if their game hasnt ended
 							game.setToSpectating(playerProfile);
 						} else { // player game has ended
-							player.teleport(Game.getSettings().getLobbySpawn());
+							player.teleport(GameSettings.getSettings().getLobbySpawn());
 							player.sendMessage(Main.prefix + "The game you were in has ended.");
 							new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
 							//playerProfile.setStatsBoard(StatsBoard.LOBBY);
 						}
 					} else { // player is not in a game
-						player.teleport(Game.getSettings().getLobbySpawn());
+						player.teleport(GameSettings.getSettings().getLobbySpawn());
 						player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 						new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
 						//playerProfile.setStatsBoard(StatsBoard.LOBBY);
 					}
 				} else { // the player is new to the server
 					new PlayerProfile(player);
-					player.teleport(Game.getSettings().getLobbySpawn());
+					player.teleport(GameSettings.getSettings().getLobbySpawn());
 					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
 

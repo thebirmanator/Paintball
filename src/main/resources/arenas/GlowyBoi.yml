@@ -4,6 +4,9 @@ allows-teams: true
 item-for-guis: DIAMOND
 spectating-spawnpoint: world|-198|75|-641|0|0
 waiting-lobby: world|-194|74|-656|0|0
+boundaries:
+ - world|-203|65|-661|0|0
+ - world|-173|79|-626|0|0
 game-spawnpoints:
  - world|-192|68|-630|0|0
  - world|-186|68|-641|0|0

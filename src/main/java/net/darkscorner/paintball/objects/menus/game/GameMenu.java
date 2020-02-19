@@ -2,26 +2,21 @@ package net.darkscorner.paintball.objects.menus.game;
 
 import java.util.Collection;
 
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.ChestBasedMenu;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
-import net.darkscorner.paintball.objects.menus.Menu;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
 import net.darkscorner.paintball.objects.menus.game.items.BackMenuItem;
 
 public class GameMenu extends ChestBasedMenu {
 
-	private Game game;
+	private GameSettings game;
 
 	public GameMenu(String name, int size) {
 		super(name, size);
 	}
 
-	public GameMenu(String name, GameMenu parent, int size, Game game) {
+	public GameMenu(String name, GameMenu parent, int size, GameSettings game) {
 		super(name, parent, size);
 		this.game = game;
 	}
@@ -58,7 +53,7 @@ public class GameMenu extends ChestBasedMenu {
 		return false;
 	}*/
 
-	public Game getGame() {
+	public GameSettings getGame() {
 		if (game != null) {
 			return game;
 		} else {

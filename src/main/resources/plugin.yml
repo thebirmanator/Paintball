@@ -1,8 +1,10 @@
 main: net.darkscorner.paintball.Main
-name: DarkPaintball
+name: Paintball
 version: 1.0
 author: TheBirmanator
 api-version: 1.15
+softdepend:
+  - Multiverse-Core
 #depend: [ArcadeCoinsAPI]
 description: Paintball minigame for DarksCorner
 commands:

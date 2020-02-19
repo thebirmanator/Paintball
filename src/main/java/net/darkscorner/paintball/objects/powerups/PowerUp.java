@@ -3,6 +3,7 @@ package net.darkscorner.paintball.objects.powerups;
 import net.darkscorner.paintball.Main;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,20 @@ public abstract class PowerUp implements PowerUpSettings {
         }
         return null;
     }
+
+    public static void removeEffect(Player player, Effect effect) {
+        effect.getPowerUp().remove(player);
+    }
+
+    public static void clearEffects(Player player) {
+        for (Effect effect : Effect.values()) {
+            if (effect.getPowerUp().hasEffect(player)) {
+                effect.getPowerUp().remove(player);
+            }
+        }
+    }
+
+    public abstract boolean hasEffect(Player player);
 
     public enum Effect {
         JUMP(JumpPowerUp.getInstance("JUMP")), SPEED(SpeedPowerUp.getInstance("SPEED")),

@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
-import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -193,7 +192,7 @@ public class Arena implements ArenaSetting {
 	}
 	*/
 	public boolean isInUse() {
-		for (Game game : Game.allGames) {
+		for (GameSettings game : GameSettings.allGames) {
 			if (game.getArena().equals(this)) {
 				return true;
 			}

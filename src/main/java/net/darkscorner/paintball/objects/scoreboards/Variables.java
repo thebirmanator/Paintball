@@ -1,6 +1,6 @@
 package net.darkscorner.paintball.objects.scoreboards;
 
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
@@ -36,7 +36,7 @@ public enum Variables {
             case CURRENT_GAME_DEATHS:
                 return playerProfile.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS) + "";
             case CURRENT_GAME_TIME_REMAINING:
-                Game game = playerProfile.getCurrentGame();
+                GameSettings game = playerProfile.getCurrentGame();
                 if (game.getGameState() == GameState.IDLE || game.getGameState() == GameState.COUNTDOWN) {
                     return "NOT STARTED";
                 } else if (game.getGameState() == GameState.ENDED) {

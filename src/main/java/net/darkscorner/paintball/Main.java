@@ -11,7 +11,8 @@ import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
-import net.darkscorner.paintball.objects.games.BasePaintballGame;
+import net.darkscorner.paintball.objects.games.GameSettings;
+import net.darkscorner.paintball.objects.games.PaintballGame;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
@@ -50,10 +51,10 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 	
 	public void onEnable() {
-		// powerup ideas: super jump, shield reflector thingy
+		// powerup ideas: super jump, shield reflector thingy, bullet speed increaser
 		instance = this;
 		loadConfigs();
-		BasePaintballGame.loadConfig();
+		GameSettings.loadSettings();
 		GameScoreboard.loadBoardPresets();
 		ClickableItem.loadItems();
 		Paint.loadPaints();
@@ -171,30 +172,6 @@ public class Main extends JavaPlugin {
 	/*public ArcadeCoinsAPI getArcadeCoinsAPI() {
 		return coins;
 	}*/
-	/*
-	private void loadPowerUps(FileConfiguration config) {
-		new PowerUp(config);
-		Set<String> powerupSections = config.getConfigurationSection("powerups").getKeys(false);
-		for(String powerupString : powerupSections) {
-			if(PowerUpEffect.valueOf(powerupString) != null) {
-				PowerUpEffect effect = PowerUpEffect.valueOf(powerupString);
-				String materialString = config.getString("powerups." + powerupString + ".block-type");
-				if(Material.getMaterial(materialString) != null) {
-					Material material = Material.getMaterial(materialString);
-					int duration = config.getInt("powerups." + powerupString + ".duration") * 20; // converted into ticks
-					String particleString = config.getString("powerups." + powerupString + ".particle-type");
-					if(Particle.valueOf(particleString) != null) {
-						Particle particle = Particle.valueOf(particleString);
-						new PowerUp(material, effect, duration, particle);
-					}
-				} else {
-					getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid powerup material: " + ChatColor.GRAY + materialString);
-				}
-			} else {
-				getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid powerup effect: " + ChatColor.GRAY + powerupString);
-			}
-		}
-	}*/
 	
 	private void loadPaints(FileConfiguration config) {
 		Set<String> customPaintNames = config.getConfigurationSection("custom-paints").getKeys(false);
@@ -216,24 +193,6 @@ public class Main extends JavaPlugin {
 			}
 		}
 	}
-/*
-	private ItemStack createGun(Material material, String gunDescription) {
-		// create and give the gun
-		ItemStack paintballGun = new ItemStack(material);
-		ItemMeta meta = paintballGun.getItemMeta();
-		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL GUN");
-
-		List<String> lore = new ArrayList<String>();
-		lore.add("");
-		lore.add(gunDescription);
-		lore.add(ChatColor.WHITE + "Right-click" + ChatColor.GRAY + " to shoot!");
-		meta.setLore(lore);
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		paintballGun.setItemMeta(meta);
-
-		return paintballGun;
-
-	}*/
 
 	public static Main getInstance() {
 		return instance;

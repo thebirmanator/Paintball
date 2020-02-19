@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.equippable.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -22,19 +22,9 @@ public class PlayerProfile implements PlayerSettings {
 	private static Set<PlayerProfile> playerProfiles = new HashSet<>();
 	private UUID uuid;
 	private PlayerGameStatistics currentGameStats;
-	//private GameScoreboard scoreboard;
-	//private GameMenu viewingGameMenu;
-	//private Paint paint;
-	//private Gun gun;
 
 	private File playerFile;
 	private FileConfiguration config;
-	//private final String shotsPath = "shots";
-	//private final String hitsPath = "hits";
-	//private final String deathsPath = "deaths";
-	//private final String gamesPlayedPath = "games-played";
-	//private final String equippedPaintPath = "equipped-paint";
-	//private final String equippedGunPath = "equipped-gun";
 
 	public PlayerProfile(File file) {
 		playerFile = file;
@@ -49,7 +39,8 @@ public class PlayerProfile implements PlayerSettings {
 		uuid = player.getUniqueId();
 		playerProfiles.add(this);
 
-		playerFile = new File("plugins/DarkPaintball/playerdata/" + uuid.toString() + ".yml");
+		// TODO: not hardcode file path
+		playerFile = new File("plugins/Paintball/playerdata/" + uuid.toString() + ".yml");
 		try {
 			playerFile.createNewFile();
 		} catch (IOException e) {
@@ -63,45 +54,14 @@ public class PlayerProfile implements PlayerSettings {
 		}
 		setGun(Gun.getDefault());
 		saveProfile();
-		//setStatsBoard(StatsBoard.LOBBY);
 	}
 
 	public long getTotal(PlayerStat stat) {
 		return config.getLong(stat.getStatPath(), -1);
-		/*
-		switch (stat) {
-			case GAMES:
-				return config.getLong(gamesPlayedPath);
-			case DEATHS:
-				return config.getLong(deathsPath);
-			case KILLS:
-				return config.getLong(hitsPath);
-			case SHOTS:
-				return config.getLong(shotsPath);
-			default:
-				return -1;
-		}*/
 	}
 
 	public void setTotal(PlayerStat stat, long amount) {
 		config.set(stat.getStatPath(), amount);
-		/*
-		switch (stat) {
-			case GAMES:
-				config.set(gamesPlayedPath, amount);
-				break;
-			case DEATHS:
-				config.set(deathsPath, amount);
-				break;
-			case KILLS:
-				config.set(hitsPath, amount);
-				break;
-			case SHOTS:
-				config.set(shotsPath, amount);
-				break;
-			default:
-				break;
-		}*/
 	}
 
 	public void addToTotal(PlayerStat stat, long amount) {
@@ -131,7 +91,7 @@ public class PlayerProfile implements PlayerSettings {
 	}
 
 	//TODO: make gamestats account for spectating games
-	public Game getCurrentGame() {
+	public GameSettings getCurrentGame() {
 		return currentGameStats.getGame();
 	}
 	/*
@@ -151,7 +111,7 @@ public class PlayerProfile implements PlayerSettings {
 		return scoreboard;
 	}*/
 	
-	public void createNewStats(Game game) {
+	public void createNewStats(GameSettings game) {
 		currentGameStats = new PlayerGameStatistics(game, this);
 	}
 
@@ -291,7 +251,7 @@ public class PlayerProfile implements PlayerSettings {
 			break;
 		}
 	}
-	
+	/*
 	public void removePowerUps() {
 		if(getPlayer().hasPotionEffect(PotionEffectType.SPEED)) {
 			getPlayer().removePotionEffect(PotionEffectType.SPEED);
@@ -304,5 +264,5 @@ public class PlayerProfile implements PlayerSettings {
 		if(getPlayer().hasMetadata("volleypowerup")) {
 			getPlayer().removeMetadata("volleypowerup", Main.getPlugin(Main.class));
 		}
-	}
+	}*/
 }

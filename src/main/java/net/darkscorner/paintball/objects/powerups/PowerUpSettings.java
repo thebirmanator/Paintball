@@ -53,4 +53,6 @@ public interface PowerUpSettings {
     }
 
     void use(Player player);
+
+    void remove(Player player);
 }

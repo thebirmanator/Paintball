@@ -3,16 +3,14 @@ package net.darkscorner.paintball.objects.equippable.paint;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import net.darkscorner.paintball.Main;
 
@@ -62,13 +60,13 @@ public abstract class Paint {
 	}
 
 	Set<Location> getLocsAround(Location centre) {
-		int radius = Game.getSettings().getPaintRadius();
+		int radius = GameSettings.getSettings().getPaintRadius();
 		Set<Location> locations = new HashSet<>();
 		for (int x = radius * -1; x < radius + 1; x++) {
 			for (int y = radius * -1; y < radius + 1; y++) {
 				for (int z = radius * -1; z < radius + 1; z++) {
 					Location location = centre.clone().add(x, y, z);
-					if (!Game.getSettings().getUnpaintableMaterials().contains(location.getBlock().getType())) {
+					if (!GameSettings.getSettings().getUnpaintableMaterials().contains(location.getBlock().getType())) {
 						locations.add(location);
 					}
 				}

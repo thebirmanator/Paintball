@@ -1,12 +1,11 @@
 package net.darkscorner.paintball.objects.games;
 
 import net.darkscorner.paintball.objects.arena.Arena;
-import net.darkscorner.paintball.objects.Team;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 import java.util.Set;
 
-public class TeamGame extends BasePaintballGame {
+public class TeamGame extends PaintballGame {
     private Set<Team> teams;
 
     public TeamGame(Arena arena, Set<Team> teams) {
@@ -20,21 +19,25 @@ public class TeamGame extends BasePaintballGame {
 
     @Override
     public void addPlayer(PlayerProfile player, boolean setSpec) {
-        super.addPlayer(player, setSpec);
         if (!setSpec) {
             Team first = getTeams().iterator().next();
 
             int teamSize = first.getMembers().size();
+            boolean foundTeam = false;
             for (Team team : getTeams()) {
                 if (team.getMembers().size() < teamSize) {
                     team.addMember(player);
-                    return;
+                    foundTeam = true;
+                    break;
                 }
             }
             // All teams have same amount (or the first team has the fewest).
             // Add to first team
-            first.addMember(player);
+            if (!foundTeam) {
+                first.addMember(player);
+            }
         }
+        super.addPlayer(player, false);
     }
 
     @Override

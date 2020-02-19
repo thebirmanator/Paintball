@@ -1,12 +1,7 @@
 package net.darkscorner.paintball.commands;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
-import net.darkscorner.paintball.objects.games.FreeForAllGame;
-import net.darkscorner.paintball.objects.games.TeamGame;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,9 +10,8 @@ import org.bukkit.entity.Player;
 
 import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
-import net.darkscorner.paintball.objects.games.Game;
+import net.darkscorner.paintball.objects.games.GameSettings;
 
 public class JoinGameCommand implements CommandExecutor {
 
@@ -36,8 +30,8 @@ public class JoinGameCommand implements CommandExecutor {
 				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 				//gp.playSound(SoundEffect.RUN_COMMAND);
 				if(!gp.isInGame()) {
-					Set<Game> games = Game.allGames;
-					for(Game game : games) {
+					Set<GameSettings> games = GameSettings.allGames;
+					for (GameSettings game : games) {
 						if((game.getGameState() == GameState.IDLE || game.getGameState() == GameState.COUNTDOWN) && game.getPlayers(true).size() < game.getMaxPlayerAmount()) {
 							player.sendMessage(Main.prefix + "You have " + ChatColor.GREEN + "joined" + ChatColor.GRAY + " the game!");
 							game.addPlayer(gp, false);
@@ -46,7 +40,7 @@ public class JoinGameCommand implements CommandExecutor {
 					}
 					
 					// all games are full or going, create a new one
-					Game game = Game.createGame();
+					GameSettings game = GameSettings.createGame();
 					if (game != null) {
 						game.addPlayer(gp, false);
 						player.sendMessage(Main.prefix + "You have " + ChatColor.GREEN + "joined" + ChatColor.GRAY + " the game!");
@@ -55,25 +49,6 @@ public class JoinGameCommand implements CommandExecutor {
 						player.sendMessage(Main.prefix + "All games are " + ChatColor.RED + "full" + ChatColor.GRAY + ", please wait a few moments and try again.");
 					}
 					return true;
-					/*
-					List<Arena> arenas = Arena.getArenas();
-					// shuffle arenas so it uses a random order
-					Collections.shuffle(arenas);
-					// find an open arena
-					for(Arena arena : arenas) {
-						if(!arena.isInUse()) {
-							Game game = new FreeForAllGame(arena);
-							game.addPlayer(gp, false);
-							player.sendMessage(Main.prefix + "You have " + ChatColor.GREEN + "joined" + ChatColor.GRAY + " the game!");
-							return true;
-						}
-					}
-
-					
-					// all arenas are full, tell player to wait
-					player.sendMessage(Main.prefix + "All games are " + ChatColor.RED + "full" + ChatColor.GRAY + ", please wait a few moments and try again.");
-					return true;*/
-					
 				} else {
 					player.sendMessage(Main.prefix + "You are already in a game.");
 					return true;
