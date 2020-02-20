@@ -6,6 +6,9 @@
 # %kills%
 # %deaths%
 # %timeleft%
+# %teamname%
+# %teamkills%
+# %teamdeaths%
 title: '&6&lPaintball'
 LOBBY:
 - '&e&lLobby'
@@ -13,7 +16,7 @@ LOBBY:
 - '&3&lCoins: &b%crystals%'
 - ''
 - 'play.indigo.games'
-INGAME:
+FREE_FOR_ALL_GAME:
 - '&e&lArena: &r%arena%'
 - '&3&lShots Fired: &b%shots%'
 - '&2&lKills: &a%kills%'
@@ -21,6 +24,19 @@ INGAME:
 - '&5&lTime Remaining: &d%timeleft%'
 - ''
 - 'play.indigo.games'
+TEAM_GAME:
+  - '&e&lArena: &r%arena%'
+  - '&5&lTime Remaining: &d%timeleft%'
+  - '&7Player Stats:'
+  - '  &3&lShots Fired: &b%shots%'
+  - '  &2&lKills: &a%kills%'
+  - '  &4&lDeaths: &c%deaths%'
+  - '&7Team Stats:'
+  - '  &eName: &6%teamname%'
+  - '  &2&lKills: &a%teamkills%'
+  - '  &4&lDeaths: &c%teamdeaths%'
+  - ''
+  - 'play.indigo.games'
 SPECTATE:
 - '&e&lArena: &r%arena%'
 - '&7&oYou are spectating'

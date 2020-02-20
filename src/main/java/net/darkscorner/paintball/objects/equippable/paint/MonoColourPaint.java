@@ -3,6 +3,9 @@ package net.darkscorner.paintball.objects.equippable.paint;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.Set;
 
 public class MonoColourPaint extends Paint {
 
@@ -24,7 +27,13 @@ public class MonoColourPaint extends Paint {
     }
 
     public static void loadMonoPaints() {
-        customPaints.add(new MonoColourPaint("blue", Material.BLUE_WOOL, Material.BLUE_WOOL));
-        customPaints.add(new MonoColourPaint("orange", Material.ORANGE_WOOL, Material.ORANGE_WOOL));
+        ConfigurationSection monoSection = paintConfig.getConfigurationSection("mono-paints");
+        Set<String> paintNames = monoSection.getKeys(false);
+        for (String paintName : paintNames) {
+            ConfigurationSection paintSection = monoSection.getConfigurationSection(paintName);
+            Material displayIcon = Material.getMaterial(paintSection.getString("display-icon", "STONE"));
+            Material paint = Material.getMaterial(paintSection.getString("paint", "STONE"));
+            customPaints.add(new MonoColourPaint(paintName, displayIcon, paint));
+        }
     }
 }

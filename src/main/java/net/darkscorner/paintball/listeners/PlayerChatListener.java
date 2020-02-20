@@ -21,6 +21,7 @@ import net.darkscorner.paintball.objects.menus.arena.items.NameArenaEditor;
 
 public class PlayerChatListener implements Listener {
 
+	/*
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player sender = event.getPlayer();
@@ -76,5 +77,5 @@ public class PlayerChatListener implements Listener {
 				}
 			});
 		}
-	}
+	}*/
 }

@@ -58,29 +58,24 @@ public class JoinListener implements Listener {
 			@Override
 			public void run() {
 				Player player = event.getPlayer();
-				//player.teleport(Game.getLobbySpawn());
 				PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
-				if(playerProfile != null) {
-					if(playerProfile.isInGame()) { // player was in a game
+				// Player profile shouldn't be null here, but check just in case
+				if (playerProfile != null) {
+					// Player was in a game
+					if (playerProfile.isInGame()) {
 						GameSettings game = playerProfile.getCurrentGame();
-						if(game.getGameState() != GameState.ENDED) { // set player to spectate if their game hasnt ended
+						if (game.getGameState() != GameState.ENDED) { // set player to spectate if their game hasnt ended
 							game.setToSpectating(playerProfile);
 						} else { // player game has ended
 							player.teleport(GameSettings.getSettings().getLobbySpawn());
 							player.sendMessage(Main.prefix + "The game you were in has ended.");
 							new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
-							//playerProfile.setStatsBoard(StatsBoard.LOBBY);
 						}
 					} else { // player is not in a game
 						player.teleport(GameSettings.getSettings().getLobbySpawn());
 						player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 						new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
-						//playerProfile.setStatsBoard(StatsBoard.LOBBY);
 					}
-				} else { // the player is new to the server
-					new PlayerProfile(player);
-					player.teleport(GameSettings.getSettings().getLobbySpawn());
-					player.sendMessage(Main.prefix + "Welcome! Do " + ChatColor.GREEN + "/join" + ChatColor.GRAY + " to enter a game or " + ChatColor.GREEN + "/spec" + ChatColor.GRAY + " to spectate one.");
 				}
 
 				// send join message late to get rank to show

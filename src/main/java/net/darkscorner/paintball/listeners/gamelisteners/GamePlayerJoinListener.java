@@ -20,7 +20,6 @@ public class GamePlayerJoinListener implements Listener {
 		PlayerProfile playerProfile = event.getPlayer();
 		
 		playerProfile.getPlayer().teleport(game.getArena().getLobbyLocation());
-		new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.INGAME)).display();
 		
 		// Tell everyone that someone joined
 		for (PlayerProfile p : game.getAllPlayers()) {
@@ -35,6 +34,9 @@ public class GamePlayerJoinListener implements Listener {
 			Team playerTeam = teamGame.getTeam(playerProfile);
 			playerProfile.getPlayer().getInventory().setArmorContents(playerTeam.getArmourSet());
 			playerProfile.getPlayer().sendMessage(Text.format("&7You are on team &f" + playerTeam.getName()));
+			new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.TEAM_GAME)).display();
+		} else {
+			new GameScoreboard(playerProfile, GameScoreboard.getContent(StatsBoard.FREE_FOR_ALL_GAME)).display();
 		}
 	}
 }

@@ -12,7 +12,6 @@ import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.games.GameSettings;
-import net.darkscorner.paintball.objects.games.PaintballGame;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
@@ -53,7 +52,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		// powerup ideas: super jump, shield reflector thingy, bullet speed increaser
 		instance = this;
-		loadConfigs();
+		//loadConfigs();
 		GameSettings.loadSettings();
 		GameScoreboard.loadBoardPresets();
 		ClickableItem.loadItems();
@@ -93,7 +92,7 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerItemDropListener(), this);
 		getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
-		getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
+		//getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 		getServer().getPluginManager().registerEvents(new CoinChangeListener(), this);
 		
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Paintball enabled!");
@@ -106,7 +105,7 @@ public class Main extends JavaPlugin {
 			configFolder.mkdirs();
 		}
 		
-		String[] necessaryFiles = {"main.yml", "custompaints.yml", "scoreboards.yml", "arenas", "playerdata"};
+		String[] necessaryFiles = {"main.yml", "paints.yml", "scoreboards.yml", "arenas", "playerdata"};
 		List<File> configFiles = Arrays.asList(configFolder.listFiles());
 		for(int i = 0; i < necessaryFiles.length; i++) { // cycle through important file names
 			File necessaryFile = new File(getDataFolder(), necessaryFiles[i]);
@@ -127,7 +126,7 @@ public class Main extends JavaPlugin {
 					if(necessaryFiles[i].equals("main.yml")) {
 						//new Game(config, this);
 						//loadPowerUps(config);
-					} else if(necessaryFiles[i].equals("custompaints.yml")) {
+					} else if(necessaryFiles[i].equals("paints.yml")) {
 						//new Paint(config, this);
 						//loadPaints(config);
 					} else if(necessaryFiles[i].equals("scoreboards.yml")) {
@@ -147,7 +146,7 @@ public class Main extends JavaPlugin {
 					if(necessaryFiles[i].equals("main.yml")) {
 						//new Game(config, this);
 						//loadPowerUps(config);
-					} else if(necessaryFiles[i].equals("custompaints.yml")) {
+					} else if(necessaryFiles[i].equals("paints.yml")) {
 						//new Paint(config, this);
 						//loadPaints(config);
 					}
@@ -172,27 +171,6 @@ public class Main extends JavaPlugin {
 	/*public ArcadeCoinsAPI getArcadeCoinsAPI() {
 		return coins;
 	}*/
-	
-	private void loadPaints(FileConfiguration config) {
-		Set<String> customPaintNames = config.getConfigurationSection("custom-paints").getKeys(false);
-		for(String paintName : customPaintNames) {
-			String displayIconString = config.getString("custom-paints." + paintName + ".display-icon");
-			if(Material.getMaterial(displayIconString) != null) {
-				Material displayIcon = Material.getMaterial(displayIconString);
-				List<String> materialStrings = config.getStringList("custom-paints." + paintName + ".paints");
-				List<Material> paintMaterials = new ArrayList<Material>();
-				for(String materialString : materialStrings) {
-					if(Material.getMaterial(materialString) != null) {
-						Material material = Material.getMaterial(materialString);
-						paintMaterials.add(material);
-					} else {
-						getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid paint material: " + ChatColor.GRAY + materialString);
-					}
-				}
-				//new Paint(paintName, displayIcon, paintMaterials);
-			}
-		}
-	}
 
 	public static Main getInstance() {
 		return instance;

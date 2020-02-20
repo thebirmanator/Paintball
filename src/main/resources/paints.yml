@@ -1,0 +1,56 @@
+default-paint:
+- REDSTONE_BLOCK
+- COAL_BLOCK
+- GOLD_BLOCK
+- QUARTZ_BLOCK
+- LAPIS_BLOCK
+- PINK_CONCRETE
+mono-paints:
+ white:
+  display-icon: WHITE_WOOL
+  paint: WHITE_WOOL
+ orange:
+  display-icon: ORANGE_WOOL
+  paint: ORANGE_WOOL
+ magenta:
+  display-icon: MAGENTA_WOOL
+  paint: MAGENTA_WOOL
+ light-blue:
+  display-icon: LIGHT_BLUE_WOOL
+  paint: LIGHT_BLUE_WOOL
+ yellow:
+  display-icon: YELLOW_WOOL
+  paint: YELLOW_WOOL
+ lime:
+  display-icon: LIME_WOOL
+  paint: LIME_WOOL
+ pink:
+  display-icon: PINK_WOOL
+  paint: PINK_WOOL
+ grey:
+  display-icon: GRAY_WOOL
+  paint: GRAY_WOOL
+ light-grey:
+  display-icon: LIGHT_GRAY_WOOL
+  paint: LIGHT_GRAY_WOOL
+ cyan:
+  display-icon: CYAN_WOOL
+  paint: CYAN_WOOL
+ purple:
+  display-icon: PURPLE_WOOL
+  paint: PURPLE_WOOL
+ blue:
+  display-icon: BLUE_WOOL
+  paint: BLUE_WOOL
+ brown:
+  display-icon: BROWN_WOOL
+  paint: BROWN_WOOL
+ green:
+  display-icon: GREEN_WOOL
+  paint: GREEN_WOOL
+ red:
+  display-icon: RED_WOOL
+  paint: RED_WOOL
+ black:
+  display-icon: BLACK_WOOL
+  paint: BLACK_WOOL

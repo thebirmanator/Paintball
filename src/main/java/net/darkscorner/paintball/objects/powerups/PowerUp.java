@@ -1,6 +1,5 @@
 package net.darkscorner.paintball.objects.powerups;
 
-import net.darkscorner.paintball.Main;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;

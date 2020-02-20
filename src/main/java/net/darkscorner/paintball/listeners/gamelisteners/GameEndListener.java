@@ -2,6 +2,9 @@ package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.*;
 
+import net.darkscorner.paintball.SoundEffect;
+import net.darkscorner.paintball.objects.games.Team;
+import net.darkscorner.paintball.objects.games.TeamGame;
 import net.darkscorner.paintball.objects.player.PlayerGameStatistics;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerStat;
@@ -29,6 +32,26 @@ public class GameEndListener implements Listener {
 	@EventHandler
 	public void onGameEnd(GameEndEvent event) {
 		GameSettings game = event.getGame();
+
+		// Send end titles
+		String subtitle = "";
+		if (game instanceof TeamGame) {
+			List<Team> teams = new ArrayList<>(((TeamGame) game).getTeams());
+			teams.sort((t1, t2) -> {
+				if (t1.getKills() > t2.getKills()) {
+					return -1;
+				} else if (t1.getKills() < t2.getKills()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			});
+			subtitle = teams.get(0).getName() + " team won! (" + teams.get(0).getKills() + " kills)";
+		}
+		for (PlayerProfile p : game.getAllPlayers()) {
+			p.getPlayer().sendTitle(net.md_5.bungee.api.ChatColor.GREEN + "Game Over!", subtitle, 5, 20, 5);
+			p.playSound(SoundEffect.GAME_END);
+		}
 		
 		// remove powerups from map
 		for(Location loc : game.getArena().getPowerUpSpawnPoints()) {

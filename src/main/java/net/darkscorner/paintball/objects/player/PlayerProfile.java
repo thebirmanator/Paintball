@@ -26,7 +26,7 @@ public class PlayerProfile implements PlayerSettings {
 	private File playerFile;
 	private FileConfiguration config;
 
-	public PlayerProfile(File file) {
+	private PlayerProfile(File file) {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
 
@@ -35,7 +35,7 @@ public class PlayerProfile implements PlayerSettings {
 		playerProfiles.add(this);
 	}
 
-	public PlayerProfile(Player player) {
+	private PlayerProfile(Player player) {
 		uuid = player.getUniqueId();
 		playerProfiles.add(this);
 
@@ -94,10 +94,6 @@ public class PlayerProfile implements PlayerSettings {
 	public GameSettings getCurrentGame() {
 		return currentGameStats.getGame();
 	}
-	/*
-	public void setCurrentGame(Game game) {
-		this.game = game;
-	}*/
 	
 	public PlayerGameStatistics getCurrentGameStats() {
 		return currentGameStats;
@@ -106,10 +102,6 @@ public class PlayerProfile implements PlayerSettings {
 	public void clearCurrentGameStats() {
 		currentGameStats = null;
 	}
-	/*
-	public GameScoreboard getGameScoreboard() {
-		return scoreboard;
-	}*/
 	
 	public void createNewStats(GameSettings game) {
 		currentGameStats = new PlayerGameStatistics(game, this);
@@ -120,31 +112,28 @@ public class PlayerProfile implements PlayerSettings {
 		return config;
 	}
 
-	/*
-	public Paint getPaint() {
-		if(paint == null) {
-			if(Paint.getPaint(config.getString(equippedPaintPath)) != null) {
-				paint = Paint.getPaint(config.getString(equippedPaintPath));
-			} else {
-				setPaint(Paint.getDefaultPaint());
-			}
-		}
-		return paint;
-	}
-	
-	public void setPaint(Paint paint) {
-		this.paint = paint;
-		config.set(equippedPaintPath, paint.getName());
-		saveProfile();
-	}*/
-
 	public static PlayerProfile getGamePlayer(OfflinePlayer player) {
-		for(PlayerProfile p : playerProfiles) {
-			if(p.uuid.equals(player.getUniqueId())) {
+		// Check if player is already loaded in
+		for (PlayerProfile p : playerProfiles) {
+			if (p.uuid.equals(player.getUniqueId())) {
 				return p;
 			}
 		}
+		// Player is not loaded in, check if they have a player file
+		File dataFile = new File(Main.getInstance().getDataFolder(), "/playerdata/" + player.getUniqueId().toString() + ".yml");
+		if (dataFile.exists()) {
+			return new PlayerProfile(dataFile);
+		}
+		// They do not have a loaded file, attempt to create one
+		if (player.isOnline()) {
+			return new PlayerProfile(player.getPlayer());
+		}
 		return null;
+	}
+
+	public void unload() {
+		saveProfile();
+		playerProfiles.remove(this);
 	}
 
 	public static List<PlayerProfile> getOrderedByStat(PlayerStat stat) {

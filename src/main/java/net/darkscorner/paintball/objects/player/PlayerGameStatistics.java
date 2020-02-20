@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.objects.player;
 
 import net.darkscorner.paintball.objects.games.GameSettings;
+import net.darkscorner.paintball.objects.games.TeamGame;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import org.bukkit.scoreboard.Scoreboard;
@@ -58,7 +59,11 @@ public class PlayerGameStatistics {
 
 	public void setStat(PlayerInGameStat stat, int amount) {
 		stats.replace(stat, amount);
-		GameScoreboard.getBoard(owner, StatsBoard.INGAME).update(stat.toVariable());
+		if (game instanceof TeamGame) {
+			GameScoreboard.getBoard(owner, StatsBoard.TEAM_GAME).update(stat.toVariable());
+		} else {
+			GameScoreboard.getBoard(owner, StatsBoard.FREE_FOR_ALL_GAME).update(stat.toVariable());
+		}
 		//update(stat.toPlaceholder(), amount + "");
 	}
 

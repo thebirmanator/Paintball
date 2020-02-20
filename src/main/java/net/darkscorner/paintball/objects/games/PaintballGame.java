@@ -143,7 +143,12 @@ public abstract class PaintballGame implements GameSettings {
                 endGame();
                 cancelCurrentTask();
             }
-            getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.INGAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
+            // TODO: have each game have their statsboard?
+            if (this instanceof FreeForAllGame) {
+                getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.FREE_FOR_ALL_GAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
+            } else {
+                getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.TEAM_GAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
+            }
         }, 0, 20);
 
         for (PlayerProfile p : getAllPlayers()) {
@@ -227,10 +232,6 @@ public abstract class PaintballGame implements GameSettings {
     public void endGame() {
         gameState = GameState.ENDED;
         Main.getInstance().getServer().getPluginManager().callEvent(new GameEndEvent(this));
-        for (PlayerProfile p : getAllPlayers()) {
-            p.getPlayer().sendTitle(ChatColor.GREEN + "Game Over!", "", 5, 20, 5);
-            p.playSound(SoundEffect.GAME_END);
-        }
         allGames.remove(this);
     }
 

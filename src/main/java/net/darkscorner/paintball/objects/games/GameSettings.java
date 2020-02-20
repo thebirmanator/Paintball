@@ -404,9 +404,8 @@ public interface GameSettings {
 			if (!arena.isInUse()) {
 				GameSettings game;
 				if (arena.allowsTeams()) {
-					//boolean teamGame = new Random().nextBoolean();
-					boolean teamGame = true;
-					if (teamGame) {
+					boolean teamGame = new Random().nextBoolean();
+					if (true) {
 						Team red = new Team("red", Color.RED, new HashSet<>());
 						Team blue = new Team("blue", Color.BLUE, new HashSet<>());
 						Set<Team> teams = new HashSet<>();

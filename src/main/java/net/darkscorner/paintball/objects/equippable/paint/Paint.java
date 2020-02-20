@@ -1,5 +1,6 @@
 package net.darkscorner.paintball.objects.equippable.paint;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,27 +8,25 @@ import java.util.Set;
 
 import net.darkscorner.paintball.objects.games.GameSettings;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import net.darkscorner.paintball.Main;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public abstract class Paint {
 
-	private static Main main;
-	
 	private String name;
 	private Material displayIcon;
-	private List<Material> paintMaterials = new ArrayList<Material>();
+	//private List<Material> paintMaterials = new ArrayList<Material>();
 	
-	private static Paint defaultPaint;
-	static Set<Paint> customPaints = new HashSet<>();
-	
+	//private static Paint defaultPaint;
+	static List<Paint> customPaints = new ArrayList<>();
+	static FileConfiguration paintConfig;
+	// default paint config
+	/*
 	public Paint(FileConfiguration config, Main main) {
-		Paint.main = main;
-		
 		List<String> defaultPaintStrings = config.getStringList("default-paint");
 		for(String defaultPaintString : defaultPaintStrings) {
 			if(Material.getMaterial(defaultPaintString) != null) {
@@ -37,16 +36,13 @@ public abstract class Paint {
 				main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid paint material: " + ChatColor.GRAY + defaultPaintString);
 			}
 		}
-		//defaultPaint = new DefaultPaint("default", Material.STONE, paintMaterials);
-		
-	}
+	}*/
 	
 	public Paint(String name, Material displayIcon) {
 		this.name = name;
-		//this.paintMaterials = paintMaterials;
 		this.displayIcon = displayIcon;
-		
-		if(!name.equals("default")) {
+		// Don't add default paint into the list; it'll show in the menu
+		if (!name.equals("default")) {
 			customPaints.add(this);
 		}
 	}
@@ -76,53 +72,14 @@ public abstract class Paint {
 	}
 	
 	public void showPaint(Location projectileLocation) {
-		// get the locations to paint
-		//List<Location> locList = new ArrayList<Location>();
-		/*
-		int radius = Game.getPaintRadius();
-		for(int x = radius * -1; x < radius + 1; x++) {
-			for(int y = radius * -1; y < radius + 1; y++) {
-				for(int z = radius * -1; z < radius + 1; z++) {
-					Location loc = new Location(projectileLocation.getWorld(), projectileLocation.getBlockX() + x, projectileLocation.getBlockY() + y, projectileLocation.getBlockZ() + z);
-					if(!getUnpaintableMaterials().contains(loc.getBlock().getType())) {
-						locList.add(loc);
-					}
-				}
-			}
-		}*/
-
-		// paint the locations
+		// Paint the locations
 		Set<Location> paintLocs = getLocsAround(projectileLocation);
 		for (Location location : paintLocs) {
 			paintTile(location);
 		}
 
-		// schedule removal of paint
+		// Schedule removal of paint
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> paintLocs.forEach((this::removePaint)), 100);
-
-		/*
-		// paint the locations for each player
-		for(Location location : locList) {
-			Random random = new Random();
-			int index = random.nextInt(paintMaterials.size());
-			Material paintBlock = paintMaterials.get(index);
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				player.sendBlockChange(location, Bukkit.createBlockData(paintBlock));
-			}
-		}
-		
-		// schedule the removal of the paint
-		Bukkit.getScheduler().runTaskLater(main, new Runnable() {
-			
-			@Override
-			public void run() {
-				for(Location location : locList) {
-					for(Player player : Bukkit.getOnlinePlayers()) {
-						player.sendBlockChange(location, location.getBlock().getBlockData());
-					}
-				}
-			}
-		}, 100);*/
 	}
 
 	public abstract void paintTile(Location location);
@@ -130,7 +87,7 @@ public abstract class Paint {
 	public abstract void removePaint(Location location);
 	
 	public static Paint getPaint(String name) {
-		for(Paint paint : customPaints) {
+		for (Paint paint : customPaints) {
 			if(paint.getName().equals(name)) {
 				return paint;
 			}
@@ -138,7 +95,7 @@ public abstract class Paint {
 		return null;
 	}
 	
-	public static Set<Paint> getAllCustomPaints() {
+	public static List<Paint> getAllCustomPaints() {
 		return customPaints;
 	}
 	
@@ -147,6 +104,7 @@ public abstract class Paint {
 	}
 
 	public static void loadPaints() {
+		paintConfig = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "paints.yml"));
 		MonoColourPaint.loadMonoPaints();
 	}
 }

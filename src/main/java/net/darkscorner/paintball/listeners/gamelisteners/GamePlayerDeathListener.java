@@ -3,6 +3,7 @@ package net.darkscorner.paintball.listeners.gamelisteners;
 import java.util.List;
 import java.util.Random;
 
+import net.darkscorner.paintball.objects.games.TeamGame;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
@@ -39,6 +40,9 @@ public class GamePlayerDeathListener implements Listener {
 		victim.getPlayer().teleport(arena.getSpectatingPoint());
 		
 		victim.getCurrentGameStats().addToStat(PlayerInGameStat.DEATHS, 1);
+		if (game instanceof TeamGame) {
+			((TeamGame) game).getTeam(victim).addDeaths(1);
+		}
 		
 		victim.playSound(SoundEffect.DEATH);
 
@@ -49,6 +53,9 @@ public class GamePlayerDeathListener implements Listener {
 		if (!killer.equals(victim)) {
 			killer.playSound(SoundEffect.HIT);
 			killer.getCurrentGameStats().addToStat(PlayerInGameStat.KILLS, 1);
+			if (game instanceof TeamGame) {
+				((TeamGame) game).getTeam(killer).addKills(1);
+			}
 			killer.getCurrentGameStats().addToKillStreak(1);
 			if(killer.getCurrentGameStats().getCurrentKillStreak() > 2) {
 				killer.getPlayer().sendMessage(ChatColor.GRAY + "You have a " + ChatColor.RED + killer.getCurrentGameStats().getCurrentKillStreak() + " player kill streak" + ChatColor.GRAY + "!");

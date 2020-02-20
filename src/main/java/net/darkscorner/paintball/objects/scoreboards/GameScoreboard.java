@@ -53,6 +53,7 @@ public class GameScoreboard {
         profile.getPlayer().setScoreboard(scoreboard);
     }
 
+    //TODO: find out why two lines that are the same except for the variable will only show the second one
     public void update(Variables variable) {
         for (String text : templateText) {
             if (text.contains(variable.getAsString())) {
@@ -60,7 +61,10 @@ public class GameScoreboard {
                 Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
                 for (String entry : objective.getScoreboard().getEntries()) {
                     if (objective.getScore(entry).getScore() == score) { // if score of entry is the same as score in template
+                        //Bukkit.broadcastMessage("found line");
                         objective.getScoreboard().resetScores(entry);
+                        //Bukkit.broadcastMessage("reset line");
+                        //Bukkit.broadcastMessage(text.replace(variable.getAsString(), variable.getValue(profile)));
                         objective.getScore(text.replace(variable.getAsString(), variable.getValue(profile))).setScore(score);
                     }
                 }
@@ -80,7 +84,7 @@ public class GameScoreboard {
         Objective objective = gameScoreboard.registerNewObjective("stats", "dummy", ChatColor.GOLD + "" + ChatColor.BOLD + "Paintball");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        for(int i = 0; i < templateText.size(); i++) {
+        for (int i = 0; i < templateText.size(); i++) {
             objective.getScore(templateText.get(i)).setScore(i);
         }
         scoreboard = gameScoreboard;
