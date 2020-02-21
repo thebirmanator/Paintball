@@ -12,35 +12,34 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
 
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.SoundEffect;
 
 public class PlayerProfile implements PlayerSettings {
-	// a gameplayer contains a player, their kills for that game, their deaths for that game, and shots fired for that game
-	private static Set<PlayerProfile> playerProfiles = new HashSet<>();
+
+	private static Map<UUID, PlayerProfile> playerProfiles = new HashMap<>();
+	private static final File DATA_FOLDER = new File("plugins/" + Main.getInstance().getDataFolder().getName(), "/playerdata/");
 	private UUID uuid;
 	private PlayerGameStatistics currentGameStats;
 
 	private File playerFile;
 	private FileConfiguration config;
 
-	public PlayerProfile(File file) {
+	private PlayerProfile(File file) {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
 
 		String uuidString = file.getName().substring(0, file.getName().length() - 4); // string minus the .yml
 		uuid = UUID.fromString(uuidString);
-		playerProfiles.add(this);
+		playerProfiles.put(uuid, this);
 	}
 
 	private PlayerProfile(Player player) {
 		uuid = player.getUniqueId();
-		playerProfiles.add(this);
+		playerProfiles.put(uuid, this);
 
-		// TODO: not hardcode file path
-		playerFile = new File("plugins/Paintball/playerdata/" + uuid.toString() + ".yml");
+		playerFile = new File(DATA_FOLDER, uuid.toString() + ".yml");
 		try {
 			playerFile.createNewFile();
 		} catch (IOException e) {
@@ -114,13 +113,16 @@ public class PlayerProfile implements PlayerSettings {
 
 	public static PlayerProfile getGamePlayer(OfflinePlayer player) {
 		// Check if player is already loaded in
-		for (PlayerProfile p : playerProfiles) {
-			if (p.uuid.equals(player.getUniqueId())) {
-				return p;
-			}
+		UUID uuid = player.getUniqueId();
+		if (playerProfiles.containsKey(uuid)) {
+			return playerProfiles.get(uuid);
+		}
+		// If there's no data folder, create one
+		if (!DATA_FOLDER.exists()) {
+			DATA_FOLDER.mkdirs();
 		}
 		// Player is not loaded in, check if they have a player file
-		File dataFile = new File(Main.getInstance().getDataFolder(), "/playerdata/" + player.getUniqueId().toString() + ".yml");
+		File dataFile = new File(DATA_FOLDER, player.getUniqueId().toString() + ".yml");
 		if (dataFile.exists()) {
 			return new PlayerProfile(dataFile);
 		}
@@ -133,11 +135,11 @@ public class PlayerProfile implements PlayerSettings {
 
 	public void unload() {
 		saveProfile();
-		playerProfiles.remove(this);
+		playerProfiles.remove(uuid);
 	}
 
 	public static List<PlayerProfile> getOrderedByStat(PlayerStat stat) {
-		List<PlayerProfile> players = new ArrayList<>(playerProfiles);
+		List<PlayerProfile> players = new ArrayList<>(playerProfiles.values());
 		Comparator<PlayerProfile> comparator;
 		comparator = (p1, p2) -> {
 			if(p1.getTotal(stat) < p2.getTotal(stat)) {

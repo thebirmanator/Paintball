@@ -52,18 +52,14 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		// powerup ideas: super jump, shield reflector thingy, bullet speed increaser
 		instance = this;
-		loadConfigs();
+		//loadConfigs();
+		Arena.loadArenas();
 		GameSettings.loadSettings();
 		GameScoreboard.loadBoardPresets();
 		ClickableItem.loadItems();
 		Paint.loadPaints();
 		
 		//coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
-
-		//new StandardGun(createGun(Material.GOLDEN_HOE, ChatColor.YELLOW + "Standard-issue"), GunType.STANDARD).setDefault();
-		//new MachineGun(createGun(Material.IRON_HOE, ChatColor.YELLOW + "Machine gun: rapid fire"), GunType.MACHINE_GUN);
-		//new ShotGun(createGun(Material.STONE_HOE, ChatColor.YELLOW + "Shotgun: cluster shots"), GunType.SHOTGUN);
-		//new SniperGun(createGun(Material.DIAMOND_HOE, ChatColor.YELLOW + "Sniper: fast shots"), GunType.SNIPER);
 
 		getCommand(joincmd.join).setExecutor(joincmd);
 		getCommand(leavecmd.leave).setExecutor(leavecmd);
@@ -97,63 +93,6 @@ public class Main extends JavaPlugin {
 		
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Paintball enabled!");
 
-	}
-
-	public void loadConfigs() {
-		File configFolder = new File("plugins/" + this.getName());
-		if(!configFolder.exists()) {
-			configFolder.mkdirs();
-		}
-		
-		String[] necessaryFiles = {"main.yml", "paints.yml", "scoreboards.yml", "arenas", "playerdata"};
-		List<File> configFiles = Arrays.asList(configFolder.listFiles());
-		for(int i = 0; i < necessaryFiles.length; i++) { // cycle through important file names
-			File necessaryFile = new File(getDataFolder(), necessaryFiles[i]);
-			if(configFiles.contains(necessaryFile)) { // contains the important file
-				if(necessaryFiles[i].equals("arenas")) { // is the arena folder
-					File[] arenaFiles = necessaryFile.listFiles();
-					for(int j = 0; j < arenaFiles.length; j++) { // cycle through arena files
-						getServer().getConsoleSender().sendMessage(arenaFiles[j].getName());
-						new Arena(arenaFiles[j], this);
-					}
-				} else if(necessaryFiles[i].equals("playerdata")) {
-					File[] playerFiles = necessaryFile.listFiles();
-					for(int j = 0; j < playerFiles.length; j++) {
-						new PlayerProfile(playerFiles[j]);
-					}
-				} else { // is not the arena folder
-					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
-					if(necessaryFiles[i].equals("main.yml")) {
-						//new Game(config, this);
-						//loadPowerUps(config);
-					} else if(necessaryFiles[i].equals("paints.yml")) {
-						//new Paint(config, this);
-						//loadPaints(config);
-					} else if(necessaryFiles[i].equals("scoreboards.yml")) {
-						//GameScoreboard.createFromConfig(config);
-					}
-					getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Loaded file " + necessaryFiles[i]);
-				}
-			} else { // does not contain the important file; create it now
-				if(necessaryFiles[i].equals("arenas")) { // create an arenas FOLDER and default arena config
-					saveResource(necessaryFiles[i] + "/GlowyBoi.yml", true);
-					new Arena(new File(getDataFolder(), necessaryFiles[i] + "/GlowyBoi.yml"), this);
-				} else if(necessaryFiles[i].equals("playerdata")) {
-					necessaryFile.mkdirs();
-				} else { // create a config file
-					saveResource(necessaryFiles[i], true);
-					FileConfiguration config = YamlConfiguration.loadConfiguration(necessaryFile);
-					if(necessaryFiles[i].equals("main.yml")) {
-						//new Game(config, this);
-						//loadPowerUps(config);
-					} else if(necessaryFiles[i].equals("paints.yml")) {
-						//new Paint(config, this);
-						//loadPaints(config);
-					}
-				}
-				getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Could not find file " + necessaryFiles[i] + "; created a new file");
-			}
-		}
 	}
 	
 	public void onDisable() {

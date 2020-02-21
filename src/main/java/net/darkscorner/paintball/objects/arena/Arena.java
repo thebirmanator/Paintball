@@ -7,6 +7,7 @@ import java.util.*;
 import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.Menu;
 import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
+import net.darkscorner.paintball.utils.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -62,7 +63,7 @@ public class Arena implements ArenaSetting {
 			new DoneArenaEditor(doneItem, this)
 	};*/
 	
-	public Arena(File file, Main main) {
+	private Arena(File file) {
 		this.file = file;
 		config = YamlConfiguration.loadConfiguration(file);
 
@@ -330,6 +331,24 @@ public class Arena implements ArenaSetting {
 	}
 
 	public static void loadArenas() {
-
+		Main main = Main.getInstance();
+		File arenasFolder = new File(main.getDataFolder(), "arenas");
+		if (arenasFolder.exists()) {
+			File[] arenaFiles = arenasFolder.listFiles();
+			for (File arenaFile : arenaFiles) {
+				// Valid YML file
+				if (arenaFile.getName().endsWith(".yml")) {
+					Arena arena = new Arena(arenaFile);
+					main.getServer().getConsoleSender().sendMessage(Text.format("&aLoaded arena " + arena.getName()));
+				}
+			}
+			// No arenas were created based off of files. Warn console!
+			if (arenas.size() < 1) {
+				main.getServer().getConsoleSender().sendMessage(Text.format("&cNo arenas found! Games will not start with no valid arenas."));
+			}
+		} else {
+			main.saveResource(arenasFolder + "/GlowyBoi.yml", true);
+			main.getServer().getConsoleSender().sendMessage(Text.format("&eNo arenas folder found! Generated a new one with a default arena."));
+		}
 	}
 }
