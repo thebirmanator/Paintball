@@ -26,7 +26,7 @@ public class PlayerProfile implements PlayerSettings {
 	private File playerFile;
 	private FileConfiguration config;
 
-	private PlayerProfile(File file) {
+	public PlayerProfile(File file) {
 		playerFile = file;
 		config = YamlConfiguration.loadConfiguration(playerFile);
 

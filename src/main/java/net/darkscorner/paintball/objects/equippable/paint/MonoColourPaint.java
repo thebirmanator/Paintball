@@ -33,7 +33,7 @@ public class MonoColourPaint extends Paint {
             ConfigurationSection paintSection = monoSection.getConfigurationSection(paintName);
             Material displayIcon = Material.getMaterial(paintSection.getString("display-icon", "STONE"));
             Material paint = Material.getMaterial(paintSection.getString("paint", "STONE"));
-            customPaints.add(new MonoColourPaint(paintName, displayIcon, paint));
+            new MonoColourPaint(paintName, displayIcon, paint);
         }
     }
 }

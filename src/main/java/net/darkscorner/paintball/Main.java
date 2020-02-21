@@ -52,7 +52,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		// powerup ideas: super jump, shield reflector thingy, bullet speed increaser
 		instance = this;
-		//loadConfigs();
+		loadConfigs();
 		GameSettings.loadSettings();
 		GameScoreboard.loadBoardPresets();
 		ClickableItem.loadItems();
@@ -98,7 +98,7 @@ public class Main extends JavaPlugin {
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Paintball enabled!");
 
 	}
-	
+
 	public void loadConfigs() {
 		File configFolder = new File("plugins/" + this.getName());
 		if(!configFolder.exists()) {

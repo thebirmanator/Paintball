@@ -6,6 +6,7 @@ import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.utils.Locations;
 import net.darkscorner.paintball.utils.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -405,7 +406,7 @@ public interface GameSettings {
 				GameSettings game;
 				if (arena.allowsTeams()) {
 					boolean teamGame = new Random().nextBoolean();
-					if (true) {
+					if (teamGame) {
 						Team red = new Team("red", Color.RED, new HashSet<>());
 						Team blue = new Team("blue", Color.BLUE, new HashSet<>());
 						Set<Team> teams = new HashSet<>();

@@ -328,4 +328,8 @@ public class Arena implements ArenaSetting {
 		}
 		return location.toVector().isInAABB(minMaxVectors[0], minMaxVectors[1]);
 	}
+
+	public static void loadArenas() {
+
+	}
 }
