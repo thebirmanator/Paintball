@@ -69,7 +69,7 @@ public class ArenaEditCommand implements CommandExecutor {
 								if(getArena(arenaName) != null) { // the arena exists
 									player.setMetadata(editMeta, new FixedMetadataValue(main, getArena(arenaName).getName()));
 									new ArenaEditorMenu(getArena(arenaName)).open(player);
-									player.teleport(getArena(arenaName).getLobbyLocation());
+									player.teleport(getArena(arenaName).getLobby().getSpawnLocation());
 									player.sendMessage(Main.prefix + "Now editing arena " + getArena(arenaName).getName());
 								} else {
 									player.sendMessage(Main.prefix + arenaName + " does not exist!");

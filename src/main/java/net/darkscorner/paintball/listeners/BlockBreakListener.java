@@ -10,7 +10,7 @@ public class BlockBreakListener implements Listener {
 	@EventHandler
 	public void onBreak(BlockBreakEvent event) {
 		for (Arena arena : Arena.getArenas()) {
-			if (arena.isInArena(event.getPlayer())) {
+			if (arena.isInArena(event.getPlayer()) || arena.getLobby().isInLobby(event.getPlayer())) {
 				if (!arena.isEditing(event.getPlayer())) {
 					event.setCancelled(true);
 				}

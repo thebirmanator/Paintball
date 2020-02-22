@@ -23,7 +23,7 @@ public class LobbyArenaEditor extends ArenaEditorItem implements TargetingItem {
 
 	@Override
 	public void use(Player player, ClickType clickType) {
-		getArena().setLobbyLocation(getLocation());
+		getArena().getLobby().setSpawnLocation(getLocation());
 		player.sendMessage(Main.prefix + "Set lobby location for arena " + getArena().getName());
 	}
 

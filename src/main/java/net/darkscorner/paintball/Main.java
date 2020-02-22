@@ -1,11 +1,5 @@
 package net.darkscorner.paintball;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
 //import me.themgrf.arcadecoinsapi.ArcadeCoinsAPI;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
@@ -13,14 +7,10 @@ import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
-import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 

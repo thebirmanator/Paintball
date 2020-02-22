@@ -28,6 +28,7 @@ public class Arena implements ArenaSetting {
 	private File file;
 	private FileConfiguration config;
 	private Vector[] minMaxVectors;
+	private ArenaLobby arenaLobby;
 	//private boolean isInUse;
 	/*
 	private List<Location> powerUpLocations = new ArrayList<Location>();
@@ -66,6 +67,7 @@ public class Arena implements ArenaSetting {
 	private Arena(File file) {
 		this.file = file;
 		config = YamlConfiguration.loadConfiguration(file);
+		arenaLobby = new ArenaLobby(this, config.getConfigurationSection("waiting-lobby"));
 
 		//Set<String> powerUpSections = config.getConfigurationSection("powerup-spawnpoints").getKeys(false);
 		//for(String section : powerUpSections) {
@@ -87,45 +89,14 @@ public class Arena implements ArenaSetting {
 		//} else {
 		//	material = Material.STONE;
 		//}
-		
+
 		//creator = config.getString("creator");
 		
 		arenas.add(this);
-		
+
 	}
 	
 	public void saveConfig() {
-		//Main main = Main.getPlugin(Main.class);
-/*
-		// powerup spawnpoints
-		String powerupBase = "powerup-spawnpoints";
-		config.set(powerupBase, null);
-		for(int i = 0; i < powerUpLocations.size(); i++) {
-			main.locToConfig(config, powerupBase + "." + (i + 1), powerUpLocations.get(i));
-		}
-		
-		// set displayname
-		config.set("display-name", name.replace('�', '&'));
-		
-		// game spawnpoints
-		String spawnpointsBase = "game-spawnpoints";
-		config.set(spawnpointsBase, null);
-		for(int i = 0; i < spawnPoints.size(); i++) {
-			main.locToConfig(config, spawnpointsBase + "." + (i + 1), spawnPoints.get(i));
-		}
-		
-		// spectating spawnpoint
-		main.locToConfig(config, "spectating-spawnpoint", specPoint);
-		
-		// lobby
-		main.locToConfig(config, "waiting-lobby", preGameLobbyLoc);
-		
-		// gui item
-		config.set("item-for-guis", material.toString());
-		
-		// creator
-		config.set("creator", creator.replace('�', '&'));
-		*/
 		try {
 			config.save(file);
 		} catch (IOException e) {
@@ -214,56 +185,7 @@ public class Arena implements ArenaSetting {
 		}
 		return null;
 	}
-	/*
-	public Material getMaterial() {
-		return material;
-	}
-	
-	public Location getLobbyLocation() {
-		return preGameLobbyLoc;
-	}
-	
-	public void setLobbyLocation(Location loc) {
-		preGameLobbyLoc = loc;
-	}
-	
-	public void setMaterial(Material material) {
-		this.material = material;
-	}
 
-	public void setIsInUse(boolean isInUse) {
-		this.isInUse = isInUse;
-	}
-	public List<Location> getPowerUpSpawnPoints() {
-		return powerUpLocations;
-	}
-	
-	public void giveEditKit(Player player) {
-		//EditorKit kit = new EditorKit(player, editHotbar);
-		//kit.giveKit();
-		
-	}
-	
-	public void removeEditKit(Player player) {
-		if(EditorKit.hasKit(player)) {
-			EditorKit.getActiveKit(player).removeKit();
-		}
-	}
-
-	private ItemStack getItem(Material material, String displayName, String leftClick, String rightClick) {
-		ItemStack item = new ItemStack(material);
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(displayName);
-		
-		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.WHITE + "Left-click " + ChatColor.GRAY + leftClick);
-		lore.add(ChatColor.WHITE + "Right-click " + ChatColor.GRAY + rightClick);
-		meta.setLore(lore);
-		item.setItemMeta(meta);
-		return item;
-		
-	}
-*/
 	public void remove() {
 		arenas.remove(this);
 		file.delete();
@@ -289,6 +211,11 @@ public class Arena implements ArenaSetting {
 	@Override
 	public FileConfiguration getConfig() {
 		return config;
+	}
+
+	@Override
+	public ArenaLobby getLobby() {
+		return arenaLobby;
 	}
 
 	public boolean isInArena(Player player) {

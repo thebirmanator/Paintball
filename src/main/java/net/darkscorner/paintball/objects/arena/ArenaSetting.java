@@ -46,6 +46,7 @@ public interface ArenaSetting {
         return Material.getMaterial(getConfig().getString("item-for-guis"));
     }
 
+    /*
     default Location getLobbyLocation() {
         String locString = getConfig().getString("waiting-lobby");
         return Locations.stringToLoc(locString);
@@ -53,7 +54,8 @@ public interface ArenaSetting {
 
     default void setLobbyLocation(Location loc) {
         getConfig().set("waiting-lobby", Locations.locToString(loc));
-    }
+    }*/
+    ArenaLobby getLobby();
 
     default void setMaterial(Material material) {
         getConfig().set("item-for-guis", material.name());

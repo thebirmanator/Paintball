@@ -3,7 +3,11 @@ creator: sillystring
 allows-teams: true
 item-for-guis: DIAMOND
 spectating-spawnpoint: world|-198|75|-641|0|0
-waiting-lobby: world|-194|74|-656|0|0
+waiting-lobby:
+ spawn: world|-194|74|-656|0|0
+ boundaries:
+ - world|-180|65|-650|0|0
+ - world|-200|85|-670|0|0
 boundaries:
  - world|-203|65|-661|0|0
  - world|-173|79|-626|0|0

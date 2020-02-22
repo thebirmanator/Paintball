@@ -19,7 +19,7 @@ public class GamePlayerJoinListener implements Listener {
 		GameSettings game = event.getGame();
 		PlayerProfile playerProfile = event.getPlayer();
 		
-		playerProfile.getPlayer().teleport(game.getArena().getLobbyLocation());
+		playerProfile.getPlayer().teleport(game.getArena().getLobby().getSpawnLocation());
 		
 		// Tell everyone that someone joined
 		for (PlayerProfile p : game.getAllPlayers()) {
