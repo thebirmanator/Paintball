@@ -1,4 +1,4 @@
-package net.darkscorner.paintball;
+package net.darkscorner.paintball.utils;
 
 public enum SoundEffect {
 

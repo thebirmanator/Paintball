@@ -32,4 +32,10 @@ death-messages:
  - '%victim% thought the paint was icing. They were wrong.'
  - '%victim% considered themselves the enemy.'
  - '%victim% tried to give themselves a makeover.'
- 
+summary:
+ free-for-all:
+  - 'Game Stats'
+  - 'Kills: %kills%'
+ team-game:
+  - 'Game Stats'
+  - 'Team Kills: %teamkills%'

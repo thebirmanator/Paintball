@@ -1,7 +1,8 @@
 package net.darkscorner.paintball.objects.games;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
+import net.darkscorner.paintball.objects.player.PlayerInGameStat;
+import net.darkscorner.paintball.utils.SoundEffect;
 import net.darkscorner.paintball.events.*;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
@@ -146,8 +147,10 @@ public abstract class PaintballGame implements GameSettings {
             // TODO: have each game have their statsboard?
             if (this instanceof FreeForAllGame) {
                 getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.FREE_FOR_ALL_GAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
+                getPlayers(false).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.SPECTATE).update(Variables.CURRENT_GAME_TIME_REMAINING));
             } else {
                 getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.TEAM_GAME).update(Variables.CURRENT_GAME_TIME_REMAINING));
+                getPlayers(true).forEach((player) -> GameScoreboard.getBoard(player, StatsBoard.SPECTATE).update(Variables.CURRENT_GAME_TIME_REMAINING));
             }
         }, 0, 20);
 
@@ -173,9 +176,8 @@ public abstract class PaintballGame implements GameSettings {
 
     public void addPlayer(PlayerProfile player, boolean setSpec) {
         allPlayers.put(player, !setSpec);
-        if(!setSpec) {
-            player.createNewStats(this);
-
+        player.createNewStats(this, setSpec);
+        if (!setSpec) {
             Main.getInstance().getServer().getPluginManager().callEvent(new GamePlayerJoinEvent(player, this));
         } else {
             setToSpectating(player);
@@ -289,6 +291,13 @@ public abstract class PaintballGame implements GameSettings {
     @Override
     public int getTimeRemaining() {
         return getGameTimeLength() - currentGameTime;
+    }
+
+    public List<PlayerProfile> sortByStat(PlayerInGameStat stat) {
+        // Sort the players from highest to lowest score
+        List<PlayerProfile> players = new ArrayList<>(getPlayers(true));
+        players.sort((p1, p2) -> Integer.compare(p2.getCurrentGameStats().getStat(stat), p1.getCurrentGameStats().getStat(stat)));
+        return players;
     }
 
     protected void loadSettings() {

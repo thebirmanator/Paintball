@@ -15,13 +15,10 @@ public class PlayerGameStatistics {
 	private PlayerProfile owner;
 	private GameSettings game;
 	private Map<PlayerInGameStat, Integer> stats;
-	private Scoreboard scoreboard;
-	//private int kills;
-	//private int deaths;
-	//private int shotsFired;
-	
+	//private Scoreboard scoreboard;
 	private int currentKillStreak;
-	
+	private boolean spectating;
+	/*
 	public PlayerGameStatistics(GameSettings game, PlayerProfile owner) {
 		this.owner = owner;
 		this.game = game;
@@ -30,11 +27,27 @@ public class PlayerGameStatistics {
 			stats.put(stat, 0);
 		}
 		currentKillStreak = 0;
+		spectating = false;
+	}*/
+
+	public PlayerGameStatistics(GameSettings game, PlayerProfile owner, boolean spectating) {
+		this.owner = owner;
+		this.game = game;
+		stats = new HashMap<>();
+		for (PlayerInGameStat stat : PlayerInGameStat.values()) {
+			stats.put(stat, 0);
+		}
+		currentKillStreak = 0;
+		this.spectating = spectating;
 	}
 
 	//TODO: past game statistics
 	public PlayerGameStatistics(UUID uuid) {
 
+	}
+
+	public boolean isSpectating() {
+		return spectating;
 	}
 
 	public GameSettings getGame() {

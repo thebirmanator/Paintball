@@ -11,6 +11,7 @@ public enum Variables {
 
     PLAYER("%player%"), CURRENCY("%currency%"), ARENA("%arena%"), CURRENT_GAME_SHOTS("%shots%"),
     CURRENT_GAME_KILLS("%kills%"), CURRENT_GAME_DEATHS("%deaths%"), CURRENT_GAME_TIME_REMAINING("%timeleft%"),
+    CURRENT_KDR("%kdr%"), CURRENT_ACCURACY("%accuracy%"),
     CURRENT_TEAM_NAME("%teamname%"), CURRENT_TEAM_KILLS("%teamkills%"), CURRENT_TEAM_DEATHS("%teamdeaths%");
 
     private final String variable;
@@ -48,6 +49,26 @@ public enum Variables {
                     return "ENDED";
                 } else {
                     return Text.formatTime(playerProfile.getCurrentGame().getTimeRemaining());
+                }
+            case CURRENT_KDR:
+                int deaths = playerProfile.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS);
+                // Undefined KDR (no deaths)
+                if (deaths == 0) { // undefined kda
+                    return Text.format("&6PERFECT &7(no deaths)!");
+                } else {
+                    int kills = playerProfile.getCurrentGameStats().getStat(PlayerInGameStat.KILLS);
+                    float kdr = (float) kills / (float) deaths;
+                    return String.format("%.2f", kdr);
+                }
+            case CURRENT_ACCURACY:
+                int shots = playerProfile.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS);
+                // Undefined accuracy (no shots)
+                if (shots == 0) { // undefined accuracy
+                    return Text.format("&6You know you're supposed to right click to shoot, right? (no shots fired)");
+                } else {
+                    int kills = playerProfile.getCurrentGameStats().getStat(PlayerInGameStat.KILLS);
+                    float accuracy = (float) kills / (float) shots;
+                    return String.format("%.2f", accuracy);
                 }
             case CURRENT_TEAM_KILLS:
                 if (game instanceof TeamGame) {

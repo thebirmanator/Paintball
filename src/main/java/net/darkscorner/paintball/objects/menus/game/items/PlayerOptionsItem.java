@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
+import net.darkscorner.paintball.utils.SoundEffect;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 
 public class PlayerOptionsItem extends GameMenuItem {

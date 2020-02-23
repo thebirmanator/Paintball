@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
+import net.darkscorner.paintball.utils.SoundEffect;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
 import org.bukkit.projectiles.ProjectileSource;

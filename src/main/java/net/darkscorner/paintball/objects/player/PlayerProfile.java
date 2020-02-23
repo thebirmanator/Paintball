@@ -14,7 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
+import net.darkscorner.paintball.utils.SoundEffect;
 
 public class PlayerProfile implements PlayerSettings {
 
@@ -89,7 +89,6 @@ public class PlayerProfile implements PlayerSettings {
 		return currentGameStats != null;
 	}
 
-	//TODO: make gamestats account for spectating games
 	public GameSettings getCurrentGame() {
 		return currentGameStats.getGame();
 	}
@@ -102,8 +101,8 @@ public class PlayerProfile implements PlayerSettings {
 		currentGameStats = null;
 	}
 	
-	public void createNewStats(GameSettings game) {
-		currentGameStats = new PlayerGameStatistics(game, this);
+	public void createNewStats(GameSettings game, boolean spectating) {
+		currentGameStats = new PlayerGameStatistics(game, this, spectating);
 	}
 
 	@Override

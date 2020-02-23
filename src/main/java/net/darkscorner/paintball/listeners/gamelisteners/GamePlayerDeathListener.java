@@ -16,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.darkscorner.paintball.objects.games.GameState;
 import net.darkscorner.paintball.Main;
-import net.darkscorner.paintball.SoundEffect;
+import net.darkscorner.paintball.utils.SoundEffect;
 import net.darkscorner.paintball.events.GamePlayerDeathEvent;
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
@@ -106,7 +106,8 @@ public class GamePlayerDeathListener implements Listener {
 			int playerRespawnTime = game.getRespawnTime();
 			@Override
 			public void run() {
-				if(victim.getPlayer() != null) {
+				// Make sure the player is still online and in the game
+				if (victim.getPlayer() != null && victim.isInGame()) {
 					if (playerRespawnTime <= 0) {
 						if (game.getGameState() == GameState.STARTED) {
 							victim.getPlayer().setGameMode(Main.defaultGamemode);
@@ -119,13 +120,7 @@ public class GamePlayerDeathListener implements Listener {
 							victim.getPlayer().teleport(playerSpawn);
 							arena.getFreeForAllSpawnPoints().remove(spawnIndex);
 							//game.makeInvulnerable(victim.getPlayer(), 60);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
-
-								@Override
-								public void run() {
-									arena.getFreeForAllSpawnPoints().add(respawnLoc);
-								}
-							}, 60);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> arena.getFreeForAllSpawnPoints().add(respawnLoc), 60);
 							this.cancel();
 						}
 						this.cancel();

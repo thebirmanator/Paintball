@@ -60,7 +60,7 @@ public class Main extends JavaPlugin {
 		getCommand(guncmd.gun).setExecutor(guncmd);
 		
 		getServer().getPluginManager().registerEvents(new GameCreateListener(), this);
-		getServer().getPluginManager().registerEvents(new GameEndListener(this), this);
+		getServer().getPluginManager().registerEvents(new GameEndListener(), this);
 		getServer().getPluginManager().registerEvents(new GamePlayerDeathListener(this), this);
 		getServer().getPluginManager().registerEvents(new GamePlayerJoinListener(), this);
 		getServer().getPluginManager().registerEvents(new GamePlayerLeaveListener(), this);

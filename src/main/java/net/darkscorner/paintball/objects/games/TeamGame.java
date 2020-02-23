@@ -2,11 +2,15 @@ package net.darkscorner.paintball.objects.games;
 
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.utils.Text;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class TeamGame extends PaintballGame {
     private Set<Team> teams;
+    private static String[] summary;
 
     public TeamGame(Arena arena, Set<Team> teams) {
         super(arena);
@@ -37,7 +41,7 @@ public class TeamGame extends PaintballGame {
                 first.addMember(player);
             }
         }
-        super.addPlayer(player, false);
+        super.addPlayer(player, setSpec);
     }
 
     @Override
@@ -67,5 +71,23 @@ public class TeamGame extends PaintballGame {
             }
         }
         return null;
+    }
+
+    @Override
+    public String[] getGameSummary() {
+        if (summary == null) {
+            List<String> summaryList = getGameConfig().getStringList("summary.team-game");
+            summary = new String[summaryList.size()];
+            for (String configSummary : summaryList) {
+                summary[summaryList.indexOf(configSummary)] = Text.format(configSummary);
+            }
+        }
+        return summary;
+    }
+
+    public List<Team> sortByKills() {
+        List<Team> sortedTeams = new ArrayList<>(getTeams());
+        sortedTeams.sort((t1, t2) -> Integer.compare(t2.getKills(), t1.getKills()));
+        return sortedTeams;
     }
 }

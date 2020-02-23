@@ -4,9 +4,9 @@ import java.util.*;
 
 import net.darkscorner.paintball.objects.arena.Arena;
 import net.darkscorner.paintball.objects.player.PlayerProfile;
+import net.darkscorner.paintball.objects.scoreboards.Variables;
 import net.darkscorner.paintball.utils.Locations;
 import net.darkscorner.paintball.utils.Text;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -431,6 +431,20 @@ public interface GameSettings {
 	}
 
 	int getTimeRemaining();
+
+	String[] getGameSummary();
+
+	default String[] evaluateSummary(PlayerProfile playerProfile) {
+		String[] evaluated = getGameSummary().clone();
+		for (int i = 0; i < evaluated.length; i++) {
+			for (Variables variable : Variables.values()) {
+				if (evaluated[i].contains(variable.getAsString())) {
+					evaluated[i] = evaluated[i].replace(variable.getAsString(), variable.getValue(playerProfile));
+				}
+			}
+		}
+		return evaluated;
+	}
 
 	enum DeathType {
 		NORMAL("normal"), SUICIDE("suicide");
