@@ -1,8 +1,10 @@
 package net.darkscorner.paintball.objects.powerups;
 
+import net.darkscorner.paintball.Main;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +12,22 @@ import java.util.List;
 public abstract class PowerUp implements PowerUpSettings {
 
     private ConfigurationSection config;
+    private FixedMetadataValue meta;
+    protected static String powerUpMeta = "powerup";
 
     public PowerUp(String effectName) {
         config = mainConfig.getConfigurationSection(effectName);
+        meta = new FixedMetadataValue(Main.getInstance(), effectName);
     }
 
     @Override
     public ConfigurationSection getConfig() {
         return config;
+    }
+
+    @Override
+    public FixedMetadataValue getMeta() {
+        return meta;
     }
 
     public static List<PowerUp> getPowerUps() {
@@ -29,21 +39,25 @@ public abstract class PowerUp implements PowerUpSettings {
     }
 
     public static boolean isPowerUpBlock(Block block) {
+        return block.hasMetadata(powerUpMeta);
+        /*
         for(PowerUp powerup : getPowerUps()) {
             if(block.getType() == powerup.getMaterial()) {
                 return true;
             }
         }
-        return false;
+        return false;*/
     }
 
     public static PowerUp getPowerUpBlock(Block block) {
+        /*
         for(PowerUp powerup : getPowerUps()) {
             if(block.getType() == powerup.getMaterial()) {
                 return powerup;
             }
-        }
-        return null;
+        }*/
+        String effectName = block.getMetadata(powerUpMeta).get(0).asString();
+        return Effect.valueOf(effectName).getPowerUp();
     }
 
     public static void removeEffect(Player player, Effect effect) {

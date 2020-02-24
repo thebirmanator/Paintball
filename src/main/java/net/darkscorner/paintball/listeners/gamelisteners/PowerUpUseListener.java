@@ -21,56 +21,6 @@ public class PowerUpUseListener implements Listener {
 	
 	@EventHandler
 	public void onUse(PowerUpUseEvent event) {
-		/*
-		PlayerProfile gp = event.getPlayer();
-		gp.playSound(SoundEffect.POWER_UP);
-		PowerUpEffect effect = event.getPowerUp().getEffect();
-		int duration = event.getPowerUp().getDuration();
-		
-		Player player = gp.getPlayer();
-		switch (effect) {
-		case JUMP:
-			if(player.hasPotionEffect(PotionEffectType.JUMP)) {
-				 duration = duration + player.getPotionEffect(PotionEffectType.JUMP).getDuration();
-			}
-			player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, 2), true);
-			break;
-		case SPEED:
-			if(player.hasPotionEffect(PotionEffectType.SPEED)) {
-				 duration = duration + player.getPotionEffect(PotionEffectType.SPEED).getDuration();
-			}
-			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 2), true);
-			break;
-		case VOLLEY:
-			if(player.hasMetadata("volleypowerup")) { // has the powerup already, add a second one to stack it
-				duration = duration + player.getMetadata("volleypowerup").get(0).asInt();
-				player.setMetadata("volleypowerup", new FixedMetadataValue(main, duration));
-			} else {
-				player.setMetadata("volleypowerup", new FixedMetadataValue(main, duration));
-				new BukkitRunnable() {
-					
-					@Override
-					public void run() {
-						if(player.hasMetadata("volleypowerup")) {
-							int remainingDuration = player.getMetadata("volleypowerup").get(0).asInt();
-							if(remainingDuration <= 0) {
-								player.removeMetadata("volleypowerup", main);
-								cancel();
-							} else {
-								player.setMetadata("volleypowerup", new FixedMetadataValue(main, remainingDuration - 20)); // take one second away (20 ticks)
-							}
-						} else {
-							cancel();
-						}
-
-					}
-				}.runTaskTimer(main, 0, 20);
-			}
-			break;
-		default:
-			break;
-		}*/
-		
 		// planning a new spawned powerup at this ones location
 		Location spawn = event.getLocation();
 		Random random = new Random();

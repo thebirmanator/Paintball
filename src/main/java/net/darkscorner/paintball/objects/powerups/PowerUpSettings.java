@@ -4,9 +4,11 @@ import net.darkscorner.paintball.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -35,7 +37,9 @@ public interface PowerUpSettings {
 
     default void spawnPowerUp(Location loc) {
         Main main = Main.getInstance();
+        Block block = loc.getBlock();
         loc.getBlock().setType(getMaterial());
+        block.setMetadata(PowerUp.powerUpMeta, getMeta());
 
         new BukkitRunnable() {
 
@@ -44,13 +48,20 @@ public interface PowerUpSettings {
                 Location particleLoc = loc.clone();
                 particleLoc.setX(particleLoc.getX() + 0.5);
                 particleLoc.setZ(particleLoc.getZ() + 0.5);
-                if(!loc.getBlock().getType().equals(getMaterial())) { // if no longer a powerup block, stop spawning particles
+                if(!PowerUp.isPowerUpBlock(block)) { // if no longer a powerup block, stop spawning particles
                     cancel();
                 }
                 loc.getWorld().spawnParticle(getParticle(), particleLoc, 20, 0.6, 1, 0.6, 0.01);
             }
         }.runTaskTimer(main, 0, 10);
     }
+
+    default void removePowerUp(Location location) {
+        location.getBlock().setType(Material.AIR);
+        location.getBlock().removeMetadata(PowerUp.powerUpMeta, Main.getInstance());
+    }
+
+    FixedMetadataValue getMeta();
 
     void use(Player player);
 

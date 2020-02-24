@@ -44,9 +44,12 @@ public class PlayerInteractListener implements Listener {
 			Block block = event.getClickedBlock();
 			PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
 			if (block != null && PowerUp.isPowerUpBlock(block)) {
-				PowerUp.getPowerUpBlock(block).use(player);
-				block.setType(Material.AIR);
+				PowerUp powerUp = PowerUp.getPowerUpBlock(block);
+				powerUp.use(player);
+				//block.setType(Material.AIR);
+
 				main.getServer().getPluginManager().callEvent(new PowerUpUseEvent(PowerUp.getPowerUpBlock(block), event.getClickedBlock().getLocation(), playerProfile.getCurrentGame(), playerProfile));
+				powerUp.removePowerUp(block.getLocation());
 				return;
 			}
 
