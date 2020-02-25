@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.objects.powerups;
 
 import net.darkscorner.paintball.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -45,10 +46,8 @@ public interface PowerUpSettings {
 
             @Override
             public void run() {
-                Location particleLoc = loc.clone();
-                particleLoc.setX(particleLoc.getX() + 0.5);
-                particleLoc.setZ(particleLoc.getZ() + 0.5);
-                if(!PowerUp.isPowerUpBlock(block)) { // if no longer a powerup block, stop spawning particles
+                Location particleLoc = loc.clone().add(0.5, 0, 0.5);
+                if (!PowerUp.isPowerUpBlock(block)) { // if no longer a powerup block, stop spawning particles
                     cancel();
                 }
                 loc.getWorld().spawnParticle(getParticle(), particleLoc, 20, 0.6, 1, 0.6, 0.01);

@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.listeners.gamelisteners;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import net.darkscorner.paintball.objects.powerups.PowerUp;
 import org.bukkit.Bukkit;
@@ -28,16 +29,13 @@ public class PowerUpUseListener implements Listener {
 		int powerupIndex = random.nextInt(PowerUp.getPowerUps().size());
 		PowerUp powerup = PowerUp.getPowerUps().get(powerupIndex);
 		// choose how long to wait to spawn it
-		int spawnDelay = random.nextInt(powerup.getMaxSpawnDelay());
-		Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
-			
-			@Override
-			public void run() {
-				if(event.getGame().getGameState() != GameState.ENDED) {
-					powerup.spawnPowerUp(spawn);
-				}
-				
+		//int spawnDelay = random.nextInt(powerup.getMaxSpawnDelay());
+		int spawnDelay = ThreadLocalRandom.current().nextInt(21, powerup.getMaxSpawnDelay());
+		Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+			if (event.getGame().getGameState() != GameState.ENDED) {
+				powerup.spawnPowerUp(spawn);
 			}
+
 		}, spawnDelay);
 	}
 }

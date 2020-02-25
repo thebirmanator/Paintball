@@ -11,6 +11,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import net.darkscorner.paintball.Main;
 import net.darkscorner.paintball.objects.arena.Arena;
 
+import static net.darkscorner.paintball.objects.arena.Arena.getArena;
+
 public class ArenaEditCommand implements CommandExecutor {
 
 	private Main main;
@@ -91,14 +93,5 @@ public class ArenaEditCommand implements CommandExecutor {
 			sender.sendMessage(Main.prefix + "Sorry, only " + ChatColor.RED + "players" + ChatColor.GRAY + " can use this command.");
 			return true;
 		}
-	}
-	
-	private Arena getArena(String simpleName) {
-		for(Arena a : Arena.getArenas()) {
-			if(a.getSimpleName().equalsIgnoreCase(simpleName)) {
-				return a;
-			}
-		}
-		return null;
 	}
 }

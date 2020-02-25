@@ -29,18 +29,11 @@ public class GameItem extends GameMenuItem {
 		case LEFT: // send to spectate a game
 			PlayerProfile gp = PlayerProfile.getGamePlayer(player);
 			gp.playSound(SoundEffect.FORWARD_CLICK);
-			if(!gp.isInGame()) {
+			if (!gp.isInGame()) {
 				game.addPlayer(gp, true);
 				//game.setToSpectating(gp);
 			} else {
-				if(gp.getCurrentGame().equals(game)) {
-					player.sendMessage(Main.prefix + "You cannot spectate a game that you're already in.");
-				} else {
-					gp.getCurrentGame().removePlayer(gp);
-					game.addPlayer(gp, true);
-					//game.setToSpectating(gp);
-					
-				}
+				player.sendMessage(Main.prefix + "You cannot spectate a game if you're in one. Do /leave if you want to leave this game.");
 			}
 			getOwningMenu().close(player, true);
 			break;

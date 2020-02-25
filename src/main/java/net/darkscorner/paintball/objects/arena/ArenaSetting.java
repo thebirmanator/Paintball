@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.objects.arena;
 
 import net.darkscorner.paintball.utils.Locations;
+import net.darkscorner.paintball.utils.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,7 +15,7 @@ public interface ArenaSetting {
     FileConfiguration getConfig();
 
     default String getName() {
-        return getConfig().getString("display-name");
+        return Text.format(getConfig().getString("display-name"));
     }
 
     default String getSimpleName() {

@@ -6,6 +6,7 @@ import net.darkscorner.paintball.objects.games.TeamGame;
 import net.darkscorner.paintball.objects.player.PlayerInGameStat;
 import net.darkscorner.paintball.objects.player.PlayerStat;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,8 +33,7 @@ public class GamePlayerLeaveListener implements Listener {
 		player.getPlayer().teleport(event.getGame().getLobbySpawn());
 		//player.setStatsBoard(StatsBoard.LOBBY);
 		
-		if(!wasSpectator) { // if they were not a spectator
-
+		if (!wasSpectator) { // if they were not a spectator
 			// remove paintball gun on leave
 			player.getGun().removeFrom(player.getPlayer());
 			// If team game, remove team armour
@@ -77,9 +77,9 @@ public class GamePlayerLeaveListener implements Listener {
 			//GameScoreboard2.getBoard(player, StatsBoard.LOBBY).display();
 
 			// save stats
-			//player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
-			//player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
-			//player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
+			player.addToTotal(PlayerStat.DEATHS, player.getCurrentGameStats().getStat(PlayerInGameStat.DEATHS));
+			player.addToTotal(PlayerStat.KILLS, player.getCurrentGameStats().getStat(PlayerInGameStat.KILLS));
+			player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
 			player.saveProfile();
 		}
 	}

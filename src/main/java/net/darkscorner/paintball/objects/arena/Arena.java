@@ -197,7 +197,7 @@ public class Arena implements ArenaSetting {
 	
 	public static Arena getArena(String name) {
 		for(Arena arena : arenas) {
-			if(arena.getName().equals(name)) {
+			if(arena.getSimpleName().equals(name)) {
 				return arena;
 			}
 		}
