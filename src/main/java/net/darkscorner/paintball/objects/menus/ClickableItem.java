@@ -1,10 +1,13 @@
 package net.darkscorner.paintball.objects.menus;
 
 import net.darkscorner.paintball.objects.menus.arena.items.*;
+import net.darkscorner.paintball.objects.menus.equipment.items.EquipmentItem;
 import net.darkscorner.paintball.objects.menus.game.items.BackMenuItem;
 import net.darkscorner.paintball.objects.menus.game.items.EndGameItem;
 import net.darkscorner.paintball.objects.menus.game.items.GameItem;
 import net.darkscorner.paintball.objects.menus.game.items.PlayerOptionsItem;
+import net.darkscorner.paintball.objects.menus.shop.items.BuyPaintItem;
+import net.darkscorner.paintball.objects.menus.shop.items.ShopItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -48,5 +51,8 @@ public abstract class ClickableItem {
         new PowerupLocationArenaEditor(null).createTemplate();
         new SpawnpointsArenaEditor(null).createTemplate();
         new SpecPointArenaEditor(null).createTemplate();
+
+        ShopItem.loadShopItems();
+        EquipmentItem.loadEquipmentItems();
     }
 }

@@ -174,6 +174,10 @@ public abstract class PaintballGame implements GameSettings {
         return desired;
     }
 
+    public boolean isPlaying (PlayerProfile playerProfile) {
+        return allPlayers.get(playerProfile);
+    }
+
     public void addPlayer(PlayerProfile player, boolean setSpec) {
         allPlayers.put(player, !setSpec);
         player.createNewStats(this, setSpec);

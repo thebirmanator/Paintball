@@ -27,4 +27,22 @@ public interface PlayerSettings {
     default void setGun(Gun gun) {
         getConfig().set("equipped-gun", gun.getType().name());
     }
+
+    default int getMoney() {
+        return getConfig().getInt("money", 0);
+    }
+
+    default void setMoney(int amount) {
+        getConfig().set("money", amount);
+    }
+
+    default void addMoney(int amount) {
+        setMoney(getMoney() + amount);
+    }
+
+    default void subtractMoney(int amount) {
+        int newAmount = getMoney() - amount;
+        if (newAmount < 0) newAmount = 0;
+        setMoney(newAmount);
+    }
 }

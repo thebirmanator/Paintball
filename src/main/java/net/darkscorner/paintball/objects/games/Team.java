@@ -4,6 +4,7 @@ import net.darkscorner.paintball.objects.player.PlayerProfile;
 import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import net.darkscorner.paintball.objects.scoreboards.StatsBoard;
 import net.darkscorner.paintball.objects.scoreboards.Variables;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -33,6 +34,10 @@ public class Team {
 
     public String getName() {
         return name;
+    }
+
+    public String getSimpleName() {
+        return ChatColor.stripColor(name);
     }
 
     public Set<PlayerProfile> getMembers() {

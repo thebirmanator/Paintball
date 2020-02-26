@@ -37,4 +37,9 @@ public abstract class EquipmentItem extends ClickableItem {
                 .addAction(ClickType.LEFT, "to unequip.")
                 .getItemStack();
     }
+
+    public static void loadEquipmentItems() {
+        new EquipPaintItem(null, null).createTemplate();
+        new EquipGunItem(null, null).createTemplate();
+    }
 }

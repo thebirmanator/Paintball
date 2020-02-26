@@ -2,6 +2,7 @@ package net.darkscorner.paintball.utils;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 
 public class Text {
 

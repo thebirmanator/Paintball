@@ -50,7 +50,11 @@ public abstract class Paint {
 	public String getName() {
 		return name;
 	}
-	
+
+	public String getPermission() {
+		return "paintball.paint.colour." + getName().toLowerCase();
+	}
+
 	public Material getDisplayIcon() {
 		return displayIcon;
 	}

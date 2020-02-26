@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import net.darkscorner.paintball.objects.games.GameSettings;
+import net.darkscorner.paintball.objects.games.PaintballGame;
+import net.darkscorner.paintball.objects.games.TeamGame;
+import net.darkscorner.paintball.objects.menus.arena.ArenaEditorMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,6 +24,40 @@ import net.darkscorner.paintball.objects.menus.arena.items.ArenaEditorItem;
 import net.darkscorner.paintball.objects.menus.arena.items.NameArenaEditor;
 
 public class PlayerChatListener implements Listener {
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        // Is editing an arena, do not allow chatting
+        if (ArenaEditorMenu.getViewing(player) != null) {
+            return;
+        }
+
+        Set<Player> recipients = event.getRecipients();
+        PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
+
+        // This is a "real" chat event; a player actually typed the message
+        if (event.isAsynchronous()) {
+            recipients.removeIf((recipient) -> {
+                PlayerProfile recipientProfile = PlayerProfile.getGamePlayer(recipient);
+                // One is in a game and one isn't, remove recipient
+                if (recipientProfile.isInGame() != playerProfile.isInGame()) return true;
+                // Both have the same game state, check if one is in game or not
+                if (recipientProfile.isInGame()) {
+                    // Both in a game; remove recipient if one is playing and other is spectating
+                    PaintballGame game = (PaintballGame) recipientProfile.getCurrentGame();
+                    if (game.isPlaying(recipientProfile) != game.isPlaying(playerProfile)) return true;
+                    // The game is a team game. Only members of the same team should receive player's message
+                    if (game instanceof TeamGame) {
+                        TeamGame teamGame = (TeamGame) game;
+                        return !teamGame.getTeam(playerProfile).equals(teamGame.getTeam(recipientProfile));
+                    }
+                }
+                // Both not in game, do not remove recipient
+                return false;
+            });
+        }
+    }
 
 	/*
 	@EventHandler

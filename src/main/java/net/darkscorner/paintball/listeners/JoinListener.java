@@ -5,7 +5,6 @@ import net.darkscorner.paintball.objects.scoreboards.GameScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,10 +29,10 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		// set server join message
-		event.setJoinMessage(null);
+		//event.setJoinMessage(null);
 		
 		// remove paintball gun on join
-		event.getPlayer().getInventory().remove(Material.GOLDEN_HOE);
+		event.getPlayer().getInventory().remove(PlayerProfile.getGamePlayer(event.getPlayer()).getGun().getItem());
 		
 		// remove edit kit
 		if (Arena.getEditing(event.getPlayer()) != null) {
@@ -79,8 +78,8 @@ public class JoinListener implements Listener {
 				}
 
 				// send join message late to get rank to show
-				String joinMessage = ChatColor.GREEN + "+ " + ChatColor.RESET + event.getPlayer().getDisplayName();
-				Bukkit.broadcastMessage(joinMessage);
+				//String joinMessage = ChatColor.GREEN + "+ " + ChatColor.RESET + event.getPlayer().getDisplayName();
+				//Bukkit.broadcastMessage(joinMessage);
 			}
 		}, 2);
 	}

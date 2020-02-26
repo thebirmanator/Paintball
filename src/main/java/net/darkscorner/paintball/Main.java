@@ -33,6 +33,7 @@ public class Main extends JavaPlugin {
 	private PaintCommand paintcmd = new PaintCommand();
 	private ViewStatsCommand viewstatscmd = new ViewStatsCommand();
 	private GunCommand guncmd = new GunCommand();
+	private PaintballCmd paintballCmd = new PaintballCmd();
 	//public static ArcadeCoinsAPI coins;
 	
 	public static String prefix = ChatColor.GREEN + "" + ChatColor.BOLD + "PAINTBALL"+ ChatColor.DARK_GRAY + " ⎜ " + ChatColor.GRAY;
@@ -58,6 +59,7 @@ public class Main extends JavaPlugin {
 		getCommand(paintcmd.paint).setExecutor(paintcmd);
 		getCommand(viewstatscmd.viewstats).setExecutor(viewstatscmd);
 		getCommand(guncmd.gun).setExecutor(guncmd);
+		getCommand(paintballCmd.paintballcmd).setExecutor(paintballCmd);
 		
 		getServer().getPluginManager().registerEvents(new GameCreateListener(), this);
 		getServer().getPluginManager().registerEvents(new GameEndListener(), this);
@@ -78,7 +80,7 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerItemDropListener(), this);
 		getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
-		//getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 		getServer().getPluginManager().registerEvents(new CoinChangeListener(), this);
 		
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Paintball enabled!");

@@ -8,6 +8,10 @@ softdepend:
 #depend: [ArcadeCoinsAPI]
 description: Paintball minigame for DarksCorner
 commands:
+  paintball:
+    usage: /<command>
+    aliases: [pb]
+    description: Main cmd
   join:
    usage: /<command>
    description: Allows a player to join a game

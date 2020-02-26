@@ -26,6 +26,10 @@ public abstract class Gun {
         //guns.add(this);
     }
 
+    public String getPermission() {
+        return "paintball.gun.type." + getType().name().toLowerCase();
+    }
+
     public ItemStack getItem() {
         return item;
     }

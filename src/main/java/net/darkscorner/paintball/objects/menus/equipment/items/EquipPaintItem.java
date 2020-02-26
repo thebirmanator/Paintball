@@ -26,7 +26,7 @@ public class EquipPaintItem extends EquipmentItem {
 
     @Override
     boolean hasPermission(Player player) {
-        return player.hasPermission("paintball.paint." + paint.getName().toLowerCase());
+        return player.hasPermission(paint.getPermission());
     }
 
     @Override
@@ -36,7 +36,10 @@ public class EquipPaintItem extends EquipmentItem {
 
     @Override
     ItemStack getNoPermsItem() {
-        return templateItem;
+        return new ItemEditor(templateItem.getType(), templateItem.getItemMeta().getDisplayName())
+                .addAction(ClickType.UNKNOWN, Text.format("&a" + Text.friendlyEnum(paint.getName())))
+                .addAction(ClickType.UNKNOWN, Text.format("Unlock using &f/store"))
+                .getItemStack();
     }
 
     @Override
@@ -80,7 +83,7 @@ public class EquipPaintItem extends EquipmentItem {
     @Override
     protected void createTemplate() {
         templateItem = new ItemEditor(Material.GRAY_DYE, Text.format("&cLOCKED"))
-                .addAction(ClickType.UNKNOWN, Text.format("&a" + Text.friendlyEnum(paint.getName())))
+                //.addAction(ClickType.UNKNOWN, Text.format("&a" + Text.friendlyEnum(paint.getName())))
                 .addAction(ClickType.UNKNOWN, Text.format("Unlock using &f/store"))
                 .getItemStack();
     }
