@@ -8,19 +8,28 @@ import net.darkscorner.paintball.utils.ItemEditor;
 import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+
 public class BuyGunItem extends ShopItem {
 
     private Gun gun;
+    private static ConfigurationSection config;
 
     private ItemStack templateItem;
 
-    public BuyGunItem(Gun gun, ShopMenu owningMenu, int price) {
-        super(owningMenu, price);
+    public BuyGunItem(Gun gun, ShopMenu owningMenu) {
+        super(owningMenu, config.getInt(gun.getType().name().toLowerCase() + ".price", 0));
         this.gun = gun;
+    }
+
+    protected BuyGunItem() {
+        super(null, 0);
     }
 
     @Override
@@ -31,7 +40,7 @@ public class BuyGunItem extends ShopItem {
     @Override
     ItemStack getHasBoughtItem() {
         return new ItemEditor(gun.getItem().getType(), Text.format("&a&l" + Text.friendlyEnum(gun.getType().name())))
-                .addAction(ClickType.UNKNOWN, "You already own this paint.")
+                .addAction(ClickType.UNKNOWN, "You already own this gun.")
                 .getItemStack();
     }
 
@@ -75,6 +84,7 @@ public class BuyGunItem extends ShopItem {
 
     @Override
     protected void createTemplate() {
+        config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "shop.yml")).getConfigurationSection("guns.items");
         templateItem = new ItemEditor(Material.GRAY_DYE, Text.format("&cLOCKED"))
                 .addAction(ClickType.UNKNOWN, Text.format(Main.prefix + "You do not have enough money for this!"))
                 .getItemStack();

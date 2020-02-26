@@ -8,18 +8,27 @@ import net.darkscorner.paintball.utils.ItemEditor;
 import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+
 public class BuyPaintItem extends ShopItem {
 
     private static ItemStack templateItem;
+    private static ConfigurationSection config;
     private Paint paint;
 
-    public BuyPaintItem(Paint paint, ShopMenu owningMenu, int price) {
-        super(owningMenu, price);
+    public BuyPaintItem(Paint paint, ShopMenu owningMenu) {
+        super(owningMenu, config.getInt(paint.getName() + ".price", 0));
         this.paint = paint;
+    }
+
+    protected BuyPaintItem() {
+        super(null, 0);
     }
 
     boolean hasBought(Player player) {
@@ -71,6 +80,7 @@ public class BuyPaintItem extends ShopItem {
 
     @Override
     protected void createTemplate() {
+        config = YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "shop.yml")).getConfigurationSection("paints.items");
         templateItem = new ItemEditor(Material.GRAY_DYE, Text.format("&cLOCKED"))
                 .addAction(ClickType.UNKNOWN, Text.format("You do not have enough money for this!"))
                 .getItemStack();

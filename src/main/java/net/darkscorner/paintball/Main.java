@@ -4,6 +4,7 @@ package net.darkscorner.paintball;
 import net.darkscorner.paintball.commands.*;
 import net.darkscorner.paintball.listeners.*;
 import net.darkscorner.paintball.objects.arena.Arena;
+import net.darkscorner.paintball.objects.equippable.guns.Gun;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.games.GameSettings;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
@@ -47,8 +48,8 @@ public class Main extends JavaPlugin {
 		Arena.loadArenas();
 		GameSettings.loadSettings();
 		GameScoreboard.loadBoardPresets();
-		ClickableItem.loadItems();
 		Paint.loadPaints();
+		ClickableItem.loadItems();
 		
 		//coins = getServer().getServicesManager().getRegistration(ArcadeCoinsAPI.class).getProvider();
 

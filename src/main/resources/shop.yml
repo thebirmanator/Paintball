@@ -1,0 +1,52 @@
+paints:
+  display-item:
+    material: 'PURPLE_WOOL'
+    display-name: '&dPaints'
+    description:
+      - '&7Buy special paints for your games here!'
+  items:
+    white:
+      price: 10
+    orange:
+      price: 10
+    magenta:
+      price: 10
+    light-blue:
+      price: 10
+    yellow:
+      price: 10
+    lime:
+      price: 10
+    pink:
+      price: 10
+    grey:
+      price: 10
+    light-grey:
+      price: 10
+    cyan:
+      price: 10
+    purple:
+      price: 10
+    blue:
+      price: 10
+    brown:
+      price: 10
+    green:
+      price: 10
+    red:
+      price: 10
+    black:
+      price: 10
+guns:
+  display-item:
+    material: 'GOLDEN_HOE'
+    display-name: '&eGuns'
+    description:
+      - '&7Buy different guns here!'
+  items:
+    standard:
+      price: 10
+    sniper:
+      price: 20
+    machine_gun:
+      price: 30

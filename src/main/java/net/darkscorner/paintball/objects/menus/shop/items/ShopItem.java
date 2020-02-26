@@ -1,6 +1,7 @@
 package net.darkscorner.paintball.objects.menus.shop.items;
 
 import net.darkscorner.paintball.Main;
+import net.darkscorner.paintball.objects.equippable.guns.Gun;
 import net.darkscorner.paintball.objects.equippable.paint.Paint;
 import net.darkscorner.paintball.objects.menus.ClickableItem;
 import net.darkscorner.paintball.objects.menus.shop.ShopMenu;
@@ -10,9 +11,13 @@ import net.darkscorner.paintball.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+
+import java.io.File;
 
 public abstract class ShopItem extends ClickableItem {
 
@@ -54,8 +59,8 @@ public abstract class ShopItem extends ClickableItem {
     }
 
     public static void loadShopItems() {
-        new BuyPaintItem(null, null, 0).createTemplate();
-        new BuyGunItem(null, null, 0).createTemplate();
+        new BuyPaintItem().createTemplate();
+        new BuyGunItem().createTemplate();
         new BuyGunCategory(null).createTemplate();
         new BuyPaintCategory(null).createTemplate();
     }
