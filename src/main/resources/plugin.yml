@@ -1,4 +1,4 @@
-main: net.darkscorner.paintball.Main
+main: ltd.indigostudios.paintball.Main
 name: Paintball
 version: 1.0
 author: TheBirmanator
