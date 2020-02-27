@@ -35,7 +35,7 @@ public class SniperGun extends Gun {
 
     @Override
     Vector getShotVelocity(Player from) {
-        return from.getEyeLocation().getDirection().normalize().multiply(2);
+        return from.getEyeLocation().getDirection().normalize().multiply(3);
     }
 
     static SniperGun getInstance() {

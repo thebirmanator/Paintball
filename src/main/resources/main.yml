@@ -23,6 +23,12 @@ powerups:
   duration: 10
   particle-type: FLAME
 max-powerup-spawn-delay: 10
+commands:
+ block-commands: true
+ exceptions:
+  - leave
+  - games
+  - msg
 death-messages:
  normal:
  - '%killer% painted %victim% out of existence.'

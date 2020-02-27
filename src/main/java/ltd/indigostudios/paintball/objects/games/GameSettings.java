@@ -159,6 +159,13 @@ public interface GameSettings {
 
 	Arena getArena();
 
+	default boolean blockCommands() {
+		return getGameConfig().getBoolean("commands.block-commands");
+	}
+
+	default List<String> commandExceptions() {
+		return getGameConfig().getStringList("commands.exceptions");
+	}
 	/*
 	public static Set<Game> getGames() {
 		return allGames;

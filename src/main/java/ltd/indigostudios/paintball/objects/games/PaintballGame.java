@@ -46,6 +46,7 @@ public abstract class PaintballGame implements GameSettings {
     private static int paintRadius;
     private static int respawnTime;
     private static Map<DeathType, List<String>> deathMsgs;
+    private static List<String> cmdExceptions;
 
     public PaintballGame(Arena arena) {
         this.arena = arena;
@@ -314,5 +315,6 @@ public abstract class PaintballGame implements GameSettings {
         for (DeathType type : DeathType.values()) {
             deathMsgs.put(type, GameSettings.super.getDeathMsgs(type));
         }
+        cmdExceptions = GameSettings.super.commandExceptions();
     }
 }

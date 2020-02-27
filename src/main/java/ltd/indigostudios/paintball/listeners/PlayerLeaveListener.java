@@ -22,8 +22,8 @@ public class PlayerLeaveListener implements Listener {
 	
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event) {
-		String quitMessage = ChatColor.RED + "- " + ChatColor.RESET + event.getPlayer().getDisplayName();
-		event.setQuitMessage(quitMessage);
+		//String quitMessage = ChatColor.RED + "- " + ChatColor.RESET + event.getPlayer().getDisplayName();
+		//event.setQuitMessage(quitMessage);
 		
 		PlayerProfile gp = PlayerProfile.getGamePlayer(event.getPlayer());
 		if(gp.isInGame()) {

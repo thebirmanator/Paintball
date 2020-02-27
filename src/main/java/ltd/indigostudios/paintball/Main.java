@@ -82,7 +82,8 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 		getServer().getPluginManager().registerEvents(new CoinChangeListener(), this);
-		
+		getServer().getPluginManager().registerEvents(new PlayerCommandListener(), this);
+
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Paintball enabled!");
 
 	}
