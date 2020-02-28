@@ -72,7 +72,7 @@ public class BuyGunItem extends ShopItem {
                 player.sendMessage(Text.format(Main.prefix + "You've bought gun " + Text.friendlyEnum(gun.getType().name())));
                 playerProfile.subtractMoney(getPrice());
                 //TODO: configurable or something
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + gun.getPermission());
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + gun.getPermission() + " true server=lobby");
                 getOwningMenu().close(player, true);
                 playerProfile.saveProfile();
             } else {

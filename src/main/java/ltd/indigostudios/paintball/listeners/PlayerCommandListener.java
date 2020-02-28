@@ -16,11 +16,31 @@ public class PlayerCommandListener implements Listener {
         PlayerProfile playerProfile = PlayerProfile.getGamePlayer(player);
         if (playerProfile.isInGame()) {
             GameSettings game = playerProfile.getCurrentGame();
-            boolean blockCmd = game.blockCommands();
-            if (game.commandExceptions().contains(event.getMessage())) {
-                event.setCancelled(blockCmd);
-                if (blockCmd) {
-                    player.sendMessage(Main.prefix + "You may not use this command in a game.");
+            boolean isWhitelist = game.blockCommands();
+            String cmd = event.getMessage();
+            // Remove slash in cmd if there is one
+            if (cmd.startsWith("/")) {
+                cmd = cmd.substring(1);
+            }
+
+            if (isWhitelist) {
+                for (String whitelistedCmd : game.commandExceptions()) {
+                    // Found on whitelist, allow
+                    if (cmd.startsWith(whitelistedCmd)) {
+                        return;
+                    }
+                }
+                // Did not find the cmd on the whitelist, block it
+                event.setCancelled(true);
+                player.sendMessage(Main.prefix + "You may not use this command in a game.");
+            } else {
+                for (String blacklistedCmd : game.commandExceptions()) {
+                    // Found on blacklist, disallow
+                    if (cmd.startsWith(blacklistedCmd)) {
+                        event.setCancelled(true);
+                        player.sendMessage(Main.prefix + "You may not use this command in a game.");
+                        return;
+                    }
                 }
             }
         }

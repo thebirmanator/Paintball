@@ -68,7 +68,7 @@ public class BuyPaintItem extends ShopItem {
                 player.sendMessage(Text.format("You've bought paint " + paint.getName()));
                 playerProfile.subtractMoney(getPrice());
                 //TODO: configurable or something
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + paint.getPermission());
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + paint.getPermission() + " true server=lobby");
                 getOwningMenu().close(player, true);
                 playerProfile.saveProfile();
             } else {

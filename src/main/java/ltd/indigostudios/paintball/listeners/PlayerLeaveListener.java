@@ -45,6 +45,8 @@ public class PlayerLeaveListener implements Listener {
 		if (Menu.getViewing(event.getPlayer()) instanceof ArenaEditorMenu) {
 			Menu.getViewing(event.getPlayer()).close(event.getPlayer());
 		}
+
+		gp.unload();
 	}
 	
 	@EventHandler
@@ -72,5 +74,7 @@ public class PlayerLeaveListener implements Listener {
 		if (Menu.getViewing(event.getPlayer()) instanceof ArenaEditorMenu) {
 			Menu.getViewing(event.getPlayer()).close(event.getPlayer());
 		}
+
+		gp.unload();
 	}
 }

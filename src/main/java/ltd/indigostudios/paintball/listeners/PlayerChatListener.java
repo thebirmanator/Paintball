@@ -30,15 +30,21 @@ public class PlayerChatListener implements Listener {
                 PlayerProfile recipientProfile = PlayerProfile.getGamePlayer(recipient);
                 // One is in a game and one isn't, remove recipient
                 if (recipientProfile.isInGame() != playerProfile.isInGame()) return true;
-                // Both have the same game state, check if one is in game or not
+                // If both players are in a game
                 if (recipientProfile.isInGame()) {
-                    // Both in a game; remove recipient if one is playing and other is spectating
-                    PaintballGame game = (PaintballGame) recipientProfile.getCurrentGame();
-                    if (game.isPlaying(recipientProfile) != game.isPlaying(playerProfile)) return true;
-                    // The game is a team game. Only members of the same team should receive player's message
-                    if (game instanceof TeamGame) {
-                        TeamGame teamGame = (TeamGame) game;
-                        return !teamGame.getTeam(playerProfile).equals(teamGame.getTeam(recipientProfile));
+                    // Both in a game
+                    PaintballGame recipientGame = (PaintballGame) recipientProfile.getCurrentGame();
+                    // Players are in the same game
+                    if (recipientGame.equals(playerProfile.getCurrentGame())) {
+                        // Remove if one player is spectating and one is playing
+                        if (recipientGame.isPlaying(recipientProfile) != recipientGame.isPlaying(playerProfile)) return true;
+                        // The game is a team game. Only members of the same team should receive player's message
+                        if (recipientGame instanceof TeamGame) {
+                            TeamGame teamGame = (TeamGame) recipientGame;
+                            return !teamGame.getTeam(playerProfile).equals(teamGame.getTeam(recipientProfile));
+                        }
+                    } else { // Players are not in the same game, remove them
+                        return true;
                     }
                 }
                 // Both not in game, do not remove recipient
