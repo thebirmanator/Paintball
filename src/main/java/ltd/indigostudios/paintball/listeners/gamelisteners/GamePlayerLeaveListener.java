@@ -1,8 +1,7 @@
 package ltd.indigostudios.paintball.listeners.gamelisteners;
 
-import ltd.indigostudios.paintball.objects.games.Team;
+import ltd.indigostudios.paintball.objects.games.*;
 import ltd.indigostudios.paintball.objects.equippable.guns.ShotGun;
-import ltd.indigostudios.paintball.objects.games.TeamGame;
 import ltd.indigostudios.paintball.objects.player.PlayerInGameStat;
 import ltd.indigostudios.paintball.objects.player.PlayerStat;
 import org.bukkit.Bukkit;
@@ -10,11 +9,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import ltd.indigostudios.paintball.objects.games.GameState;
 import ltd.indigostudios.paintball.Main;
 import ltd.indigostudios.paintball.events.GamePlayerLeaveEvent;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
-import ltd.indigostudios.paintball.objects.games.GameSettings;
 
 import java.util.Set;
 
@@ -28,7 +25,7 @@ public class GamePlayerLeaveListener implements Listener {
 		player.getPlayer().setGameMode(Main.defaultGamemode);
 		
 		// if the game isnt idle (they are in a lobby), dont tp them to the lobby
-		player.getPlayer().teleport(event.getGame().getLobbySpawn());
+		//player.getPlayer().teleport(event.getGame().getLobbySpawn());
 		//player.setStatsBoard(StatsBoard.LOBBY);
 		
 		if (!wasSpectator) { // if they were not a spectator
@@ -40,14 +37,17 @@ public class GamePlayerLeaveListener implements Listener {
 			}
 
 			// send message to everyone that game that the player left
-			if(game.getGameState() != GameState.ENDED) {
-				for(PlayerProfile p : game.getAllPlayers()) {
+			if (game.getGameState() != GameState.ENDED) {
+				for (PlayerProfile p : game.getAllPlayers()) {
 					p.getPlayer().sendMessage(ChatColor.YELLOW + event.getPlayer().getPlayer().getName() + ChatColor.GRAY + " disconnected from the game.");
 				}
 			}
 
 			// remove invulnerable if they leave
-			//game.makeVulnerable(player.getPlayer());
+			PaintballGame pbGame = (PaintballGame) game;
+			if (!pbGame.isVulnerable(player.getPlayer())) {
+				pbGame.makeVulnerable(player.getPlayer());
+			}
 
 			//TODO: not check metadata directly
 			// remove gun cooldown if they leave
@@ -71,8 +71,6 @@ public class GamePlayerLeaveListener implements Listener {
 					}
 				}
 			}
-			//TODO: figure out why it lags when you leave?
-			player.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			//new GameScoreboard(player, GameScoreboard.getContent(StatsBoard.LOBBY)).display();
 			//GameScoreboard2.getBoard(player, StatsBoard.LOBBY).display();
 
@@ -82,5 +80,9 @@ public class GamePlayerLeaveListener implements Listener {
 			player.addToTotal(PlayerStat.SHOTS, player.getCurrentGameStats().getStat(PlayerInGameStat.SHOTS));
 			player.saveProfile();
 		}
+		// Clear scoreboard regardless of spec or in game
+		player.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+
+		player.getPlayer().teleport(event.getGame().getLobbySpawn());
 	}
 }
