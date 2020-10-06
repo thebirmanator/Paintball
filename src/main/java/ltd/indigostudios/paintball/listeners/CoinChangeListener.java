@@ -1,6 +1,7 @@
 package ltd.indigostudios.paintball.listeners;
 
 //import me.themgrf.arcadecoinsapi.events.ArcadeCoinsChangeEvent;
+
 import org.bukkit.event.Listener;
 
 public class CoinChangeListener implements Listener {

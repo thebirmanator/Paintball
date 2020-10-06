@@ -1,9 +1,9 @@
 package ltd.indigostudios.paintball.objects.equippable.guns;
 
-import ltd.indigostudios.paintball.objects.powerups.PowerUp;
-import ltd.indigostudios.paintball.utils.Vectors;
 import ltd.indigostudios.paintball.objects.player.PlayerInGameStat;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
+import ltd.indigostudios.paintball.objects.powerups.PowerUp;
+import ltd.indigostudios.paintball.utils.Vectors;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
@@ -83,8 +83,8 @@ public abstract class Gun {
     }
 
     public static Gun getGun(ItemStack item) {
-        for(Gun gun : getGuns()) {
-            if(gun.getItem().isSimilar(item)) {
+        for (Gun gun : getGuns()) {
+            if (gun.getItem().isSimilar(item)) {
                 return gun;
             }
         }

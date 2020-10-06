@@ -1,8 +1,8 @@
 package ltd.indigostudios.paintball.objects.menus.shop.items;
 
+import ltd.indigostudios.paintball.objects.menus.ClickableItem;
 import ltd.indigostudios.paintball.objects.menus.shop.ShopMenu;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
-import ltd.indigostudios.paintball.objects.menus.ClickableItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

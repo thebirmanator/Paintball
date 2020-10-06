@@ -22,6 +22,7 @@ public class MachineGun extends Gun {
     public void shoot(Player from) {
         new BukkitRunnable() {
             int times = 0;
+
             @Override
             public void run() {
                 if (from.getGameMode() != GameMode.SPECTATOR) {

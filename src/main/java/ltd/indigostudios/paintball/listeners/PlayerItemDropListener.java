@@ -7,10 +7,10 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class PlayerItemDropListener implements Listener {
 
-	@EventHandler
-	public void onDrop(PlayerDropItemEvent event) {
-		if (PlayerProfile.getGamePlayer(event.getPlayer()).isInGame()) {
-			event.setCancelled(true);
-		}
-	}
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent event) {
+        if (PlayerProfile.getGamePlayer(event.getPlayer()).isInGame()) {
+            event.setCancelled(true);
+        }
+    }
 }

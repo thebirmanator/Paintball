@@ -10,27 +10,27 @@ description: Paintball minigame for DarksCorner
 commands:
   paintball:
     usage: /<command>
-    aliases: [pb]
+    aliases: [ pb ]
     description: Main cmd
   join:
-   usage: /<command>
-   description: Allows a player to join a game
+    usage: /<command>
+    description: Allows a player to join a game
   leave:
-   usage: /<command>
-   description: Allows a player to leave a game
+    usage: /<command>
+    description: Allows a player to leave a game
   games:
-   usage: /<command>
-   description: Opens the main game menu
-   aliases: [spec]
+    usage: /<command>
+    description: Opens the main game menu
+    aliases: [ spec ]
   arena:
-   usage: /<command>
-   description: Allows a player to break blocks
+    usage: /<command>
+    description: Allows a player to break blocks
   paint:
-   usage: /<command>
-   description: View paint colour options
+    usage: /<command>
+    description: View paint colour options
   guns:
-   usage: /<command>
-   description: View different guns
+    usage: /<command>
+    description: View different guns
   viewstats:
-   usage: /<command>
-   description: View game statistics for a player
+    usage: /<command>
+    description: View game statistics for a player

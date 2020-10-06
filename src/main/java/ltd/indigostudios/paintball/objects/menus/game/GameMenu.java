@@ -1,27 +1,27 @@
 package ltd.indigostudios.paintball.objects.menus.game;
 
-import java.util.Collection;
-
-import ltd.indigostudios.paintball.objects.menus.ChestBasedMenu;
-import ltd.indigostudios.paintball.objects.menus.game.items.BackMenuItem;
 import ltd.indigostudios.paintball.objects.games.GameSettings;
+import ltd.indigostudios.paintball.objects.menus.ChestBasedMenu;
 import ltd.indigostudios.paintball.objects.menus.ClickableItem;
+import ltd.indigostudios.paintball.objects.menus.game.items.BackMenuItem;
+
+import java.util.Collection;
 
 public class GameMenu extends ChestBasedMenu {
 
-	private GameSettings game;
+    private GameSettings game;
 
-	public GameMenu(String name, int size) {
-		super(name, size);
-	}
+    public GameMenu(String name, int size) {
+        super(name, size);
+    }
 
-	public GameMenu(String name, GameMenu parent, int size, GameSettings game) {
-		super(name, parent, size);
-		this.game = game;
-	}
-	
-	public GameMenu(String name, GameMenu parent, int size) {
-		super(name, parent, size);
+    public GameMenu(String name, GameMenu parent, int size, GameSettings game) {
+        super(name, parent, size);
+        this.game = game;
+    }
+
+    public GameMenu(String name, GameMenu parent, int size) {
+        super(name, parent, size);
 		/*
 		if (parent != null) {
 			ItemStack backIcon = new ItemStack(Material.BIRCH_DOOR);
@@ -31,7 +31,7 @@ public class GameMenu extends ChestBasedMenu {
 			BackMenuItem backItem = new BackMenuItem(owningItem, backIcon);
 			getItems().put(size - 1, backItem);
 		}*/
-	}
+    }
 	/*
 	public void addButton(int slot, MenuItem item) {
 		if(slot != size - 1) {
@@ -52,20 +52,20 @@ public class GameMenu extends ChestBasedMenu {
 		return false;
 	}*/
 
-	public GameSettings getGame() {
-		if (game != null) {
-			return game;
-		} else {
-			GameMenu parent = (GameMenu) getParent();
-			while (parent != null) {
-				if (parent.getGame() != null) {
-					return parent.getGame();
-				}
-				parent = (GameMenu) parent.getParent();
-			}
-		}
-		return null;
-	}
+    public GameSettings getGame() {
+        if (game != null) {
+            return game;
+        } else {
+            GameMenu parent = (GameMenu) getParent();
+            while (parent != null) {
+                if (parent.getGame() != null) {
+                    return parent.getGame();
+                }
+                parent = (GameMenu) parent.getParent();
+            }
+        }
+        return null;
+    }
 /*
 	@Override
 	public void open(Player player) {
@@ -96,19 +96,19 @@ public class GameMenu extends ChestBasedMenu {
 		close(player);
 	}*/
 
-	public Collection<ClickableItem> getClickableItems() {
-		return getItems().values();
-	}
+    public Collection<ClickableItem> getClickableItems() {
+        return getItems().values();
+    }
 
-	@Override
-	public void showNavBar(boolean show) {
-		if (getParent() != null /*&& ((GameMenu) getParent()).getGame() != null*/) {
-			if (show) {
-				BackMenuItem backItem = new BackMenuItem(this, (GameMenu) getParent());
-				getItems().put(getSize() - 1, backItem);
-			} else {
-				getItems().remove(getSize() - 1);
-			}
-		}
-	}
+    @Override
+    public void showNavBar(boolean show) {
+        if (getParent() != null /*&& ((GameMenu) getParent()).getGame() != null*/) {
+            if (show) {
+                BackMenuItem backItem = new BackMenuItem(this, (GameMenu) getParent());
+                getItems().put(getSize() - 1, backItem);
+            } else {
+                getItems().remove(getSize() - 1);
+            }
+        }
+    }
 }

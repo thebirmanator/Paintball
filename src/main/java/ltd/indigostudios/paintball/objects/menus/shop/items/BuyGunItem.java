@@ -1,7 +1,7 @@
 package ltd.indigostudios.paintball.objects.menus.shop.items;
 
-import ltd.indigostudios.paintball.objects.equippable.guns.Gun;
 import ltd.indigostudios.paintball.Main;
+import ltd.indigostudios.paintball.objects.equippable.guns.Gun;
 import ltd.indigostudios.paintball.objects.menus.shop.ShopMenu;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
 import ltd.indigostudios.paintball.utils.ItemEditor;

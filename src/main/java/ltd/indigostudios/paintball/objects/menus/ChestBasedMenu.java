@@ -21,7 +21,7 @@ public abstract class ChestBasedMenu extends Menu {
         this.parent = parent;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 

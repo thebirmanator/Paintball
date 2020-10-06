@@ -4,20 +4,20 @@ allows-teams: true
 item-for-guis: DIAMOND
 spectating-spawnpoint: world|-198|75|-641|0|0
 waiting-lobby:
- spawn: world|-194|74|-656|0|0
- boundaries:
- - world|-180|65|-650|0|0
- - world|-200|85|-670|0|0
+  spawn: world|-194|74|-656|0|0
+  boundaries:
+    - world|-180|65|-650|0|0
+    - world|-200|85|-670|0|0
 boundaries:
- - world|-203|65|-661|0|0
- - world|-173|79|-626|0|0
+  - world|-203|65|-661|0|0
+  - world|-173|79|-626|0|0
 game-spawnpoints:
- - world|-192|68|-630|0|0
- - world|-186|68|-641|0|0
- - world|-174|68|-637|0|0
- - world|-187|68|-648|0|0
- - world|-180|68|-646|0|0
+  - world|-192|68|-630|0|0
+  - world|-186|68|-641|0|0
+  - world|-174|68|-637|0|0
+  - world|-187|68|-648|0|0
+  - world|-180|68|-646|0|0
 powerup-spawnpoints:
- - world|-181|68|-641|0|0
- - world|-178|68|-641|0|0
- - world|-186|68|-636|0|0
+  - world|-181|68|-641|0|0
+  - world|-178|68|-641|0|0
+  - world|-186|68|-636|0|0

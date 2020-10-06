@@ -39,7 +39,7 @@ public abstract class ClickableItem {
         // Game menu
         new BackMenuItem(null, null).createTemplate();
         new EndGameItem(null).createTemplate();
-        new GameItem(null,null).createTemplate();
+        new GameItem(null, null).createTemplate();
         new PlayerOptionsItem(null, null).createTemplate();
 
         // Arena items

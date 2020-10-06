@@ -1,13 +1,13 @@
 package ltd.indigostudios.paintball.objects.menus.game.items;
 
-import ltd.indigostudios.paintball.objects.menus.game.GameMenu;
 import ltd.indigostudios.paintball.objects.menus.ClickableItem;
+import ltd.indigostudios.paintball.objects.menus.game.GameMenu;
 
 public abstract class GameMenuItem extends ClickableItem {
-	
-	public GameMenuItem(GameMenu owningMenu) {
-		super(owningMenu);
-	}
+
+    public GameMenuItem(GameMenu owningMenu) {
+        super(owningMenu);
+    }
 
 	/*
 	public Game getAssociatedGame() {

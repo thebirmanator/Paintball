@@ -14,15 +14,15 @@ import org.bukkit.entity.Player;
 public class PaintballCmd implements CommandExecutor {
 
     public String paintballcmd = "paintball";
-    private String[] helpMsg = {    Main.prefix + "Help",
-                                    Text.format("&a/pb join &f- join a game"),
-                                    Text.format("&a/pb leave &f- leave a game"),
-                                    Text.format("&a/pb paint &f- view and set your paint"),
-                                    Text.format("&a/pb guns &f- view and set your gun"),
-                                    Text.format("&a/pb shop &f- buy new guns and paint"),
-                                    Text.format("&a/pb bal &f- check your Paintball balance (that you can use at &7/pb shop&f)"),
-                                    Text.format("&a/pb games &f- view various game options"),
-                                    Text.format("&a/pb stats &f- view your stats"),};
+    private String[] helpMsg = {Main.prefix + "Help",
+            Text.format("&a/pb join &f- join a game"),
+            Text.format("&a/pb leave &f- leave a game"),
+            Text.format("&a/pb paint &f- view and set your paint"),
+            Text.format("&a/pb guns &f- view and set your gun"),
+            Text.format("&a/pb shop &f- buy new guns and paint"),
+            Text.format("&a/pb bal &f- check your Paintball balance (that you can use at &7/pb shop&f)"),
+            Text.format("&a/pb games &f- view various game options"),
+            Text.format("&a/pb stats &f- view your stats"),};
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

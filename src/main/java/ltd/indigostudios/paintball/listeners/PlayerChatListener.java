@@ -1,7 +1,5 @@
 package ltd.indigostudios.paintball.listeners;
 
-import java.util.Set;
-
 import ltd.indigostudios.paintball.objects.games.PaintballGame;
 import ltd.indigostudios.paintball.objects.games.TeamGame;
 import ltd.indigostudios.paintball.objects.menus.arena.ArenaEditorMenu;
@@ -10,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.Set;
 
 public class PlayerChatListener implements Listener {
 
@@ -37,7 +37,8 @@ public class PlayerChatListener implements Listener {
                     // Players are in the same game
                     if (recipientGame.equals(playerProfile.getCurrentGame())) {
                         // Remove if one player is spectating and one is playing
-                        if (recipientGame.isPlaying(recipientProfile) != recipientGame.isPlaying(playerProfile)) return true;
+                        if (recipientGame.isPlaying(recipientProfile) != recipientGame.isPlaying(playerProfile))
+                            return true;
                         // The game is a team game. Only members of the same team should receive player's message
                         if (recipientGame instanceof TeamGame) {
                             TeamGame teamGame = (TeamGame) recipientGame;

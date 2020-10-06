@@ -11,27 +11,27 @@ import org.bukkit.inventory.ItemStack;
 
 public class BackMenuItem extends ClickableItem {
 
-	private ChestBasedMenu backMenu;
-	private static ItemStack templateItem;
+    private ChestBasedMenu backMenu;
+    private static ItemStack templateItem;
 
-	public BackMenuItem(ChestBasedMenu parent, ChestBasedMenu backMenu) {
-		super(parent);
-		this.backMenu = backMenu;
-	}
+    public BackMenuItem(ChestBasedMenu parent, ChestBasedMenu backMenu) {
+        super(parent);
+        this.backMenu = backMenu;
+    }
 
-	@Override
-	public void use(Player player, ClickType click) {
-		backMenu.open(player);
-	}
+    @Override
+    public void use(Player player, ClickType click) {
+        backMenu.open(player);
+    }
 
-	@Override
-	public ClickableItem getForPlayer(Player player) {
-		playerItem = templateItem;
-		return this;
-	}
+    @Override
+    public ClickableItem getForPlayer(Player player) {
+        playerItem = templateItem;
+        return this;
+    }
 
-	@Override
-	public void createTemplate() {
-		templateItem = new ItemEditor(Material.BIRCH_DOOR, Text.format("&cGo Back")).getItemStack();
-	}
+    @Override
+    public void createTemplate() {
+        templateItem = new ItemEditor(Material.BIRCH_DOOR, Text.format("&cGo Back")).getItemStack();
+    }
 }

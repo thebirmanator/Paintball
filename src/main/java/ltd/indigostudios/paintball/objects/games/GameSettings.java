@@ -1,25 +1,27 @@
 package ltd.indigostudios.paintball.objects.games;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-import ltd.indigostudios.paintball.objects.scoreboards.Variables;
+import ltd.indigostudios.paintball.Main;
 import ltd.indigostudios.paintball.objects.arena.Arena;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
+import ltd.indigostudios.paintball.objects.scoreboards.Variables;
 import ltd.indigostudios.paintball.utils.Locations;
 import ltd.indigostudios.paintball.utils.Text;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import ltd.indigostudios.paintball.Main;
-import net.md_5.bungee.api.ChatColor;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public interface GameSettings {
 
-	String invulnerableMeta = "invulnerable";
-	Set<GameSettings> allGames = new HashSet<>();
+    String invulnerableMeta = "invulnerable";
+    Set<GameSettings> allGames = new HashSet<>();
 /*
 	private Main main;
 	private static FileConfiguration gameConfig;
@@ -32,11 +34,11 @@ public interface GameSettings {
 	private static int paintRadius;
 	private static int respawnTime;
 	*/
-	// a game can consist of
-	// an arena
-	// set of in game players
-	// set of spectating players
-	// the games current state
+    // a game can consist of
+    // an arena
+    // set of in game players
+    // set of spectating players
+    // the games current state
 	/*
 	private static Set<Game> allGames = new HashSet<Game>();
 	private GameState gameState = GameState.IDLE;
@@ -44,20 +46,20 @@ public interface GameSettings {
 	private Set<GamePlayer> spectatingPlayers = new HashSet<GamePlayer>();
 	private Arena arena;
 	*/
-	//private static List<String> normalDeathMsgs = new ArrayList<String>();
-	//private static List<String> suicideDeathMsgs = new ArrayList<String>();
-	
-	//private int currentTaskID = -1;
-	
-	//public Game(FileConfiguration mainConfig, Main main) {
-		//gameConfig = mainConfig;
-		//this.main = main;
+    //private static List<String> normalDeathMsgs = new ArrayList<String>();
+    //private static List<String> suicideDeathMsgs = new ArrayList<String>();
 
-	//startPlayerAmount = gameConfig.getInt("players-to-start-game");
-	//maxPlayerAmount = gameConfig.getInt("max-players-per-game");
-	//gameTime = gameConfig.getInt("game-time-in-seconds");
-	//lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
-	//coinsForKill = gameConfig.getInt("base-crystals-on-kill");
+    //private int currentTaskID = -1;
+
+    //public Game(FileConfiguration mainConfig, Main main) {
+    //gameConfig = mainConfig;
+    //this.main = main;
+
+    //startPlayerAmount = gameConfig.getInt("players-to-start-game");
+    //maxPlayerAmount = gameConfig.getInt("max-players-per-game");
+    //gameTime = gameConfig.getInt("game-time-in-seconds");
+    //lobbySpawn = main.configToLoc(gameConfig, "lobby-spawnpoint");
+    //coinsForKill = gameConfig.getInt("base-crystals-on-kill");
 		/*
 		List<String> blacklistStrings = gameConfig.getStringList("blacklisted-blocks");
 		for(String materialString : blacklistStrings) {
@@ -68,8 +70,8 @@ public interface GameSettings {
 				main.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
 			}
 		} */
-	//paintRadius = gameConfig.getInt("paint-radius");
-	//respawnTime = gameConfig.getInt("seconds-to-respawn");
+    //paintRadius = gameConfig.getInt("paint-radius");
+    //respawnTime = gameConfig.getInt("seconds-to-respawn");
 		/*
 		normalDeathMsgs = gameConfig.getStringList("death-messages.normal");
 		for(int i = 0; i < normalDeathMsgs.size(); i++) {
@@ -82,7 +84,7 @@ public interface GameSettings {
 			String coloured = ChatColor.translateAlternateColorCodes('&', suicideDeathMsgs.get(i));
 			suicideDeathMsgs.set(i, coloured);
 		}*/
-	//}
+    //}
 	/*
 	public Game(Main main, Arena arena) {
 		this.main = main;
@@ -91,81 +93,81 @@ public interface GameSettings {
 		
 		this.main.getServer().getPluginManager().callEvent(new GameCreateEvent(this.main, this));
 	}*/
-	FileConfiguration getGameConfig();
+    FileConfiguration getGameConfig();
 
-	default int getStartPlayerAmount() {
-		return getGameConfig().getInt("players-to-start-game");
-	}
-	
-	default int getMaxPlayerAmount() {
-		return getGameConfig().getInt("max-players-per-game");
-	}
-	
-	default int getGameTimeLength() {
-		return getGameConfig().getInt("game-time-in-seconds");
-	}
-	
-	default Location getLobbySpawn() {
-		return Locations.stringToLoc(getGameConfig().getString("lobby-spawnpoint"));
-	}
-	
-	default int getCoinsPerKill() {
-		return getGameConfig().getInt("base-crystals-on-kill");
-	}
+    default int getStartPlayerAmount() {
+        return getGameConfig().getInt("players-to-start-game");
+    }
 
-	default Set<Material> getUnpaintableMaterials() {
-		List<String> blacklistStrings = getGameConfig().getStringList("blacklisted-blocks");
-		Set<Material> blacklistedMaterials = new HashSet<>();
-		for (String materialString : blacklistStrings) {
-			if (Material.getMaterial(materialString, false) != null) {
-				Material blackListed = Material.getMaterial(materialString, false);
-				blacklistedMaterials.add(blackListed);
-			} else {
-				Main.getInstance().getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
-			}
-		}
-		return blacklistedMaterials;
-	}
-	
-	default int getPaintRadius() {
-		return getGameConfig().getInt("paint-radius");
-	}
-	
-	default int getRespawnTime() {
-		return getGameConfig().getInt("seconds-to-respawn");
-	}
+    default int getMaxPlayerAmount() {
+        return getGameConfig().getInt("max-players-per-game");
+    }
 
-	GameState getGameState();
+    default int getGameTimeLength() {
+        return getGameConfig().getInt("game-time-in-seconds");
+    }
 
-	void setGameState(GameState state);
+    default Location getLobbySpawn() {
+        return Locations.stringToLoc(getGameConfig().getString("lobby-spawnpoint"));
+    }
 
-	void waitForPlayers(boolean start);
+    default int getCoinsPerKill() {
+        return getGameConfig().getInt("base-crystals-on-kill");
+    }
 
-	void countdown(boolean start);
+    default Set<Material> getUnpaintableMaterials() {
+        List<String> blacklistStrings = getGameConfig().getStringList("blacklisted-blocks");
+        Set<Material> blacklistedMaterials = new HashSet<>();
+        for (String materialString : blacklistStrings) {
+            if (Material.getMaterial(materialString, false) != null) {
+                Material blackListed = Material.getMaterial(materialString, false);
+                blacklistedMaterials.add(blackListed);
+            } else {
+                Main.getInstance().getServer().getConsoleSender().sendMessage(ChatColor.RED + "Invalid blacklist material found: " + ChatColor.GRAY + materialString);
+            }
+        }
+        return blacklistedMaterials;
+    }
 
-	void startGame();
+    default int getPaintRadius() {
+        return getGameConfig().getInt("paint-radius");
+    }
 
-	Set<PlayerProfile> getPlayers(boolean isPlaying);
+    default int getRespawnTime() {
+        return getGameConfig().getInt("seconds-to-respawn");
+    }
 
-	void addPlayer(PlayerProfile player, boolean setSpec);
+    GameState getGameState();
 
-	void removePlayer(PlayerProfile player);
+    void setGameState(GameState state);
 
-	void setToSpectating(PlayerProfile player);
+    void waitForPlayers(boolean start);
 
-	Set<PlayerProfile> getAllPlayers();
+    void countdown(boolean start);
 
-	void endGame();
+    void startGame();
 
-	Arena getArena();
+    Set<PlayerProfile> getPlayers(boolean isPlaying);
 
-	default boolean blockCommands() {
-		return getGameConfig().getBoolean("commands.block-commands");
-	}
+    void addPlayer(PlayerProfile player, boolean setSpec);
 
-	default List<String> commandExceptions() {
-		return getGameConfig().getStringList("commands.exceptions");
-	}
+    void removePlayer(PlayerProfile player);
+
+    void setToSpectating(PlayerProfile player);
+
+    Set<PlayerProfile> getAllPlayers();
+
+    void endGame();
+
+    Arena getArena();
+
+    default boolean blockCommands() {
+        return getGameConfig().getBoolean("commands.block-commands");
+    }
+
+    default List<String> commandExceptions() {
+        return getGameConfig().getStringList("commands.exceptions");
+    }
 	/*
 	public static Set<Game> getGames() {
 		return allGames;
@@ -372,98 +374,98 @@ public interface GameSettings {
 		allGames.remove(this);
 	}*/
 
-	default List<String> getDeathMsgs(DeathType type) {
-		List<String> msgs = getGameConfig().getStringList("death-messages." + type.getType());
-		msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
-		return msgs;
-	}
+    default List<String> getDeathMsgs(DeathType type) {
+        List<String> msgs = getGameConfig().getStringList("death-messages." + type.getType());
+        msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
+        return msgs;
+    }
 
-	/*
-	default List<String> getNormalDeathMsgs() {
-		List<String> msgs = getGameConfig().getStringList("death-messages.normal");
-		for (int i = 0; i < msgs.size(); i++) {
-			String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
-			msgs.set(i, coloured);
-		}
-		return msgs;
-	}
-	
-	default List<String> getSuicideDeathMsgs() {
-		List<String> msgs = getGameConfig().getStringList("death-messages.suicide");
-		msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
-		/*
-		for (int i = 0; i < msgs.size(); i++) {
-			String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
-			msgs.set(i, coloured);
-		}
-		return msgs;
-	}
+    /*
+    default List<String> getNormalDeathMsgs() {
+        List<String> msgs = getGameConfig().getStringList("death-messages.normal");
+        for (int i = 0; i < msgs.size(); i++) {
+            String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
+            msgs.set(i, coloured);
+        }
+        return msgs;
+    }
+
+    default List<String> getSuicideDeathMsgs() {
+        List<String> msgs = getGameConfig().getStringList("death-messages.suicide");
+        msgs.forEach((msg) -> msgs.set(msgs.indexOf(msg), Text.format(msg)));
+        /*
+        for (int i = 0; i < msgs.size(); i++) {
+            String coloured = ChatColor.translateAlternateColorCodes('&', msgs.get(i));
+            msgs.set(i, coloured);
+        }
+        return msgs;
+    }
 */
-	static GameSettings getSettings() {
-		return new FreeForAllGame();
-	}
+    static GameSettings getSettings() {
+        return new FreeForAllGame();
+    }
 
-	static GameSettings createGame() {
-		List<Arena> arenas = Arena.getArenas();
-		// Shuffle arenas so it uses a random order
-		Collections.shuffle(arenas);
-		// Find an open arena
-		for (Arena arena : arenas) {
-			if (!arena.isInUse()) {
-				GameSettings game;
-				if (arena.allowsTeams()) {
-					boolean teamGame = ThreadLocalRandom.current().nextBoolean();
-					if (teamGame) {
-						Team red = new Team(Text.format("&cRed"), Color.RED, new HashSet<>());
-						Team blue = new Team(Text.format("&9Blue"), Color.BLUE, new HashSet<>());
-						Set<Team> teams = new HashSet<>();
-						teams.add(red);
-						teams.add(blue);
-						game = new TeamGame(arena, teams);
-					} else {
-						game = new FreeForAllGame(arena);
-					}
-				} else {
-					game = new FreeForAllGame(arena);
-				}
-				return game;
-			}
-		}
-		return null;
-	}
+    static GameSettings createGame() {
+        List<Arena> arenas = Arena.getArenas();
+        // Shuffle arenas so it uses a random order
+        Collections.shuffle(arenas);
+        // Find an open arena
+        for (Arena arena : arenas) {
+            if (!arena.isInUse()) {
+                GameSettings game;
+                if (arena.allowsTeams()) {
+                    boolean teamGame = ThreadLocalRandom.current().nextBoolean();
+                    if (teamGame) {
+                        Team red = new Team(Text.format("&cRed"), Color.RED, new HashSet<>());
+                        Team blue = new Team(Text.format("&9Blue"), Color.BLUE, new HashSet<>());
+                        Set<Team> teams = new HashSet<>();
+                        teams.add(red);
+                        teams.add(blue);
+                        game = new TeamGame(arena, teams);
+                    } else {
+                        game = new FreeForAllGame(arena);
+                    }
+                } else {
+                    game = new FreeForAllGame(arena);
+                }
+                return game;
+            }
+        }
+        return null;
+    }
 
-	static void loadSettings() {
-		PaintballGame game = (PaintballGame) getSettings();
-		game.loadSettings();
-	}
+    static void loadSettings() {
+        PaintballGame game = (PaintballGame) getSettings();
+        game.loadSettings();
+    }
 
-	int getTimeRemaining();
+    int getTimeRemaining();
 
-	String[] getGameSummary();
+    String[] getGameSummary();
 
-	default String[] evaluateSummary(PlayerProfile playerProfile) {
-		String[] evaluated = getGameSummary().clone();
-		for (int i = 0; i < evaluated.length; i++) {
-			for (Variables variable : Variables.values()) {
-				if (evaluated[i].contains(variable.getAsString())) {
-					evaluated[i] = evaluated[i].replace(variable.getAsString(), variable.getValue(playerProfile));
-				}
-			}
-		}
-		return evaluated;
-	}
+    default String[] evaluateSummary(PlayerProfile playerProfile) {
+        String[] evaluated = getGameSummary().clone();
+        for (int i = 0; i < evaluated.length; i++) {
+            for (Variables variable : Variables.values()) {
+                if (evaluated[i].contains(variable.getAsString())) {
+                    evaluated[i] = evaluated[i].replace(variable.getAsString(), variable.getValue(playerProfile));
+                }
+            }
+        }
+        return evaluated;
+    }
 
-	enum DeathType {
-		NORMAL("normal"), SUICIDE("suicide");
+    enum DeathType {
+        NORMAL("normal"), SUICIDE("suicide");
 
-		private final String type;
+        private final String type;
 
-		DeathType(String type) {
-			this.type = type;
-		}
+        DeathType(String type) {
+            this.type = type;
+        }
 
-		public String getType() {
-			return type;
-		}
-	}
+        public String getType() {
+            return type;
+        }
+    }
 }

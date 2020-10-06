@@ -2,7 +2,6 @@ package ltd.indigostudios.paintball.utils;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 
 public class Text {
 
@@ -22,7 +21,7 @@ public class Text {
         int seconds = time % 60;
 
         String timeString = "";
-        if(minutes > 0 ) {
+        if (minutes > 0) {
             timeString = String.format("%02dm %02ds", minutes, seconds);
         } else {
             timeString = String.format("%02ds", seconds);

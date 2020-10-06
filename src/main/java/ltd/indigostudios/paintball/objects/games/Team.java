@@ -20,10 +20,10 @@ public class Team {
     private ItemStack[] armourSet;
     private int kills = 0, deaths = 0;
 
-    private ItemStack[] baseArmour = {  new ItemStack(Material.LEATHER_BOOTS),
-                                        new ItemStack(Material.LEATHER_LEGGINGS),
-                                        new ItemStack(Material.LEATHER_CHESTPLATE),
-                                        new ItemStack(Material.LEATHER_HELMET)};
+    private ItemStack[] baseArmour = {new ItemStack(Material.LEATHER_BOOTS),
+            new ItemStack(Material.LEATHER_LEGGINGS),
+            new ItemStack(Material.LEATHER_CHESTPLATE),
+            new ItemStack(Material.LEATHER_HELMET)};
 
     public Team(String name, Color colour, Set<PlayerProfile> members) {
         this.name = name;

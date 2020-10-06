@@ -1,7 +1,7 @@
 package ltd.indigostudios.paintball.objects.menus.shop.items;
 
-import ltd.indigostudios.paintball.objects.equippable.guns.Gun;
 import ltd.indigostudios.paintball.Main;
+import ltd.indigostudios.paintball.objects.equippable.guns.Gun;
 import ltd.indigostudios.paintball.objects.menus.ClickableItem;
 import ltd.indigostudios.paintball.objects.menus.Menu;
 import ltd.indigostudios.paintball.objects.menus.shop.ShopMenu;
@@ -27,7 +27,7 @@ public class BuyGunCategory extends ClickableItem {
 
     @Override
     public void use(Player player, ClickType click) {
-        ShopMenu gunShop = new ShopMenu("Guns", (ShopMenu) this.getOwningMenu(),54);
+        ShopMenu gunShop = new ShopMenu("Guns", (ShopMenu) this.getOwningMenu(), 54);
         int index = 0;
         for (Gun gun : Gun.getGuns()) {
             if (gun.getType() != Gun.Type.STANDARD) {

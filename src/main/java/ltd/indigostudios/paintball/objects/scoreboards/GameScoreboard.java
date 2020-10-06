@@ -97,9 +97,9 @@ public class GameScoreboard {
     public static void loadBoardPresets() {
         boardContents = new HashMap<>();
         Set<String> boardTypes = config.getKeys(false);
-        for(String boardType : boardTypes) {
-            if(config.isList(boardType)) {
-                if(StatsBoard.valueOf(boardType) != null) {
+        for (String boardType : boardTypes) {
+            if (config.isList(boardType)) {
+                if (StatsBoard.valueOf(boardType) != null) {
                     // Get text in reverse because scoreboards are weird like that
                     List<String> displayText = Lists.reverse(config.getStringList(boardType));
                     displayText.forEach((text) -> displayText.set(displayText.indexOf(text), Text.format(text)));

@@ -9,7 +9,7 @@ import java.util.Random;
 public class DefaultPaint extends Paint {
 
     private Material[] materials = {Material.REDSTONE_BLOCK, Material.COAL_BLOCK, Material.GOLD_BLOCK,
-    Material.QUARTZ_BLOCK, Material.LAPIS_BLOCK, Material.PINK_CONCRETE};
+            Material.QUARTZ_BLOCK, Material.LAPIS_BLOCK, Material.PINK_CONCRETE};
 
     private Random random;
 

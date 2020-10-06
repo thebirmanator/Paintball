@@ -14,23 +14,23 @@ import org.bukkit.entity.Player;
 
 public class PaintCommand implements CommandExecutor {
 
-	//public static List<Material> paints = new ArrayList<Material>();
-	
-	public String paint = "paint";
-	
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender instanceof Player) {
-			Player player = (Player) sender;
-			if(player.hasPermission("paintball.command.paint")) {
-				PlayerProfile gp = PlayerProfile.getGamePlayer(player);
-				if (!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
-					//GameMenu gameMenu = new GameMenu("Paints", null, 54);
-					EquipmentMenu menu = new EquipmentMenu("Paint", 54);
-					//ItemStack icon = new ItemStack(Material.AIR);
-					int index = 0;
-					for (Paint paint : Paint.getAllCustomPaints()) {
-						menu.addItem(index, new EquipPaintItem(paint, menu));
+    //public static List<Material> paints = new ArrayList<Material>();
+
+    public String paint = "paint";
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.hasPermission("paintball.command.paint")) {
+                PlayerProfile gp = PlayerProfile.getGamePlayer(player);
+                if (!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
+                    //GameMenu gameMenu = new GameMenu("Paints", null, 54);
+                    EquipmentMenu menu = new EquipmentMenu("Paint", 54);
+                    //ItemStack icon = new ItemStack(Material.AIR);
+                    int index = 0;
+                    for (Paint paint : Paint.getAllCustomPaints()) {
+                        menu.addItem(index, new EquipPaintItem(paint, menu));
 						/*
 						String permission = "paintball.paintcolour." + paint.getName();
 						String friendlyName = paint.getName().toLowerCase();
@@ -66,22 +66,22 @@ public class PaintCommand implements CommandExecutor {
 						//EquipPaintItem paintItem = new EquipPaintItem(null, icon, paint);
 						//gameMenu.addItem(index, paintItem);
 						*/
-						index++;
-					}
-					menu.open(player);
-					return true;
-				} else {
-					player.sendMessage(Main.prefix + "You may not use this command in a game.");
-					return true;
-				}
-			} else {
-				player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to view paints.");
-				return true;
-			}
-		} else {
-			sender.sendMessage(Main.prefix + "Sorry, only " + ChatColor.RED + "players" + ChatColor.GRAY + " can use this command.");
-			return true;
-		}
-	}
+                        index++;
+                    }
+                    menu.open(player);
+                    return true;
+                } else {
+                    player.sendMessage(Main.prefix + "You may not use this command in a game.");
+                    return true;
+                }
+            } else {
+                player.sendMessage(Main.prefix + "Sorry, you do not have " + ChatColor.RED + "permission" + ChatColor.GRAY + " to view paints.");
+                return true;
+            }
+        } else {
+            sender.sendMessage(Main.prefix + "Sorry, only " + ChatColor.RED + "players" + ChatColor.GRAY + " can use this command.");
+            return true;
+        }
+    }
 
 }

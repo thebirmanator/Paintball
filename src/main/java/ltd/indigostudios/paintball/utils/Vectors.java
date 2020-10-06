@@ -69,6 +69,6 @@ public class Vectors {
         double cos = Math.cos(angleRotate);
         double sin = Math.sin(angleRotate);
 
-        return (new Vector(x*cos+z*(-sin), 0.0, x*sin+z*cos)).normalize();
+        return (new Vector(x * cos + z * (-sin), 0.0, x * sin + z * cos)).normalize();
     }
 }

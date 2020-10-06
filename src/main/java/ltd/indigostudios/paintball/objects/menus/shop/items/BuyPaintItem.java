@@ -1,9 +1,9 @@
 package ltd.indigostudios.paintball.objects.menus.shop.items;
 
+import ltd.indigostudios.paintball.Main;
 import ltd.indigostudios.paintball.objects.equippable.paint.Paint;
 import ltd.indigostudios.paintball.objects.menus.shop.ShopMenu;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
-import ltd.indigostudios.paintball.Main;
 import ltd.indigostudios.paintball.utils.ItemEditor;
 import ltd.indigostudios.paintball.utils.Text;
 import org.bukkit.Bukkit;

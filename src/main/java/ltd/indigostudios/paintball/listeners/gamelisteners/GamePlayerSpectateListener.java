@@ -9,11 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class GamePlayerSpectateListener implements Listener {
-	
-	@EventHandler
-	public void onGameSpectate(GameSpectateEvent event) {
-		new GameScoreboard(event.getPlayer(), GameScoreboard.getContent(StatsBoard.SPECTATE)).display();
-		//GameScoreboard2.getBoard(event.getPlayer(), StatsBoard.SPECTATE).display();
-		event.getPlayer().getPlayer().sendMessage(Main.prefix + "You are now " + ChatColor.GREEN + "spectating" + ChatColor.GRAY + " this game.");
-	}
+
+    @EventHandler
+    public void onGameSpectate(GameSpectateEvent event) {
+        new GameScoreboard(event.getPlayer(), GameScoreboard.getContent(StatsBoard.SPECTATE)).display();
+        //GameScoreboard2.getBoard(event.getPlayer(), StatsBoard.SPECTATE).display();
+        event.getPlayer().getPlayer().sendMessage(Main.prefix + "You are now " + ChatColor.GREEN + "spectating" + ChatColor.GRAY + " this game.");
+    }
 }

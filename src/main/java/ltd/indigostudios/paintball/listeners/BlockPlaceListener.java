@@ -7,14 +7,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockPlaceListener implements Listener {
 
-	@EventHandler
-	public void onPlace(BlockPlaceEvent event) {
-		for (Arena arena : Arena.getArenas()) {
-			if (arena.isInArena(event.getPlayer()) || arena.getLobby().isInLobby(event.getPlayer())) {
-				if (!arena.isEditing(event.getPlayer())) {
-					event.setCancelled(true);
-				}
-			}
-		}
-	}
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event) {
+        for (Arena arena : Arena.getArenas()) {
+            if (arena.isInArena(event.getPlayer()) || arena.getLobby().isInLobby(event.getPlayer())) {
+                if (!arena.isEditing(event.getPlayer())) {
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
 }

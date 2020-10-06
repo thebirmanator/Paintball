@@ -2,13 +2,13 @@ package ltd.indigostudios.paintball.objects.games;
 
 import ltd.indigostudios.paintball.Main;
 import ltd.indigostudios.paintball.events.*;
+import ltd.indigostudios.paintball.objects.arena.Arena;
+import ltd.indigostudios.paintball.objects.player.PlayerInGameStat;
 import ltd.indigostudios.paintball.objects.player.PlayerProfile;
 import ltd.indigostudios.paintball.objects.scoreboards.GameScoreboard;
 import ltd.indigostudios.paintball.objects.scoreboards.StatsBoard;
 import ltd.indigostudios.paintball.objects.scoreboards.Variables;
 import ltd.indigostudios.paintball.utils.SoundEffect;
-import ltd.indigostudios.paintball.objects.player.PlayerInGameStat;
-import ltd.indigostudios.paintball.objects.arena.Arena;
 import ltd.indigostudios.paintball.utils.Text;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -108,6 +108,7 @@ public abstract class PaintballGame implements GameSettings {
     private Runnable getCountdownTask() {
         return new Runnable() {
             int countdownTime = 20;
+
             @Override
             public void run() {
                 if (getPlayers(true).size() >= getStartPlayerAmount()) {
@@ -173,7 +174,7 @@ public abstract class PaintballGame implements GameSettings {
         return desired;
     }
 
-    public boolean isPlaying (PlayerProfile playerProfile) {
+    public boolean isPlaying(PlayerProfile playerProfile) {
         return allPlayers.get(playerProfile);
     }
 

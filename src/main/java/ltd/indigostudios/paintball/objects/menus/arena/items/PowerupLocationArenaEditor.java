@@ -1,5 +1,6 @@
 package ltd.indigostudios.paintball.objects.menus.arena.items;
 
+import ltd.indigostudios.paintball.Main;
 import ltd.indigostudios.paintball.objects.menus.ClickableItem;
 import ltd.indigostudios.paintball.objects.menus.arena.ArenaEditorMenu;
 import ltd.indigostudios.paintball.utils.ItemEditor;
@@ -8,59 +9,57 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-
-import ltd.indigostudios.paintball.Main;
 import org.bukkit.inventory.ItemStack;
 
 public class PowerupLocationArenaEditor extends ArenaEditorItem implements TargetingItem {
 
-	private Location location;
-	private static ItemStack templateItem;
+    private Location location;
+    private static ItemStack templateItem;
 
-	public PowerupLocationArenaEditor(ArenaEditorMenu editorMenu) {
-		super(editorMenu);
-	}
+    public PowerupLocationArenaEditor(ArenaEditorMenu editorMenu) {
+        super(editorMenu);
+    }
 
-	@Override
-	public void use(Player player, ClickType clickType) {
-		switch (clickType) {
-			case LEFT:
-				getArena().getPowerUpSpawnPoints().add(getLocation());
-				player.sendMessage(Main.prefix + "Added powerup spawn location for arena " + getArena().getName());
-				break;
-			case RIGHT:
-				if(getArena().getPowerUpSpawnPoints().contains(getLocation())) {
-					getArena().getPowerUpSpawnPoints().remove(getLocation());
-					player.sendMessage(Main.prefix + "Removed powerup spawn location for arena " + getArena().getName());
-				}
-				break;
-		default:
-			break;
-		}
+    @Override
+    public void use(Player player, ClickType clickType) {
+        switch (clickType) {
+            case LEFT:
+                getArena().getPowerUpSpawnPoints().add(getLocation());
+                player.sendMessage(Main.prefix + "Added powerup spawn location for arena " + getArena().getName());
+                break;
+            case RIGHT:
+                if (getArena().getPowerUpSpawnPoints().contains(getLocation())) {
+                    getArena().getPowerUpSpawnPoints().remove(getLocation());
+                    player.sendMessage(Main.prefix + "Removed powerup spawn location for arena " + getArena().getName());
+                }
+                break;
+            default:
+                break;
+        }
 
-	}
+    }
 
-	@Override
-	public ClickableItem getForPlayer(Player player) {
-		playerItem = templateItem;
-		return this;
-	}
+    @Override
+    public ClickableItem getForPlayer(Player player) {
+        playerItem = templateItem;
+        return this;
+    }
 
-	@Override
-	public void createTemplate() {
-		templateItem = new ItemEditor(Material.BEACON, Text.format("&9Powerup Locations"))
-				.addAction(ClickType.LEFT, "to add a location.")
-				.addAction(ClickType.RIGHT, "to remove a location.")
-				.getItemStack();
-	}
+    @Override
+    public void createTemplate() {
+        templateItem = new ItemEditor(Material.BEACON, Text.format("&9Powerup Locations"))
+                .addAction(ClickType.LEFT, "to add a location.")
+                .addAction(ClickType.RIGHT, "to remove a location.")
+                .getItemStack();
+    }
 
-	@Override
-	public Location getLocation() {
-		return location;
-	}
+    @Override
+    public Location getLocation() {
+        return location;
+    }
 
-	@Override
-	public void setLocation(Location location) {
-		this.location = location;
-	}
+    @Override
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }

@@ -62,15 +62,15 @@ public interface ArenaSetting {
         getConfig().set("item-for-guis", material.name());
     }
 
-	default List<Location> getPowerUpSpawnPoints() {
+    default List<Location> getPowerUpSpawnPoints() {
         List<Location> locations = new ArrayList<>();
         getConfig().getStringList("powerup-spawnpoints").forEach((locString) -> {
             locations.add(Locations.stringToLoc(locString));
         });
         return locations;
-	}
+    }
 
-	default Location[] getBoundaries() {
+    default Location[] getBoundaries() {
         Location[] boundaries = new Location[2];
         List<String> locStrings = getConfig().getStringList("boundaries");
         for (int i = 0; i < boundaries.length; i++) {

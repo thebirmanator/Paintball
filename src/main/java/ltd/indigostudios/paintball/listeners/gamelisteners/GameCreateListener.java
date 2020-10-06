@@ -6,9 +6,9 @@ import org.bukkit.event.Listener;
 
 public class GameCreateListener implements Listener {
 
-	@EventHandler
-	public void onCreate(GameCreateEvent event) {
-		//event.getGame().getUsedArena().setIsInUse(true);
-		event.getGame().waitForPlayers(true);
-	}
+    @EventHandler
+    public void onCreate(GameCreateEvent event) {
+        //event.getGame().getUsedArena().setIsInUse(true);
+        event.getGame().waitForPlayers(true);
+    }
 }

@@ -1,8 +1,8 @@
 package ltd.indigostudios.paintball.objects.menus.arena;
 
 import ltd.indigostudios.paintball.objects.arena.Arena;
-import ltd.indigostudios.paintball.objects.menus.arena.items.*;
 import ltd.indigostudios.paintball.objects.menus.Menu;
+import ltd.indigostudios.paintball.objects.menus.arena.items.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -18,15 +18,15 @@ public class GunCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            if(player.hasPermission("paintball.command.guns")) {
+            if (player.hasPermission("paintball.command.guns")) {
                 PlayerProfile gp = PlayerProfile.getGamePlayer(player);
-                if(!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
+                if (!gp.isInGame() || gp.getCurrentGame().getGameState() == GameState.IDLE || gp.getCurrentGame().getGameState() == GameState.COUNTDOWN) {
                     EquipmentMenu menu = new EquipmentMenu("Guns", 9);
                     int index = 0;
-                    for(Gun gun : Gun.getGuns()) {
-                        if(!gun.equals(Gun.getDefault())) {
+                    for (Gun gun : Gun.getGuns()) {
+                        if (!gun.equals(Gun.getDefault())) {
                             menu.addItem(index, new EquipGunItem(gun, menu));
                             index++;
                             /*
